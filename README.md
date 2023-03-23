@@ -93,6 +93,8 @@ Data|Versão|Descrição|Autor
 ## 2. Mensagens do Sistema
 
 <a name="prototipos"/>
+
+# Protótipo
  
 ### Histórico da Revisão
 Data|Versão|Descrição|Autor
