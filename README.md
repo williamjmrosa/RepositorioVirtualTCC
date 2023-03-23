@@ -92,7 +92,7 @@ Data|Versão|Descrição|Autor
 ## 1. Regras de Negócio
 ## 2. Mensagens do Sistema
 
-<a name="prototipo"/>
+<a name="prototipos"/>
  
 ### Histórico da Revisão
 Data|Versão|Descrição|Autor
