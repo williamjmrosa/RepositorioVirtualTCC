@@ -88,9 +88,22 @@ Nosso produto| **É um sistema ágil e de fácil acesso que permite aos usaurios
         - Atores Envolvidos: Sistema
      6. Alteração de Usuario/Aluno: Alteração em dados cadastrados pelo Usuario/Aluno.
         - Atores Envolvidos: Sistema, Usuario
+     7. Favoritos Usuario/Aluno: Controla favoritos de cada usuario/aluno.
+        - Atores Envolvidos
 
 ## 6. Proposta de Solução Tecnológica Escolhida
+O desenvolvimento da aplicação utilizará a linguagem de marcação HTML(HyperText Markup Language), CSS (Cascading Style Sheets) juntos com linguagem de programação PHP(PHP Hypertext Preprocessor/Personal Home Page), javaScript, assim como bibliotecas Jquery, Bootstrap e outras que se enquadram às necessidades do desenvolvimento. Como banco de dados será utilizado o MySQL.
+
+A aplicação será testada com testes unitários e com o público alvo para verificar a aceitação da aplicação.
+      
+      
 ## 7. Restrições
+  
+**Funcionais/Negócio** - O sistema não permite que perfis cadastrados tenham acesso aos dados de outros perfis cadastrados, a não ser que possuía acesso de administrador.
+
+**Tecnológicas** - O aplicativo poderá ser executado nos navegadores, Microsoft Edge, Mozilla Firefox, Opera e Google Chrome.
+
+**Operacionais** - A funcionalidade de favoritos só é permitido para perfis devidamente registrados no banco de dados. A lista de TCCs está disponível para todos os tipos de perfis, até para os não registrados.
 
 <a name="glosario"/>
 
