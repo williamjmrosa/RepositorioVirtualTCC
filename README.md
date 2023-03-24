@@ -125,15 +125,20 @@ Data|Versão|Descrição|Autor
 Data|Versão|Descrição|Autor
 -----|------|---------|-------
 23/03/2023|1.0|Criando primeiro modelo|William José|
+24/03/2023|1.1|Entrada parcial modelo caso de uso|William José|
 
 1. Diagrama caso de uso
-2. Diagrama UML 
-   + Diagrama de Classe
-   + Diagrama de Atividade
-   + Diagrama de Sequencia
-3. Diagrama Entidade Relacionamento
+
+![Caso de Uso Repositorio VIrtual TCC](https://user-images.githubusercontent.com/24362264/227618506-ea838534-8c40-4e43-ac6c-f29ea33cd017.png)
+
+
+3. Diagrama de Classe
+4. Diagrama de Atividade
+5. Diagrama de Sequencia
+6. Diagrama Entidade Relacionamento
    + Diagrama Conceitual
    + Diagrama Lógico
+
 <a name="requisitos_funcionais"/>
 
 # Requisitos Funcionais
