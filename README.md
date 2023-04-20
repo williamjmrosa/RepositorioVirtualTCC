@@ -139,18 +139,45 @@ Data|Versão|Descrição|Autor
    + Diagrama Conceitual
    + Diagrama Lógico
 
-<a name="requisitos_funcionais"/>
-
-# Requisitos Funcionais
-
 ### Histórico da Revisão
 Data|Versão|Descrição|Autor
 -----|------|---------|-------
 23/03/2023|1.0|Criando primeiro modelo|William José|
+20/04/2023|1.1|Requisitos não funcionais|William José|
 
 <a name="requisitos_nao_funcionais"/>
 
 # Requisitos Não Funcionais
+
+## Usabilidade  
+ 
+* RNF001. Os usuarios podem operar o sistema de forma intuitiva.
+
+## Confiabilidade
+  
+* RNF002. O sistema deverá ter alta disponibilidade, p.exemplo, 99% do tempo.
+
+## Performance  
+ 
+* RNF003. O sistema deverá processar n requisições por um determinado tempo.
+
+## Suportabilidade
+ 
+* RNF004. Sendo a base do ? em Web, o sistema deverá executar em qualquer navegador recomendado.
+
+## Interfaces com Usuário
+
+* RNF005. A interface deve ser amigável aos usuários não tão experientes com comandos intuitivos de fácil acesso.
+
+## Consistência das Interfaces com Usuário
+
+## Interfaces com Sistemas Externos
+
+* RNF006. Não ira se comunicar com nenhum sistema externo.
+
+## Interfaces de Hardware
+
+* RNF007. Sem interface.
 
 ### Histórico da Revisão
 Data|Versão|Descrição|Autor
@@ -165,8 +192,26 @@ Data|Versão|Descrição|Autor
 Data|Versão|Descrição|Autor
 -----|------|---------|-------
 23/03/2023|1.0|Criando primeiro modelo|William José|
+20/04/2023|1.1|Regras de negócio|William José
 
 ## 1. Regras de Negócio
+
+### RNG001
+
+- O Sistema permite permite permite o cadastro apenas de visitantes. Caso o visitante tente cadastrar com um CPF ou email já cadastrados, exibe a mensagem. [MSG001](#msg001),[MSG002](#msg002)
+
+### RNG002
+
+- O Sistema permite que apenas o administrador e Bibliotecario cadastre alunos e professores no sistema. O cadastro de aluno ou professor será feito por email institucional, se um e-mail não institucional for inserido, exibe a mensagem. [MSG003](#msg3) e se o email já foi cadastrado exibe a mensagem. [MSG002](#msg002)
+
+### RNG003
+
+- O sistema permite que apenas o os usuarios logados com e-mail institucional acessem as indicações.
+
+### RNG004
+
+- O sistema 
+
 ## 2. Mensagens do Sistema
 
 <a name="prototipos"/>
