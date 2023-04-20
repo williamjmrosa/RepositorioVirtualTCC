@@ -6,7 +6,6 @@
  - [Diagramas](#diagramas)
  - [Regras de Negócios e Mensagens do Sistema](#rnms)
  - [Protótipos](#prototipos)
- - [Requisitos Funcionais](#requisitos_funcionais)
  - [Requisitos Não Funcionais](#requisitos_nao_funcionais)
 
 ### [Especificações de Caso de Uso](#especificacoes_de_caso_de_uso)
@@ -206,13 +205,37 @@ Data|Versão|Descrição|Autor
 
 ### RNG003
 
-- O sistema permite que apenas o os usuarios logados com e-mail institucional acessem as indicações.
+- O sistema permite que apenas o os alunos acessem as indicações. Caso ocorra uma tentativa de outro usuario exibe a mensagem. [MSG004](#msg4)
 
 ### RNG004
 
-- O sistema 
+- O sistema deve impedir acesso a areas em que se deve estar logado. Caso ocorra a tentativa de acesso exibe a mensagem. [MSG005](#msg005)
+
+### RNG005
+
+- O Sistema deve permitir visualizar e buscar TCCs sem estar logado. Mas o filtro pelos favoritos ou indicações exige que se esteja logado. Caso não esteja exibe a mensagem [MSG005](#msg005)  
 
 ## 2. Mensagens do Sistema
+
+### MSG001
+
+- CPF já cadastrado no banco de dados
+
+### MSG002
+
+- Email já cadastrado no banxo de dados
+
+### MSG003
+
+- Email não é um email institucional
+
+### MSG004
+
+- Usuario deve estar logado como Aluno
+
+### MSG005
+
+- Deve estar logado para acessar.
 
 <a name="prototipos"/>
 
