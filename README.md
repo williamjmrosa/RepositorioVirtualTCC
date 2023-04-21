@@ -213,7 +213,23 @@ Data|Versão|Descrição|Autor
 
 ### RNG005
 
-- O Sistema deve permitir visualizar e buscar TCCs sem estar logado. Mas o filtro pelos favoritos ou indicações exige que se esteja logado. Caso não esteja exibe a mensagem [MSG005](#msg005)  
+- O Sistema deve permitir visualizar e buscar TCCs sem estar logado. Mas o filtro pelos favoritos ou indicações exige que se esteja logado. Caso não esteja exibe a mensagem [MSG005](#msg005)
+
+### RNG006
+
+- O Sistema deve permitir salvar um TCC como favorito para todos os usuarios logados. Se o usuario não tiver logado, exibe mensagem [MSG006](#msg006)
+
+### RNG007
+
+- Ao fazer login se email ou senha forem inseridas incorretamente o sistema deve exibir a mensagem [MSG007](#msg007)
+
+### RNG008
+
+- Ao remeter um formulario de cadastro o sistema exibe a mensagem [MSG008](#msg008)
+
+### RNG009
+
+- Ao remeter um formulario de alteração de cadastro o sistema exibe a mensagem [MSG009](#msg009)
 
 ## 2. Mensagens do Sistema
 
@@ -236,6 +252,22 @@ Data|Versão|Descrição|Autor
 ### MSG005
 
 - Deve estar logado para acessar.
+
+### MSG006
+
+- Deve estar logado para salvar um favorito.
+
+### MSG007
+
+- Email e/ou senha incorreto
+
+### MSG008
+
+- Cadastro concluido com sucesso.
+
+### MSG009
+
+- Cadastro alterado com sucesso.
 
 <a name="prototipos"/>
 
