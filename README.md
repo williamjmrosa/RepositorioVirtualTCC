@@ -286,6 +286,19 @@ Data|Versão|Descrição|Autor
 Data|Versão|Descrição|Autor
 -----|------|---------|-------
 23/03/2023|1.0|Criando primeiro modelo|William José|
+27/04/2023|1.1|Escrevendo especificações de caso de uso|
+
+# CdU001 - Listar TCC
+
+<img src="http://yuml.me/diagram/plain/usecase/[Aluno] - (Listar TCC),[Professor] - (Listar TCC),[Visitante] - (Listar TCC),(Listar TCC) < (Buscar TCC)" >
+
+# CdU002 - Buscar TCC
+<img src="http://yuml.me/diagram/plain/usecase/[Aluno] - (Listar TCC),[Professor] - (Listar TCC),[Visitante] - (Listar TCC),(Listar TCC) < (Buscar TCC),(Buscar TCC) -(note: condição: se for usado algum critério de busca{bg:beige}),(Buscar TCC) > (Gerenciar TCC)" >
+
+
+# CdU003 - Buscar Filtro
+
+<img src="http://yuml.me/diagram/plain/usecase/[Aluno] - (Listar TCC),[Professor] - (Listar TCC),[Visitante] - (Listar TCC),(Listar TCC) > (Favoritos),(Favoritos) - (note: condição: se estiver logado e solicitado os favoritos marcados{bg:beige})" >
 
 <a name="teste"/>
 
