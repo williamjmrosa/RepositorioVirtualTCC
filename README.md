@@ -290,28 +290,48 @@ Data|Versão|Descrição|Autor
 
 # CdU001 - Listar TCC
 
-<img src="http://yuml.me/diagram/plain/usecase/[Aluno] - (Listar TCC),[Professor] - (Listar TCC),[Visitante] - (Listar TCC),(Listar TCC) < (Buscar TCC)" >
+<img src="http://yuml.me/diagram/plain/usecase/[Aluno] - (Listar TCC),[Professor] - (Listar TCC),[Visitante] - (Listar TCC)" >
 
 **Resumo**: Permite a qualquer usuario ver todos os TCCs cadastrados
+
 **Tipo**: Concreto
+
 **Atores**:
- - *Primario*: Bibliotecario/visitante/aluno/professor
+
+ - *Primario*: Usuario(Bibliotecario/visitante/aluno/professor)
 
 ## Fluxo Principal de Eventos:
 
-P1. O Usuario acessa todos os TCCs
+P1. O Usuario solicita o Listar TCCs [RNG005](#rng005)
+
+P2. O Sistema apresenta a lista de TCCs
+
+P3. {Usuario manipula lista} [CdU002](#CdU002),[CdU003](#CdU003),[CdU004](#CdU004),[CdU005](#CdU005)
+
+P3. O Caso de Uso encerra
+
+## Fluxo Alternativo:
+
+## Fluxo de Exceção:
+
+<a name="CdU002"/>    
 
 # CdU002 - Buscar TCC
 <img src="http://yuml.me/diagram/plain/usecase/[Aluno] - (Listar TCC),[Professor] - (Listar TCC),[Visitante] - (Listar TCC),(Listar TCC) < (Buscar TCC),(Buscar TCC) -(note: condição: se for usado algum critério de busca{bg:beige}),(Buscar TCC) > (Gerenciar TCC)" >
 
+<a name="CdU003"/>
 
 # CdU003 - Buscar Filtro
 
 <img src="http://yuml.me/diagram/plain/usecase/[Aluno] - (Listar TCC),[Professor] - (Listar TCC),[Visitante] - (Listar TCC),(Listar TCC) > (Buscar Filtro),(Buscar Filtro) - (note: condição: se algum filtro for selecionado{bg:beige})">
 
+<a name="CdU004"/>
+
 # CdU004 - Favoritos
 
 <img src="http://yuml.me/diagram/plain/usecase/[Aluno] - (Listar TCC),[Professor] - (Listar TCC),[Visitante] - (Listar TCC),(Favoritos) > (Listar TCC),(Favoritos) - (note: condição: se estiver logado e solicitado os favoritos marcados{bg:beige})">
+
+<a name="CdU005"/>
 
 # CdU005 - Indicações
 
