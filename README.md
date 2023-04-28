@@ -292,13 +292,32 @@ Data|Versão|Descrição|Autor
 
 <img src="http://yuml.me/diagram/plain/usecase/[Aluno] - (Listar TCC),[Professor] - (Listar TCC),[Visitante] - (Listar TCC),(Listar TCC) < (Buscar TCC)" >
 
+**Resumo**: Permite a qualquer usuario ver todos os TCCs cadastrados
+**Tipo**: Concreto
+**Atores**:
+ - *Primario*: Bibliotecario/visitante/aluno/professor
+
+## Fluxo Principal de Eventos:
+
+P1. O Usuario acessa todos os TCCs
+
 # CdU002 - Buscar TCC
 <img src="http://yuml.me/diagram/plain/usecase/[Aluno] - (Listar TCC),[Professor] - (Listar TCC),[Visitante] - (Listar TCC),(Listar TCC) < (Buscar TCC),(Buscar TCC) -(note: condição: se for usado algum critério de busca{bg:beige}),(Buscar TCC) > (Gerenciar TCC)" >
 
 
 # CdU003 - Buscar Filtro
 
-<img src="http://yuml.me/diagram/plain/usecase/[Aluno] - (Listar TCC),[Professor] - (Listar TCC),[Visitante] - (Listar TCC),(Listar TCC) > (Favoritos),(Favoritos) - (note: condição: se estiver logado e solicitado os favoritos marcados{bg:beige})" >
+<img src="http://yuml.me/diagram/plain/usecase/[Aluno] - (Listar TCC),[Professor] - (Listar TCC),[Visitante] - (Listar TCC),(Listar TCC) > (Buscar Filtro),(Buscar Filtro) - (note: condição: se algum filtro for selecionado{bg:beige})">
+
+# CdU004 - Favoritos
+
+<img src="http://yuml.me/diagram/plain/usecase/[Aluno] - (Listar TCC),[Professor] - (Listar TCC),[Visitante] - (Listar TCC),(Favoritos) > (Listar TCC),(Favoritos) - (note: condição: se estiver logado e solicitado os favoritos marcados{bg:beige})">
+
+# CdU005 - Indicações
+
+<img src="http://yuml.me/diagram/plain/usecase/[Aluno] - (Listar TCC),[Professor] - (Listar TCC),[Visitante] - (Listar TCC),(Indicações) > (Listar TCC),(Indicações) - (note: condição: se estiver logado e solicitado as indicações do professor{bg:beige})">
+
+# CdU006 - 
 
 <a name="teste"/>
 
