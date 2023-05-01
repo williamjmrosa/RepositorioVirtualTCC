@@ -7,8 +7,7 @@
  - [Regras de Negócios e Mensagens do Sistema](#rnms)
  - [Protótipos](#prototipos)
  - [Requisitos Não Funcionais](#requisitos_nao_funcionais)
-
-### [Especificações de Caso de Uso](#especificacoes_de_caso_de_uso)
+ - [Requisitos Funcionais](#requisitos_funcionais)
 ### [Teste de Software](#teste)
 
 <a name="ducumento"/>
@@ -128,8 +127,7 @@ Data|Versão|Descrição|Autor
 
 1. Diagrama caso de uso
 
-![Caso de Uso Repositorio VIrtual TCC](https://user-images.githubusercontent.com/24362264/227618506-ea838534-8c40-4e43-ac6c-f29ea33cd017.png)
-
+![Caso de Uso Repositorio VIrtual TCC](https://user-images.githubusercontent.com/24362264/235518720-adce7e25-7de6-4251-a3e0-ceeab1b67080.png)
 
 3. Diagrama de Classe
 4. Diagrama de Atividade
@@ -138,7 +136,7 @@ Data|Versão|Descrição|Autor
    + Diagrama Conceitual
    + Diagrama Lógico
    
-<a name="requisitos_funcionais">
+<a name="requisitos_funcionais"/>
 
 # Requisitos funcionais
 
@@ -192,16 +190,19 @@ Data|Versão|Descrição|Autor
 **Atores**: Administrador e Aluno
 
   - **Criar Aluno**
+ 
     Ator: Administrador
     
     Resumo: O sistema permite que um administrador logado e autenticado crie cadastros de alunos.
     
   - **Excluir Aluno**
+ 
     Ator: Administrador
     
     Resumo: O Sistema permite que um administrador logado e autenticado exclua um aluno.
     
   - **Buscar Aluno**
+ 
     Ator: Administrador
     
     Resumo: O sistema permite a um administrador logado e autenticado buscar por um aluno.
@@ -210,14 +211,104 @@ Data|Versão|Descrição|Autor
     
     Ator: Aluno
     
-    Resumo: O Sistetema permite a um Aluno logado e autenticado ver seu cadastro
+    Resumo: O Sistetema permite a um Aluno logado e autenticado ver seu cadastro.
     
   - **Alterar Aluno**
 
     Ator: Aluno
     
-    Resumo: O Sistema permite a um Aluno logado e autenticado alterar seu cadastro
+    Resumo: O Sistema permite a um Aluno logado e autenticado alterar seu cadastro.
+    
+## Gerenciar Filtros
+ 
+**Resumo**: Responsavel por gerenciar as operações relacionadas aos filtros.
+ 
+**Atores**: Todos
+ 
+ - **Criar Filtros**
+   
+   Resumo: O Sistema permite que um bibliotecario ou adiministrador logado e autenticado cria um filtro.
+ 
+   Altores: Bibliotecario e Administrador
+ 
+ - **Buscar Filtros**
+   
+   Resumo: O sistema permite que qualquer usuario faça busca pelos filtros
+ 
+   Atores: Todos
+ 
+ - **Remover Filtros**
+   
+   Resumo: O Sistema permite que um bibliotecario ou administrador logado e autenticado remover um filtro.
+ 
+   Atores: Bibliotecario e Administrador
+ 
+ - **Alterar Filtro**
+ 
+   Resumo: O Sistema permite que um bibliotecario ou administrador logado e autenticado alterar um filtro.
+ 
+   Atores: Bibliotecario e Administrador
+ 
+## Gerenciar Usuario
+ 
+   **Resumo**: Responsavel por gerenciar as operações relacionadas ao usuario.
+   
+   **Atores**:Visitante e Administrador
+   
+   - **Cadastrar Usuario** 
+       
+       Resumo: O Sistema permite a um visitante não logado e autenticado criar um cadastro de usuario.
+       
+       Atores: Visitante
+       
+   - **Remover Usuario**
+       
+       Resumo: O Sistema permite a um visitante logado e autenticado excluir seu cadastro.
+       
+       Atores: Visitante
+       
+   - **Alterar Usuario**
+       
+       Resumo: O Sistema permite a um visitante logado e autenticado alterar seus dados de cadastro.
+       
+       Atores: Visitante
+       
+   - **Buscar Usuraio**
+       
+       Resumo: O Sitema permite ao administrador logado e autenticado buscar usuario.
+       
+       Atores: Administrador
+       
+## Favoritos
 
+  **Resumo**: O Sistema permite aos usuario logados que acessem os seus TCCs marcados como favoritos.
+  
+  **Atores**: Visitante,Aluno e Professor.
+  
+## Salvar favoritos
+
+  **Resumo**: O Sistema permite aos usuario logado marcar um TCC como favorito.
+  
+  **Atores**: Visitante,Aluno e Professor.
+  
+## Indicaões
+
+  **Resumo**: O Sistema permite a um aluno logado ver as indicações de TCC de um professor.
+  
+  **Atores**: Aluno
+  
+## IndicarTCCs
+  
+  **Resumo**: O Sistema permite a um professor logado a fazer indicações de TCCs.
+  
+  **Atores**: Professor
+  
+## Logar-se
+
+  **Resumo**: O Sistema deve permitir o login dos usuario e autenticalo de acordo.
+  
+  **Atores**: Todos
+ 
 <a name="requisitos_nao_funcionais"/>
 
 # Requisitos Não Funcionais
