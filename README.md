@@ -137,16 +137,96 @@ Data|Versão|Descrição|Autor
 6. Diagrama Entidade Relacionamento
    + Diagrama Conceitual
    + Diagrama Lógico
+   
+<a name="requisitos_funcionais">
+
+# Requisitos funcionais
+
+## Atores do sistema
+
+1. Visitante
+2. Aluno
+3. Bibliotecario
+4. Administrador
+
+## Gerenciar TCCs
+
+**Resumo**: Responsavel por gerenciar as operações relacionadas aos TCCs.
+
+**Atores**: Visitante ,Aluno ,Professor e Bibliotecario
+
+  - **Listar TCCs**
+  
+    Atores: Visitante,Aluno,Professor
+  
+    Resumo: O Sistema permite a qualquer usuario logado ou não que veja os TCCs cadastrados no sistema.
+    
+  - **Buscar TCCs**
+    
+    Atores: Visitante,Aluno,Professor
+    
+    Resumo: O Sistema permite a qualquer usuario logado ou não buscar por TCCs.
+    
+  - **Add TCC**
+  
+    Atores: Bibliotecario
+    
+    Resumo: O Sistema permite a um bibliotecario logado e autenticado a cadastrar TCCs no sistema.
+  
+  - **Remover TCC**
+  
+    Atores: Bibliotecario
+    
+    Resumo: O Sistema permite a um bibliotecaro logado e autenticado a remover TCCs do sistema. 
+  
+  - **Alterar TCC**
+  
+    Atores: Bibliotecario
+    
+    Resumo: O Sistema permite a um bibliotecario logado e autenticado a alterar cadastros de TCCs.
+
+## Gerenciar Alunos
+
+**Resumo**: Reponsavel por gerenciar as operações relacionadas ao Aluno.
+
+**Atores**: Administrador e Aluno
+
+  - **Criar Aluno**
+    Ator: Administrador
+    
+    Resumo: O sistema permite que um administrador logado e autenticado crie cadastros de alunos.
+    
+  - **Excluir Aluno**
+    Ator: Administrador
+    
+    Resumo: O Sistema permite que um administrador logado e autenticado exclua um aluno.
+    
+  - **Buscar Aluno**
+    Ator: Administrador
+    
+    Resumo: O sistema permite a um administrador logado e autenticado buscar por um aluno.
+    
+  - **Ver Aluno**
+    
+    Ator: Aluno
+    
+    Resumo: O Sistetema permite a um Aluno logado e autenticado ver seu cadastro
+    
+  - **Alterar Aluno**
+
+    Ator: Aluno
+    
+    Resumo: O Sistema permite a um Aluno logado e autenticado alterar seu cadastro
+
+<a name="requisitos_nao_funcionais"/>
+
+# Requisitos Não Funcionais
 
 ### Histórico da Revisão
 Data|Versão|Descrição|Autor
 -----|------|---------|-------
 23/03/2023|1.0|Criando primeiro modelo|William José|
 20/04/2023|1.1|Requisitos não funcionais|William José|
-
-<a name="requisitos_nao_funcionais"/>
-
-# Requisitos Não Funcionais
 
 ## Usabilidade  
  
@@ -277,67 +357,6 @@ Data|Versão|Descrição|Autor
 Data|Versão|Descrição|Autor
 -----|------|---------|-------
 23/03/2023|1.0|Criando primeiro modelo|William José|
-
- <a name="especificacoes_de_caso_de_uso"/>
- 
-# Especificação de Casos de Uso
-
- ### Histórico da Revisão
-Data|Versão|Descrição|Autor
------|------|---------|-------
-23/03/2023|1.0|Criando primeiro modelo|William José|
-27/04/2023|1.1|Escrevendo especificações de caso de uso|
-
-# CdU001 - Listar TCC
-
-<img src="http://yuml.me/diagram/plain/usecase/[Aluno] - (Listar TCC),[Professor] - (Listar TCC),[Visitante] - (Listar TCC)" >
-
-**Resumo**: Permite a qualquer usuario ver todos os TCCs cadastrados
-
-**Tipo**: Concreto
-
-**Atores**:
-
- - *Primario*: Usuario(Bibliotecario/visitante/aluno/professor)
-
-## Fluxo Principal de Eventos:
-
-P1. O Usuario solicita o Listar TCCs [RNG005](#rng005)
-
-P2. O Sistema apresenta a lista de TCCs
-
-P3. {Usuario manipula lista} [CdU002](#CdU002),[CdU003](#CdU003),[CdU004](#CdU004),[CdU005](#CdU005)
-
-P3. O Caso de Uso encerra
-
-## Fluxo Alternativo:
-
-## Fluxo de Exceção:
-
-<a name="CdU002"/>    
-
-# CdU002 - Buscar TCC
-<img src="http://yuml.me/diagram/plain/usecase/[Aluno] - (Listar TCC),[Professor] - (Listar TCC),[Visitante] - (Listar TCC),(Listar TCC) < (Buscar TCC),(Buscar TCC) -(note: condição: se for usado algum critério de busca{bg:beige}),(Buscar TCC) > (Gerenciar TCC)" >
-
-<a name="CdU003"/>
-
-# CdU003 - Buscar Filtro
-
-<img src="http://yuml.me/diagram/plain/usecase/[Aluno] - (Listar TCC),[Professor] - (Listar TCC),[Visitante] - (Listar TCC),(Listar TCC) > (Buscar Filtro),(Buscar Filtro) - (note: condição: se algum filtro for selecionado{bg:beige})">
-
-<a name="CdU004"/>
-
-# CdU004 - Favoritos
-
-<img src="http://yuml.me/diagram/plain/usecase/[Aluno] - (Listar TCC),[Professor] - (Listar TCC),[Visitante] - (Listar TCC),(Favoritos) > (Listar TCC),(Favoritos) - (note: condição: se estiver logado e solicitado os favoritos marcados{bg:beige})">
-
-<a name="CdU005"/>
-
-# CdU005 - Indicações
-
-<img src="http://yuml.me/diagram/plain/usecase/[Aluno] - (Listar TCC),[Professor] - (Listar TCC),[Visitante] - (Listar TCC),(Indicações) > (Listar TCC),(Indicações) - (note: condição: se estiver logado e solicitado as indicações do professor{bg:beige})">
-
-# CdU006 - 
 
 <a name="teste"/>
 
