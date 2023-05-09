@@ -1,0 +1,178 @@
+/* Configurações Gerais */
+body, html{
+	width: 100% !important;
+	height: 100% !important;
+	margin:0;
+}
+
+*,*::before,*::after{
+	box-sizing: border-box !important;
+}
+
+.clear{
+	clear: both;
+}
+
+/* Cor de Baground */
+
+.fundo-primario{
+	background-color: #1ba1e2;
+}
+
+.fundo-secundario{
+	background-color: #d1ecf9;
+}
+
+/* Cor de fonte */
+
+.text-cor{
+	color: black;
+}
+
+/* Configuração de botões */
+
+.btn:hover{
+	background-color: #d1ecf9 !important;
+	color: #FFF;
+}
+
+#btnBusca{
+	width:100%;
+}
+
+#divBusca > .btn{
+	width: 5%;
+	border: 2px solid #000;
+}
+
+#login > img{
+	width:20%;
+
+}
+
+#login{
+	width: 18%;
+}
+
+nav .btn{
+	color:black;
+	border-width: 6px !important;
+	border-color: #274A5C;
+	border-style: double;
+}
+
+nav .btn:hover{
+	border: 6px solid #274A5C;
+	color: #1ba1e2;
+}
+
+/* Divs */
+
+#listaLivros img{
+	width: 100%;
+}
+
+#divBusca{
+	margin: auto;
+	text-align: center;
+}
+
+.div-login{
+	text-align: right !important;
+	width: 49%;
+	display: inline-block;
+	height: auto;
+}
+
+.corpo{
+	width: 100%;
+	height: 85%;
+}
+
+
+
+/* Campo de digitação */
+
+#txtBusca{
+	width: 40% !important;
+	text-align:left;
+	padding:1%;
+	margin-top: 2%;
+	margin-bottom: 2%;
+	color:#000;
+	border: 2px solid #000;
+	background-color: #d1ecf9;
+	border-radius: 10px;
+}
+
+/* Menus */
+
+.home{
+	font-family: 'lapis';
+	border-style: dashed;
+	border-width: 5px;
+	border-color: #274A5C;
+	width: auto;
+	display: inline-block;
+	padding: 1%;
+	margin-left: 1%;
+	margin-top: 1%;
+	margin-right: 1%;
+}
+
+.menu{
+	display:inline-block;
+}
+
+.filtro-esquerdo{
+	width: 20%;
+	display: inline-block !important;
+	background-color:#d1ecf9 !important;
+	border: 3px solid black;
+	margin-left: 0.2%;
+}
+
+nav{
+	border-bottom: 4px solid black;; 
+}
+
+.filtro-direito{
+	width: 20%;
+	background-color:#d1ecf9 !important;
+	border: 3px solid black;
+
+}
+
+.filtro-direito, .filtro-esquerdo, .conteudo{
+	margin-right: 0.5%;
+	height: 100%;
+	overflow:auto;
+}
+
+
+
+/* Conteudo */
+
+.conteudo{
+	width: 58%;
+	/*margin: 0% 1% 0% 1%;*/
+	background-color:#d1ecf9 !important;
+	border: 3px solid black;
+}
+
+.card > a{
+	text-decoration:none;
+	color:#000;
+}
+
+.card > a:hover{
+	border: 5px solid #1ba1e2;
+}
+
+
+/* Fonte personalizadas */
+
+@font-face {
+	font-family: 'lapis';
+	src: url(../Framework/fontes/Pencilized\ Demo.ttf);
+}
