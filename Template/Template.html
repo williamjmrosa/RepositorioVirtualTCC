@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+    <head>
+        <title>TCC AQUI</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+        <link rel="stylesheet" href="../Framework/css/bootstrap.css">
+        <link rel="stylesheet" href="../css/style.css">
+        <link rel="icon" type="image/jpg" href="../img/icone.png" />
+
+    </head>
+    <body class="container-fluid m-0 p-0">
+        <div class="fundo-primario">
+            <div class="mb-2">
+                <nav class="p-2" id="menu">
+                    <div class="d-inline-block w-50">
+                        <h3 class="home">TCC AQUI</h3>
+                        <a class="btn fundo-secundario fw-bold" href="index.html">Home</a>
+                        <a class="btn fundo-secundario fw-bold" href="#">Livros</a>
+                        <a class="btn fundo-secundario fw-bold" href="#">Artigos</a>
+                        <a class="btn fundo-secundario fw-bold" href="#">TCC</a>
+                        
+                    </div>
+                    <div class="div-login align-items-end">
+                        <a class="btn fundo-secundario fw-bold m-1" href="#" id="login"><img class="me-4" src="../img/login.png"/>Login</a>
+                    </div>
+                </nav>
+            </div>
+        </div>
+        <div class="corpo">
+            <div class="filtro-esquerdo float-start p-1">
+                <p class="clear">Filtros Selecionados:</p>
+                <div class="form-check col-12">
+                    <input class="form-check-input filtro" type="checkbox" value="" id="filtro1">
+                    <label class="form-check-label" for="filtro1">IFRS Canoas</label>
+                </div>
+                <div class="form-check">
+                    <input class="form-check-input" type="checkbox" value="" id="filtro2">
+                    <label class="form-check-label" for="filtro2">IFRS Alvorada</label>
+                </div>
+                <div class="form-check">
+                    <input class="form-check-input" type="checkbox" value="" id="filtro3">
+                    <label class="form-check-label" for="filtro3">IFRS Bento Gonçalves</label>
+                </div>
+                <div class="form-check">
+                    <input class="form-check-input" type="checkbox" value="" id="filtro4">
+                    <label class="form-check-label" for="filtro4">IFRS Caxias do Sul</label>
+                </div>
+                <div class="form-check">
+                    <input class="form-check-input" type="checkbox" value="" id="filtro5">
+                    <label class="form-check-label" for="filtro5">IFRS Erechim</label>
+                </div>
+                <div class="form-check">
+                    <input class="form-check-input" type="checkbox" value="" id="filtro6">
+                    <label class="form-check-label" for="filtro6">IFRS Farroupilha</label>
+                </div>
+                <div class="form-check">
+                    <input class="form-check-input" type="checkbox" value="" id="filtro7">
+                    <label class="form-check-label" for="filtro7">IFRS Feliz</label>
+                </div>
+                <div class="form-check">
+                    <input class="form-check-input" type="checkbox" value="" id="filtro8">
+                    <label class="form-check-label" for="filtro8">IFRS Ibirubá</label>
+                </div>
+                <div class="form-check">
+                    <input class="form-check-input" type="checkbox" value="" id="filtro9">
+                    <label class="form-check-label" for="filtro9">IFRS Osório</label>
+                </div>
+                <div class="form-check">
+                    <input class="form-check-input" type="checkbox" value="" id="filtro10">
+                    <label class="form-check-label" for="filtro10">IFRS Porto Alegre</label>
+                </div>
+                <hr>
+            </div>
+            <div class="conteudo float-start ms-1 me-1">
+                <h1>Conteudo</h1>
+            </div>
+            <div class="filtro-direito float-end">
+                <h1>Filtro Direiro</h1>
+            </div>
+
+            <!--
+            <div class="row align-items-start ms-2 me-2 ">
+            --><!-- Filtro Esquerdo -->
+                <!--<div class="filtro-esquerdo col-2 p-1">
+                    <div class="form-check col-12">
+                        <input class="form-check-input filtro" type="checkbox" value="" id="filtro1">
+                        <label class="form-check-label" for="filtro1">IFRS Canoas</label>
+                    </div>
+                    <div class="form-check">
+                        <input class="form-check-input" type="checkbox" value="" id="filtro2">
+                        <label class="form-check-label" for="filtro2">IFRS Alvorada</label>
+                    </div>
+                    <div class="form-check">
+                        <input class="form-check-input" type="checkbox" value="" id="filtro3">
+                        <label class="form-check-label" for="filtro3">IFRS Bento Gonçalves</label>
+                    </div>
+                    <div class="form-check">
+                        <input class="form-check-input" type="checkbox" value="" id="filtro4">
+                        <label class="form-check-label" for="filtro4">IFRS Caxias do Sul</label>
+                    </div>
+                    <div class="form-check">
+                        <input class="form-check-input" type="checkbox" value="" id="filtro5">
+                        <label class="form-check-label" for="filtro5">IFRS Erechim</label>
+                    </div>
+                    <div class="form-check">
+                        <input class="form-check-input" type="checkbox" value="" id="filtro6">
+                        <label class="form-check-label" for="filtro6">IFRS Farroupilha</label>
+                    </div>
+                    <div class="form-check">
+                        <input class="form-check-input" type="checkbox" value="" id="filtro7">
+                        <label class="form-check-label" for="filtro7">IFRS Feliz</label>
+                    </div>
+                    <div class="form-check">
+                        <input class="form-check-input" type="checkbox" value="" id="filtro8">
+                        <label class="form-check-label" for="filtro8">IFRS Ibirubá</label>
+                    </div>
+                    <div class="form-check">
+                        <input class="form-check-input" type="checkbox" value="" id="filtro9">
+                        <label class="form-check-label" for="filtro9">IFRS Osório</label>
+                    </div>
+                    <div class="form-check">
+                        <input class="form-check-input" type="checkbox" value="" id="filtro10">
+                        <label class="form-check-label" for="filtro10">IFRS Porto Alegre</label>
+                    </div>
+                    <hr>
+                    
+                </div>-->
+                <!-- Lista de TCCs-->
+                <!--<div class="conteudo col p-1" id="listaLivros"> 
+                    <div class="card mb-3" style="max-width: 100%;">
+                        <a href="">
+                        <div class="row g-0">
+                            <div class="col-md-2">
+                              <img src="../img/livro1.jpg" class="img-fluid rounded-start" alt="...">
+                            </div>
+                            <div class="col-md-10">
+                                <div class="card-body">
+                                    <h5 class="card-title">Introdução a Programação com Linguagem C <b>(Livro Digital)</b></h5>
+                                    <p class="card-text">Autor: Rodrigo de Barros Paes
+                                    <br>ISBN impresso: 978-85-7522-485-4
+                                    <br>ISBN ebook: 978-85-7522-631-5
+                                    <br>Ano: 2016 Páginas: 296
+                                    </p>
+                                    <p class="card-text"><small class="text-muted">Last updated 3 mins ago</small></p>
+                                </div>
+                            </div>
+                        </div>
+                        </a>
+                    </div>
+                    <div class="card mb-3" style="max-width: 100%;">
+                        <a href="">
+                        <div class="row g-0">
+                            <div class="col-md-2">
+                              <img src="../img/livro2.jpg" class="img-fluid rounded-start" alt="...">
+                            </div>
+                            <div class="col-md-10">
+                                <div class="card-body">
+                                    <h5 class="card-title">Algoritmos e Programação - Teoria e Prática <b>(Livro Digital)</b></h5>
+                                    <p class="card-text">Autor: Marco Medina Cristina Fertig
+                                    <br>ISBN impresso: 85-7522-073-X
+                                    <br>ISBN ebook: 978-85-7522-631-5
+                                    <br>Ano: 2005 Páginas: 384
+                                    </p>
+                                    <p class="card-text"><small class="text-muted">Last updated 3 mins ago</small></p>
+                                </div>
+                            </div>
+                        </div>
+                        </a>
+                    </div>
+                    <div class="card mb-3" style="max-width: 100%;">
+                        <a href="#">
+                        <div class="row g-0">
+                            <div class="col-md-2">
+                              <img src="../img/livro3.jpg" class="img-fluid rounded-start" alt="...">
+                            </div>
+                            <div class="col-md-10">
+                                <div class="card-body">
+                                    <h5 class="card-title">Introdução à Programação com Python - 3ª Edição <b>(Livro Digital)</b></h5>
+                                    <p class="card-text">Autor: Nilo Ney Coutinho Menezes
+                                    <br>ISBN impresso: 978-85-7522-718-3
+                                    <br>Ano: 2019
+                                    <br>Páginas: 328
+                                    </p>
+                                    <p class="card-text"><small class="text-muted">Last updated 3 mins ago</small></p>
+                                </div>
+                            </div>
+                        </div>
+                        </a>
+                    </div>
+                    
+                </div>
+            -->
+                <!-- Filtro Direito -->
+                <!--<div class="filtro-direito col-2 p-1">
+                    <div class="form-check">
+                        <input class="form-check-input" type="checkbox" value="" id="filtro11">
+                        <label class="form-check-label" for="filtro11">Livro Digital</label>
+                    </div>
+                    <div class="form-check">
+                        <input class="form-check-input" type="checkbox" value="" id="filtro12">
+                        <label class="form-check-label" for="filtro12">Livro Fisico</label>
+                    </div>
+                    <div class="form-check">
+                        <input class="form-check-input" type="checkbox" value="" id="filtro13">
+                        <label class="form-check-label" for="filtro13">Artigos</label>
+                    </div>
+                    <div class="form-check">
+                        <input class="form-check-input" type="checkbox" value="" id="filtro14">
+                        <label class="form-check-label" for="filtro14">TCC</label>
+                    </div>
+                    <hr>
+                    <div class="form-check">
+                        <input class="form-check-input" type="checkbox" value="" id="filtro15">
+                        <label class="form-check-label" for="filtro15">Tecnologia em Análise e Desenvolvimento de Sistemas</label>
+                    </div>
+                    <div class="form-check">
+                        <input class="form-check-input" type="checkbox" value="" id="filtro16">
+                        <label class="form-check-label" for="filtro16">Tecnologia em Análise e Desenvolvimento de Sistemas</label>
+                    </div>
+                    <div class="form-check">
+                        <input class="form-check-input" type="checkbox" value="" id="filtro17">
+                        <label class="form-check-label" for="filtro17">Tecnologia em Análise e Desenvolvimento de Sistemas</label>
+                    </div>
+                    <div class="form-check">
+                        <input class="form-check-input" type="checkbox" value="" id="filtro18">
+                        <label class="form-check-label" for="filtro19">Tecnologia em Análise e Desenvolvimento de Sistemas</label>
+                    </div>
+                    <div class="form-check">
+                        <input class="form-check-input" type="checkbox" value="" id="filtro19">
+                        <label class="form-check-label" for="filtro19">Tecnologia em Análise e Desenvolvimento de Sistemas</label>
+                    </div>
+                    
+                </div>
+            -->
+            </div>
+            
+        </div>
+        <script src="../Framework/js/jquery-3.6.4.js"></script>
+        <script src="../Framework/js/popper.min.js"></script>
+        <script src="../Framework/js/bootstrap.js"></script>
+    </body>
+</html>
