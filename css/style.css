@@ -204,6 +204,12 @@ nav{
 	border-radius: 2px;
 }
 
+/* Details */
+
+details{
+	background-color: white;
+}
+
 .container-filtro:hover input ~ .filtro{
 	background-color: #0557d1;
 }
