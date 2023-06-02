@@ -339,6 +339,15 @@ details:hover {
 	font-weight: bold;
 }
 
+/* CSS do Cadastro */
+
+.cadastro{
+	margin: 2% 25% 0 25%;
+	background-color: #bcdaf9 !important;
+	padding: 2%;
+	border-radius: 10px;
+}
+
 /* Fonte personalizadas */
 
 @font-face {
