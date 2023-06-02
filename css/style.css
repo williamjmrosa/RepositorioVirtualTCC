@@ -112,7 +112,7 @@ nav .btn:hover{
 
 .corpo{
 	width: 100%;
-	height: 85%;
+	height: 80%;
 }
 
 
@@ -172,7 +172,22 @@ nav{
 .filtro-direito, .filtro-esquerdo, .conteudo{
 	margin-right: 0.5%;
 	height: 100%;
-	overflow:auto;
+	overflow: auto !important;
+
+}
+
+.badge{
+	white-space: normal !important;
+	margin-bottom: 5%;
+}
+
+.fechar{
+	background: none;
+	border: none;
+}
+
+.pesquisar{
+	border-radius: 10%;
 }
 
 /* Checkbox personalizada */

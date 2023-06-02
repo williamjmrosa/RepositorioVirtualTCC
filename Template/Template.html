@@ -16,13 +16,22 @@
                     <div class="d-inline-block w-50">
                         <h3 class="home">TCC AQUI</h3>
                         <a class="btn fundo-secundario fw-bold" href="index.html">Home</a>
-                        <a class="btn fundo-secundario fw-bold" href="#">Livros</a>
-                        <a class="btn fundo-secundario fw-bold" href="#">Artigos</a>
+                        <a class="btn fundo-secundario fw-bold" href="#">Contatos</a>
                         <a class="btn fundo-secundario fw-bold" href="#">TCC</a>
                         
                     </div>
                     <div class="div-login align-items-end">
                         <a class="btn fundo-secundario fw-bold m-1" href="#" id="login"><img class="me-4" src="../img/login.png"/>Login</a>
+                    </div>
+                    <div class="text-center">
+                        <form action="" method="post">
+                            <select class="form-select d-inline-block w-auto" name="tipo">
+                                <option value="">Autor</option>
+                                <option value="">Titulo</option>
+                            </select>
+                            <input class="form-control w-50 d-inline-block" type="text" name="pesquisar" placeholder="Pesquise">
+                            <input class="pesquisar form-control d-inline-block w-auto" type="submit" value="&#128270;">
+                        </form>
                     </div>
                 </nav>
             </div>
@@ -31,7 +40,17 @@
         <div class="corpo">
             <!-- Inicio Filtro Esquerdo -->
             <div class="filtro-esquerdo float-start p-1">
-                <p class="clear">Filtros Selecionados:</p>
+                <div id="filtrosSelecionados" class="mb-3">
+                    <p class="clear">Filtros Selecionados:</p>
+                    
+                    <span class="badge bg-danger">Campus Canoas
+                        <input class="fechar" type="button" value="X">
+                    </span>
+                    <span class="badge bg-info">HTML <input class="fechar" type="button" value="X"></span>
+                    <span class="badge selecionado bg-success">Tecnologia em Analise e Desenvolvimento de Sistemas
+                        <input class="fechar" type="button" value="X">
+                    </span>
+                </div>
                 <details>
                     <summary>Campus</summary>
                     <label class="container-filtro">IFRS Canoas
