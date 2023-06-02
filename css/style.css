@@ -181,11 +181,6 @@ nav{
 	margin-bottom: 5%;
 }
 
-.fechar{
-	background: none;
-	border: none;
-}
-
 .pesquisar{
 	border-radius: 10%;
 }
@@ -308,6 +303,41 @@ details:hover {
 	border: 5px solid #1ba1e2;
 }
 
+
+/* CSS Tela Login */
+
+.login{
+	max-width: 40%;
+}
+
+.login > form{
+	background-color: #32a8e2;
+	border-radius: 4%;
+}
+
+.login > form > button{
+		width: 100%;
+		background-color: #d1ecf9;
+}
+
+.login > form > button:hover{
+	width: 100%;
+	background-color: #d1ecf9;
+	font-weight: bold;
+	color: #000;
+}
+
+.acesso{
+	list-style-type: none;
+	background-color: #edf2f7 !important;
+	border-radius: 5px;
+	width: 100%;
+}
+
+.acesso > div > input:checked + label{
+	color: #0557d1;
+	font-weight: bold;
+}
 
 /* Fonte personalizadas */
 

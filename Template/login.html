@@ -9,7 +9,7 @@
         <link rel="icon" type="image/jpg" href="../img/icone.png" />
 
     </head>
-    <body class="container-fluid m-0 p-0">
+    <body class="container-fluid m-0 p-0 fundo-secundario">
         <div class="fundo-primario">
             <div class="mb-2">
                 <nav class="p-2" id="menu">
@@ -28,7 +28,37 @@
             
         </div>
         <div class="corpo">
-            
+            <div class="login form-signin w-100 m-auto">
+                <form class="p-4 m-5" action="" method="post">
+                    <div class="mb-3">
+                      <label for="email" class="form-label">Email</label>
+                      <input type="email" class="form-control" id="email" name="email">
+                    </div>
+                    <div class="mb-3">
+                      <label for="senha" class="form-label">Senha</label>
+                      <input type="password" class="form-control" id="senha" name="email">
+                    </div>
+                    <div class="mb-3 form-check">
+                      <input type="checkbox" class="form-check-input" id="exampleCheck1">
+                      <label class="form-check-label" for="exampleCheck1">Check me out</label>
+                    </div>
+                    
+                    <div class="acesso text-center mb-2 p-2">
+                        <div class="form-check d-inline-block">
+                            <input class="form-check-input" type="radio" name="tipo" id="visitante">
+                            <label class="form-check-label" for="visitante">Visitante</label>
+                        </div>
+                        <div class="form-check d-inline-block">                                <input class="form-check-input" type="radio" name="tipo" id="aluno">
+                            <label class="form-check-label" for="aluno">Aluno</label>
+                        </div>
+                        <div class="form-check d-inline-block">
+                            <input class="form-check-input" type="radio" name="tipo" id="professor">
+                            <label class="form-check-label" for="professor">Professor</label>
+                        </div>
+                    </div>
+                    <button type="submit" class="btn">Logar</button>
+                  </form>
+            </div>
         </div>
         <script src="../Framework/js/jquery-3.6.4.js"></script>
         <script src="../Framework/js/popper.min.js"></script>
