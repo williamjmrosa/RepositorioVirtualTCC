@@ -15,6 +15,7 @@ class TCC{
     private Campus $campus;
     private Aluno $aluno;
     private Professor $orientador;
+    private $categorias;
 
     //Construtor
     public function __construct(){
@@ -39,7 +40,8 @@ class TCC{
                 Curso: $this->curso
                 Campus: $this->campus
                 Aluno: $this->aluno
-                Orientador: $this->orientador");
+                Orientador: $this->orientador
+                Categorias: $this->categorias");
     }
 
 }
