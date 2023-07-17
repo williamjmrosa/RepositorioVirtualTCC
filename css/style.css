@@ -71,14 +71,7 @@ body, html{
 	border: 2px solid #000;
 }
 
-#login > img{
-	width:20%;
 
-}
-
-#login{
-	width: 18%;
-}
 
 nav .btn{
 	color:black;
@@ -118,16 +111,27 @@ nav .btn:hover{
 
 /* Menu Login */
 
-ul, li, a{
-	text-decoration: none;
+#login ul, #login{
 	list-style: none;
+	text-decoration: none;
 }
 
-.div-login{
+#img-login{
+	width:20% !important;
+
+}
+
+#login{
+	width: 25%;
 	position: relative;
+	float: right;
 }
 
-.div-login > ul{
+#login:hover ul{
+	display: block;	
+}
+
+#login ul{
 	position: absolute;
 	display: none;
 	border: 6px solid #274A5C;
@@ -136,14 +140,41 @@ ul, li, a{
 	right: 0;
 }
 
-.div-login:hover ul{
-	display: block;	
-}
-
-.div-login ul li{
+#login ul li{
 	border-bottom: 1px solid #274A5C;
 }
 
+.div-login{
+	float: right;
+}
+
+/*
+#login a ul li{
+	text-decoration: none;
+	list-style: none;
+}
+
+#login{
+	position: relative;
+}
+
+#login > ul{
+	position: absolute;
+	display: none;
+	border: 6px solid #274A5C;
+	border-radius: 10px;
+	top: 80%;
+	right: 0;
+}
+
+#login:hover ul{
+	display: block;	
+}
+
+#login ul li{
+	border-bottom: 1px solid #274A5C;
+}
+*/
 
 /* Campo de digitação */
 
