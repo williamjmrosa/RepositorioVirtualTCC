@@ -107,6 +107,7 @@ nav .btn:hover{
 	text-align: right !important;
 	width: 49%;
 	display: inline-block;
+	position: relative;
 	height: auto;
 }
 
@@ -115,6 +116,33 @@ nav .btn:hover{
 	height: 80%;
 }
 
+/* Menu Login */
+
+ul, li, a{
+	text-decoration: none;
+	list-style: none;
+}
+
+.div-login{
+	position: relative;
+}
+
+.div-login > ul{
+	position: absolute;
+	display: none;
+	border: 6px solid #274A5C;
+	border-radius: 10px;
+	top: 80%;
+	right: 0;
+}
+
+.div-login:hover ul{
+	display: block;	
+}
+
+.div-login ul li{
+	border-bottom: 1px solid #274A5C;
+}
 
 
 /* Campo de digitação */
