@@ -21,16 +21,21 @@
                         <a class="btn fundo-secundario fw-bold" href="#">TCC</a>
                         
                     </div>
-                    <div class="div-login align-items-end">
-                        <a class="btn fundo-secundario fw-bold m-1" href="#" id="login"><img class="me-4" src="../img/login.png"/>Login</a>
-                            <ul class="fundo-secundario p-2 fw-bold text-start">
-                            <li>
-                                <a class="" href="../visao/telaCadastroCurso.php">Cadastrar Curso</a>    
-                            </li>
-                            <li>
-                                <a class="" href="../visao/telaCadastroTCC.php">Cadastrar TCC</a>    
-                            </li>
-                        </ul>
+                    <div class="div-login">
+                            <ul id="login">
+                                <li>
+                                    <a class="btn fundo-secundario fw-bold m-1" href="#"><img id="img-login" class="me-4" src="../img/login.png"/>Login</a>
+                                    <ul class="fundo-secundario p-2 fw-bold text-start">
+                                        <li>
+                                            <a class="" href="../visao/telaCadastroCurso.php">Cadastrar Curso</a>    
+                                        </li>
+                                        <li>
+                                            <a class="" href="../visao/telaCadastroTCC.php">Cadastrar TCC</a>    
+                                        </li>
+                                    </ul>
+                            
+                                </li>
+                            </ul>
                     </div>
                 </nav>
             </div>
