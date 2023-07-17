@@ -116,6 +116,11 @@ nav .btn:hover{
 	text-decoration: none;
 }
 
+#login a{
+	color: #000;
+	text-decoration: none;
+}
+
 #img-login{
 	width:20% !important;
 
