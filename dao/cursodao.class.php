@@ -25,6 +25,22 @@ class CursoDAO{
         }//fecha catch
     }//fecha cadastrarCurso
 
+    //Listar Cursos
+    public function listarCursos(){
+        try{
+            $stat = $this->conexao->prepare("Select * From curso");
+
+            $stat->execute();
+
+            $array = $stat->fetchAll(PDO::FETCH_CLASS, 'Curso');
+
+            return $array;
+
+        } catch (PDOException $ex){
+            return "Erro ao listar Cursos! \n".$ex->errorInfo[2];
+        }
+    }
+
 }
 
 ?>
