@@ -7,7 +7,7 @@
 Class Validacao{
     
     public static function validarNome($v){
-        $exp = '/^[A-záéíóúÁÉÍÓÚãõüÃÕÇç]{2,20}([ ]?[A-záéíóúÁÉÍÓÚãõüÃÕÇç]{1,20}){1,8}$/';
+        $exp = '/^[A-záéíóúÁÉÍÓÚãõüÃÕÇçôÔ]{2,20}([ ]?[A-záéíóúÁÉÍÓÚãõüÃÕÇçôÔ]{1,20}){1,8}$/';
         return preg_match($exp, $v);
     }
 
