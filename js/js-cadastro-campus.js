@@ -17,16 +17,28 @@ function cursos(option){
 	//alert(select);
 	$('#lista').append(opcao);
 	select.remove();
+	
+}
+
+function selecionarTodosOsCursos(){
 	$("#cursos option").each(function(){
-		$(this).attr('selected', true);
+		var select = $(this);
+		var texto = select.text();
+		var valor = select.val();
+		var opcao = '<option onclick="cursos(this)" selected="selected" value="'+valor+'">'+texto+'</otion>';
+		select.remove();
+		//$(this).attr('selected', true);
+		$('#cursos').append(opcao);
+		//alert($(this).text());
 		
 	});
 }
 
 $(document).ready(function(){
 
-
-	
+	$("#cursos").click(function(){
+		selecionarTodosOsCursos();
+	});
 
 	/*
 	$("#lista option").click(function(){
