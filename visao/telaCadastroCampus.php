@@ -46,7 +46,7 @@ include_once '../Modelo/curso.class.php';
         </div>
         <div class="corpo">
             <div class="cadastro w-auto">
-                <form class="row g-3" action="../controle/campus-controle.php?OP=1" method="get">
+                <form class="row g-3" action="../controle/campus-controle.php?OP=1" method="post">
                     <!-- Mensagens de Alerta do retorno do Cadastro -->
                     <?php
                       $sucesso = false;
@@ -83,10 +83,9 @@ include_once '../Modelo/curso.class.php';
                     <input type="text" class="form-control" id="nome" name="nome" placeholder="Nome">
                   </div>
                   <div class="col-12">
-                    <div class="d-inline-block">
                         <label class="form-label">Lista de Cursos</label>
                         <select id="lista" name="lista" class="form-select" size="3" aria-label="Lista de Cursos">
-                            <option selected value="teste">Lista de Cursos</option>
+                            <!--<option selected value="teste">Lista de Cursos</option>-->
                             <?php
                                 $cDAO = new CursoDAO();
                                 $cursos = $cDAO->listarCursos();
@@ -99,13 +98,9 @@ include_once '../Modelo/curso.class.php';
                                 }
                                 ?>
                         </select>
-                    </div>
-                    <div class="d-inline-block" id="cursos1">
-                    <h1>aqui</h1>
+                    <label class="form-label">Cursos selecionados</label>
                         <select id="cursos" name="cursos[]" class="form-select" size="3" multiple>
                         </select>
-                        
-                    </div>
                   </div>
                   <div class="col-12">
                     <button type="submit" class="btn btn-primary">Cadastrar</button>
