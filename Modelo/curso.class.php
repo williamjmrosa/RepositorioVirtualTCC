@@ -28,9 +28,9 @@ class Curso{
     //Função ensino
     public function mostrarEnsino(){
         if($this->ensino == 0){
-            return "Médio";
+            return "Ensino Médio";
         }else{
-            return "Superior";
+            return "Ensino Superior";
         }
     }
 
