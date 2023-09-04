@@ -84,7 +84,7 @@ include_once '../Modelo/curso.class.php';
                   </div>
                   <div class="col-12">
                         <label class="form-label">Lista de Cursos</label>
-                        <select id="lista" name="lista" class="form-select" size="3" aria-label="Lista de Cursos">
+                        <select id="lista" name="lista" class="form-select" size="6" aria-label="Lista de Cursos">
                             <!--<option selected value="teste">Lista de Cursos</option>-->
                             <?php
                                 $cDAO = new CursoDAO();
@@ -92,14 +92,14 @@ include_once '../Modelo/curso.class.php';
                                 if(is_array($cursos)){
                                     foreach($cursos as $c){
                                 ?>
-                                    <option onclick="lista(this)" value="<?php echo $c->idCurso;?>"><?php echo $c->nome; ?></option>
+                                    <option onclick="lista(this)" value="<?php echo $c->idCurso;?>"><?php echo $c->nome ." | ". $c->mostrarEnsino(); ?></option>
                                 <?php
                                     }
                                 }
                                 ?>
                         </select>
                     <label class="form-label">Cursos selecionados</label>
-                        <select id="cursos" name="cursos[]" class="form-select" size="3" multiple>
+                        <select id="cursos" name="cursos[]" class="form-select" size="4" multiple>
                         </select>
                   </div>
                   <div class="col-12">
