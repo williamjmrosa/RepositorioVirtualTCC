@@ -2,7 +2,7 @@
 require '../persistencia/conexaobanco.class.php';
 
 class CampusDAO{
-    
+
     private $conexao = null;
 
     public function __construct(){
@@ -23,13 +23,13 @@ class CampusDAO{
             return $id;
 
         } catch (PDOException $ex) {
-            //throw $th;
+            return $ex->getMessage();
         }
     }
 
     //ADD Curso a um Campus
     public function cadastrarCursoNoCampus($idCampus,$idCurso){
-        try{
+        try {
             $stat = $this->conexao->prepare("insert into campus_curso(idCampus,idCurso) values(?,?)");
 
             $stat->bindValue(1,$idCampus);
@@ -37,8 +37,8 @@ class CampusDAO{
 
             $stat->execute();
 
-        }catch (PDOException $ex){
-            return $ex;
+        } catch (PDOException $ex) {
+            return $ex->getMessage();
         }
     }
 
