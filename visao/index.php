@@ -3,214 +3,237 @@ session_start();
 ?>
 <!DOCTYPE html>
 <html lang="pt-br">
-    <head>
-        <title>TCC AQUI</title>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-        <link rel="stylesheet" href="../Framework/css/bootstrap.css">
-        <link rel="stylesheet" href="../css/style.css">
-        <link rel="icon" type="image/jpg" href="../img/icone.png" />
 
-    </head>
-    <body class="container-fluid m-0 p-0">
-        <div class="fundo-primario">
-            <div class="mb-2">
-                <nav class="p-2" id="menu">
-                    <div class="d-inline-block w-50">
-                        <h3 class="home">TCC AQUI</h3>
-                        <a class="btn fundo-secundario fw-bold" href="index.html">Home</a>
-                        <a class="btn fundo-secundario fw-bold" href="#">Contatos</a>
-                        <a class="btn fundo-secundario fw-bold" href="#">TCC</a>
-                        
-                    </div>
-                    <div class="div-login">
-                        <ul id="login">
-                            <li>
-                                <a class="btn fundo-secundario fw-bold m-1" href="#"><img id="img-login" class="me-4" src="../img/login.png"/>Login</a>
-                                <ul class="fundo-secundario p-2 fw-bold text-start">
-                                    <li>
-                                        <a class="" href="../visao/telaCadastroCurso.php">Cadastrar Curso</a>    
-                                    </li>
-                                    <li>
-                                        <a class="" href="../visao/telaCadastroTCC.php">Cadastrar TCC</a>    
-                                    </li>
-                                </ul>
-                            </li>
-                        </ul>
-                    </div>
-                    <div class="text-center">
-                        <form action="" method="post">
-                            <select class="form-select d-inline-block w-auto" name="tipo">
-                                <option value="">Autor</option>
-                                <option value="">Titulo</option>
-                            </select>
-                            <input class="form-control w-50 d-inline-block" type="text" name="pesquisar" placeholder="Pesquise">
-                            <input class="pesquisar form-control d-inline-block w-auto" type="submit" value="&#128270;">
-                        </form>
-                    </div>
-                </nav>
-            </div>
-            
-        </div>
-        <div class="corpo">
-            <!-- Inicio Filtro Esquerdo -->
-            <div class="filtro-esquerdo float-start p-1">
-                <div id="filtrosSelecionados" class="mb-3">
-                    <p class="clear">Filtros Selecionados:</p>
-                    
-                    <span class="badge bg-danger">Campus Canoas
-                        <input class="btn-close" type="button">
-                    </span>
-                    <span class="badge bg-info">HTML <input class="btn-close" type="button"></span>
-                    <span class="badge selecionado bg-success">Tecnologia em Analise e Desenvolvimento de Sistemas
-                        <input class="btn-close" type="button">
-                        
-                    </span>
+<head>
+    <title>TCC AQUI</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link rel="stylesheet" href="../Framework/css/bootstrap.css">
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="icon" type="image/jpg" href="../img/icone.png" />
+
+</head>
+
+<body class="container-fluid m-0 p-0">
+    <div class="fundo-primario">
+        <div class="mb-2">
+            <nav class="p-2" id="menu">
+                <div class="d-inline-block w-50">
+                    <h3 class="home">TCC AQUI</h3>
+                    <a class="btn fundo-secundario fw-bold" href="index.php">Home</a>
+                    <a class="btn fundo-secundario fw-bold" href="#">Contatos</a>
+                    <a class="btn fundo-secundario fw-bold" href="#">TCC</a>
+
                 </div>
-                <details>
-                    <summary>Campus</summary>
-                    <label class="container-filtro">IFRS Canoas
-                        <input type="checkbox">
-                        <span class="filtro"></span>
-                    </label>
+                <div class="div-login">
+                    <ul id="login">
+                        <li>
+                            <a class="btn fundo-secundario fw-bold m-1" href="#"><img id="img-login" class="me-4"
+                                    src="../img/login.png" />Login</a>
+                            <ul class="fundo-secundario p-2 fw-bold text-start">
+                                <li>
+                                    <a href="../visao/telaCadastroCurso.php">Cadastrar Curso</a>
+                                </li>
+                                <li>
+                                    <a href="../visao/telaCadastroCampus.php">Cadastrar Campus</a>
+                                </li>
+                                <li>
+                                    <a href="../visao//telaCadastroCategoria.php">Cadastrar Categoria</a>
+                                </li>
+                                <li>
+                                    <a href="../visao/telaCadastroAluno.php">Cadastrar Aluno</a>
+                                </li>
+                                <li>
+                                    <a href="../visao/telaCadastroProfessor.php">Cadastrar Professor</a>
+                                </li>
+                                <li>
+                                    <a href="../visao/telaCadastroVisitante.php">Cadastrar Visitante</a>
+                                </li>
+                                <li>
+                                    <a href="../visao/telaCadastroTCC.php">Cadastrar TCC</a>
+                                </li>
+                            </ul>
+                        </li>
+                    </ul>
+                </div>
+                <div class="text-center">
+                    <form action="" method="post">
+                        <select class="form-select d-inline-block w-auto" name="tipo">
+                            <option value="">Autor</option>
+                            <option value="">Titulo</option>
+                        </select>
+                        <input class="form-control w-50 d-inline-block" type="text" name="pesquisar"
+                            placeholder="Pesquise">
+                        <input class="pesquisar form-control d-inline-block w-auto" type="submit" value="&#128270;">
+                    </form>
+                </div>
+            </nav>
+        </div>
 
-                    <label class="container-filtro">IFRS Alvorada
-                        <input type="checkbox">
-                        <span class="filtro"></span>
-                    </label>
+    </div>
+    <div class="corpo">
+        <!-- Inicio Filtro Esquerdo -->
+        <div class="filtro-esquerdo float-start p-1">
+            <div id="filtrosSelecionados" class="mb-3">
+                <p class="clear">Filtros Selecionados:</p>
 
-                    <label class="container-filtro">IFRS Bento Gonçalves
-                        <input type="checkbox">
-                        <span class="filtro"></span>
-                    </label>
+                <span class="badge bg-danger">Campus Canoas
+                    <input class="btn-close" type="button">
+                </span>
+                <span class="badge bg-info">HTML <input class="btn-close" type="button"></span>
+                <span class="badge selecionado bg-success">Tecnologia em Analise e Desenvolvimento de Sistemas
+                    <input class="btn-close" type="button">
 
-                    <label class="container-filtro">IFRS Caxias do Sul
-                        <input type="checkbox">
-                        <span class="filtro"></span>
-                    </label>
-
-                    <label class="container-filtro">IFRS Erechim
-                        <input type="checkbox">
-                        <span class="filtro"></span>
-                    </label>
-
-                    <label class="container-filtro">IFRS Farroupilha
-                        <input type="checkbox">
-                        <span class="filtro"></span>
-                    </label>
-
-                    <label class="container-filtro">IFRS Feliz
-                        <input type="checkbox">
-                        <span class="filtro"></span>
-                    </label>
-
-                    <label class="container-filtro">IFRS Ibirubá
-                        <input type="checkbox">
-                        <span class="filtro"></span>
-                    </label>
-
-                    <label class="container-filtro">IFRS Osório
-                        <input type="checkbox">
-                        <span class="filtro"></span>
-                    </label>
-
-                    <label class="container-filtro">IFRS Porto Alegre
-                        <input type="checkbox">
-                        <span class="filtro"></span>
-                    </label>
-                </details>
-               
-                <hr>
+                </span>
             </div>
-            <!-- Fim Filtro Esquerdo -->
-            <!-- Inicio Conteudo -->
-            <div class="conteudo float-start ms-1 me-1">
-                <h1>Conteudo</h1>
-                <div class="card mb-3 ms-2 me-2" style="max-width: 100%;">
-                    <a href="">
+            <details>
+                <summary>Campus</summary>
+                <label class="container-filtro">IFRS Canoas
+                    <input type="checkbox">
+                    <span class="filtro"></span>
+                </label>
+
+                <label class="container-filtro">IFRS Alvorada
+                    <input type="checkbox">
+                    <span class="filtro"></span>
+                </label>
+
+                <label class="container-filtro">IFRS Bento Gonçalves
+                    <input type="checkbox">
+                    <span class="filtro"></span>
+                </label>
+
+                <label class="container-filtro">IFRS Caxias do Sul
+                    <input type="checkbox">
+                    <span class="filtro"></span>
+                </label>
+
+                <label class="container-filtro">IFRS Erechim
+                    <input type="checkbox">
+                    <span class="filtro"></span>
+                </label>
+
+                <label class="container-filtro">IFRS Farroupilha
+                    <input type="checkbox">
+                    <span class="filtro"></span>
+                </label>
+
+                <label class="container-filtro">IFRS Feliz
+                    <input type="checkbox">
+                    <span class="filtro"></span>
+                </label>
+
+                <label class="container-filtro">IFRS Ibirubá
+                    <input type="checkbox">
+                    <span class="filtro"></span>
+                </label>
+
+                <label class="container-filtro">IFRS Osório
+                    <input type="checkbox">
+                    <span class="filtro"></span>
+                </label>
+
+                <label class="container-filtro">IFRS Porto Alegre
+                    <input type="checkbox">
+                    <span class="filtro"></span>
+                </label>
+            </details>
+
+            <hr>
+        </div>
+        <!-- Fim Filtro Esquerdo -->
+        <!-- Inicio Conteudo -->
+        <div class="conteudo float-start ms-1 me-1">
+            <h1>Conteudo</h1>
+            <div class="card mb-3 ms-2 me-2" style="max-width: 100%;">
+                <a href="">
                     <div class="row g-0">
                         <div class="col-md-2">
-                          <img src="../img/PDF1.png" class="img-fluid rounded-start" alt="...">
+                            <img src="../img/PDF1.png" class="img-fluid rounded-start" alt="...">
                         </div>
                         <div class="col-md-10">
                             <div class="card-body">
-                                <h5 class="card-title">Introdução a Programação com Linguagem C <b>(Livro Digital)</b></h5>
+                                <h5 class="card-title">Introdução a Programação com Linguagem C <b>(Livro Digital)</b>
+                                </h5>
                                 <p class="card-text">Autor: Rodrigo de Barros Paes
-                                <br>ISBN impresso: 978-85-7522-485-4
-                                <br>ISBN ebook: 978-85-7522-631-5
-                                <br>Ano: 2016 Páginas: 296
+                                    <br>ISBN impresso: 978-85-7522-485-4
+                                    <br>ISBN ebook: 978-85-7522-631-5
+                                    <br>Ano: 2016 Páginas: 296
                                 </p>
                                 <p class="card-text"><small class="text-muted">Last updated 3 mins ago</small></p>
                             </div>
                         </div>
                     </div>
-                    </a>
-                </div>
-                <div class="card mb-3 ms-2 me-2" style="max-width: 100%;">
-                    <a href="">
+                </a>
+            </div>
+            <div class="card mb-3 ms-2 me-2" style="max-width: 100%;">
+                <a href="">
                     <div class="row g-0">
                         <div class="col-md-2">
-                          <img src="../img/PDF.svg" class="img-fluid rounded-start m-2" alt="...">
+                            <img src="../img/PDF.svg" class="img-fluid rounded-start m-2" alt="...">
                         </div>
                         <div class="col-md-10">
                             <div class="card-body">
-                                <h5 class="card-title">Algoritmos e Programação - Teoria e Prática <b>(Livro Digital)</b></h5>
+                                <h5 class="card-title">Algoritmos e Programação - Teoria e Prática <b>(Livro
+                                        Digital)</b></h5>
                                 <p class="card-text">Autor: Marco Medina Cristina Fertig
-                                <br>ISBN impresso: 85-7522-073-X
-                                <br>ISBN ebook: 978-85-7522-631-5
-                                <br>Ano: 2005 Páginas: 384
+                                    <br>ISBN impresso: 85-7522-073-X
+                                    <br>ISBN ebook: 978-85-7522-631-5
+                                    <br>Ano: 2005 Páginas: 384
                                 </p>
                                 <p class="card-text"><small class="text-muted">Last updated 3 mins ago</small></p>
                             </div>
                         </div>
                     </div>
-                    </a>
-                </div>
-                <div class="card mb-3" style="max-width: 100%;">
-                    <a href="#">
+                </a>
+            </div>
+            <div class="card mb-3" style="max-width: 100%;">
+                <a href="#">
                     <div class="row g-0">
                         <div class="col-md-2">
-                          <img src="../img/PDF.png" class="img-fluid rounded-start" alt="...">
+                            <img src="../img/PDF.png" class="img-fluid rounded-start" alt="...">
                         </div>
                         <div class="col-md-10">
                             <div class="card-body">
-                                <h5 class="card-title">Introdução à Programação com Python - 3ª Edição <b>(Livro Digital)</b></h5>
+                                <h5 class="card-title">Introdução à Programação com Python - 3ª Edição <b>(Livro
+                                        Digital)</b></h5>
                                 <p class="card-text">Autor: Nilo Ney Coutinho Menezes
-                                <br>ISBN impresso: 978-85-7522-718-3
-                                <br>Ano: 2019
-                                <br>Páginas: 328
+                                    <br>ISBN impresso: 978-85-7522-718-3
+                                    <br>Ano: 2019
+                                    <br>Páginas: 328
                                 </p>
                                 <p class="card-text"><small class="text-muted">Last updated 3 mins ago</small></p>
                             </div>
                         </div>
                     </div>
-                    </a>
-                </div>
+                </a>
             </div>
-            <!-- Fim Conteudo -->
-            <!-- Inicio Filtro Direito -->
-            <div class="filtro-direito float-end">
-                <p class="clear">Filtro Direiro</p>
-                <details class="m-1">
-                    <summary>Curso</summary>
-                    <label class="container-filtro mt-1" for="TADS">Tecnologia em Análise e Desenvolvimento de Sistemas
-                        <input type="checkbox" value="" id="TADS">
-                        <span class="filtro"></span>
-                    </label>
-                    
-                    <label class="container-filtro" for="MAT">Matematica
-                        <input class="form-check-input" type="checkbox" value="" id="MAT">
-                        <span class="filtro"></span>
-                    </label>
-                </details>
-                <hr>  
-            </div>
-            <!-- Fim Filtro Direito -->
-            
-            
         </div>
-        <script src="../Framework/js/jquery-3.6.4.js"></script>
-        <script src="../Framework/js/popper.min.js"></script>
-        <script src="../Framework/js/bootstrap.js"></script>
-    </body>
+        <!-- Fim Conteudo -->
+        <!-- Inicio Filtro Direito -->
+        <div class="filtro-direito float-end">
+            <p class="clear">Filtro Direiro</p>
+            <details class="m-1">
+                <summary>Curso</summary>
+                <label class="container-filtro mt-1" for="TADS">Tecnologia em Análise e Desenvolvimento de Sistemas
+                    <input type="checkbox" value="" id="TADS">
+                    <span class="filtro"></span>
+                </label>
+
+                <label class="container-filtro" for="MAT">Matematica
+                    <input class="form-check-input" type="checkbox" value="" id="MAT">
+                    <span class="filtro"></span>
+                </label>
+            </details>
+            <hr>
+        </div>
+        <!-- Fim Filtro Direito -->
+
+
+    </div>
+    <script src="../Framework/js/jquery-3.6.4.js"></script>
+    <script src="../Framework/js/popper.min.js"></script>
+    <script src="../Framework/js/bootstrap.js"></script>
+</body>
+
 </html>
