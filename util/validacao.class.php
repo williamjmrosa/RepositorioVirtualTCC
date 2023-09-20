@@ -11,6 +11,11 @@ Class Validacao{
         return preg_match($exp, $v);
     }
 
+    public static function validarCategoria($v){
+        $exp = '/^[A-záéíóúÁÉÍÓÚãõüÃÕÇçôÔêÊ]{2,20}([ ]?[A-záéíóúÁÉÍÓÚãõüÃÕÇçôÔêÊê]{1,20}){0,8}$/';
+        return preg_match($exp, $v);
+    }
+
     public static function validarSenha($v){
         $exp ='/^.{6,25}$/';
         return preg_match($exp, $v);
