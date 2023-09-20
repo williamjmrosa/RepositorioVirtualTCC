@@ -53,9 +53,6 @@ include_once('../Modelo/categoria.class.php');
                 <li>
                   <a href="../visao/telaCadastroTCC.php">Cadastrar TCC</a>
                 </li>
-                <li>
-                  <a href="../visao/telaCadastroTCC.php">Cadastrar TCC</a>
-                </li>
               </ul>
 
             </li>
@@ -67,26 +64,29 @@ include_once('../Modelo/categoria.class.php');
   </div>
   <div class="corpo">
     <div class="cadastro w-auto">
-      <form class="row" method="post" action="../controle/categoria-controle.php">
+      <form class="row" method="post" action="../controle/categoria-controle.php?OP=1">
         <!-- Mensagens de Alerta do retorno do Cadastro -->
         <?php
-        $sucesso = false;
-        try {
-          if (isset($_SESSION['erros'])) {
+        
+          if (isset($_SESSION['erros']) && is_array(unserialize($_SESSION['erros']))) {
             $erros = unserialize($_SESSION['erros']);
             unset($_SESSION['erros']);
-            $msg_erro = "";
+            $msg = "";
             foreach ($erros as $erro) {
-              $msg_erro = $msg_erro . '<p class="m-0"> ' . $erro . '</p>';
+              $msg = $msg . '<p class="m-0"> ' . $erro . '</p>';
             }
-            throw new Exception($msg_erro);
-          } else if (isset($_SESSION['msg'])) {
+            $sucesso = false;
+          }elseif(isset($_SESSION['erros'])){
+            $sucesso = false;
+            $msg = $_SESSION['erros'];
+            unset($_SESSION['erros']);
+          }elseif(isset($_SESSION['msg'])) {
             $sucesso = true;
             $msg = $_SESSION['msg'];
             unset($_SESSION['msg']);
-            throw new Exception($msg);
+            
           }
-        } catch (Exception $ex) {
+          if(isset($sucesso)){
         ?>
           <div class="alert <?php if ($sucesso) {
                               echo 'alert-success';
@@ -94,7 +94,7 @@ include_once('../Modelo/categoria.class.php');
                               echo 'alert-danger';
                             } ?>" role="alert">
             <?php
-            echo $ex->getMessage();
+            echo $msg;
             ?>
           </div>
         <?php
@@ -110,16 +110,39 @@ include_once('../Modelo/categoria.class.php');
         </div>
         <div class="col-12 mt-3 mb-3" id="nomesAlternativos">
           <div class="col-12">
-            <label for="nomeAlternativo" class="form-label">Nome Alternativo</label>
+            <label for="nomeAlternativo" class="form-label me-2">Nome Alternativo</label>
             <input type="text" class="form-control d-inline w-50" id="nomeAlternativo" name="nomeAlternativo[]">
             <a href="#" class="btn btn-primary ms-3" onclick="adicionarNomeAltenativo(this)">+</a>
           </div>
         </div>
         <div class="col-12">
-
+          <label class="form-label d-block">É categoria Sub</label>
+          <div class="form-check form-check-inline">
+            <input class="form-check-input" type="radio" name="eSub" id="eSub" value="true">
+            <label class="form-check-label" for="eSub">Sim</label>
+          </div>
+          <div class="form-check form-check-inline">
+            <input class="form-check-input" type="radio" name="eSub" id="nSub" value="false" checked>
+            <label class="form-check-label" for="nSub">Não</label>
+          </div>
         </div>
-
-        <div class="col-12">
+        <div class="col-6 d-none" id="catPrincipal">
+          <label class="form-label">Categoria Princiapal</label>
+          <select class="form-select" size="4" name="principal" id="principal">
+            <?php
+              $cDAO = new CategoriaDAO();
+              $categorias = $cDAO->listarCategoria();
+              if(is_array($categorias) && count($categorias) > 0) {
+                foreach($categorias as $c){
+                  echo '<option value="'.$c->idCategoria.'">'.$c->nome.'</option>';
+                }
+              }else{
+                echo '<option value="-1">Nenhuma Categoria Cadastrada</option>';
+              }
+            ?>
+          </select>
+        </div>
+        <div class="col-12 mt-3">
           <button type="submit" class="btn btn-primary">Cadastrar Categoria</button>
         </div>
       </form>
