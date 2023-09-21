@@ -7,11 +7,26 @@ function limpa_formulário_cep() {
     $("#ibge").val("");
 }
 
+function mostrarSenha(input){
+    var inputSenha = $("#senha"); 
+    var btnSenha = $(input);
+    if($(inputSenha).attr("type") == "password"){
+        inputSenha.attr("type", "text");
+        $(btnSenha).removeClass("bi-eye-fill"); 
+        $(btnSenha).addClass("bi-eye-slash-fill");
+    }else{
+        inputSenha.attr("type", "password");
+        $(btnSenha).removeClass("bi-eye-slash-fill"); 
+        $(btnSenha).addClass("bi-eye-fill");
+    }
+}
+
 $(document).ready(function(){
             
             $("#cpf").mask('000.000.000-00');
             $("#telefone").mask('(00) 00000 - 0000');
             $("#cep").mask('00000-000');
+            $('#rg').mask('99.999.999-99');
 
             //Quando o campo cep perde o foco.
             $("#cep").blur(function() {
