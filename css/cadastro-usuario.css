@@ -1,0 +1,12 @@
+form div{
+    position: relative;
+}
+
+div i{
+    font-size: 30px;
+    cursor: pointer;
+    position: absolute;
+    right: 6%;
+    color: #ccc;
+    top: 4dvh;
+}
