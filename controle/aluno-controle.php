@@ -1,4 +1,5 @@
 <?php
+session_start();
 include_once '../dao/alunodao.class.php';
 include_once '../dao/enderecodao.class.php';
 include_once '../Modelo/aluno.class.php';
@@ -38,6 +39,9 @@ if(isset($_GET['OP'])){
                 $erros[] = 'Campo Senha em branco!';
             }else{
                 $senha = filter_var($_POST['senha'],FILTER_SANITIZE_SPECIAL_CHARS);
+                if(!Validacao::validarSenha($senha)){
+                    $erros[] = 'Senha inválida!';
+                }
             }
 
             if(!isset($_POST['rg'])) {
@@ -45,7 +49,10 @@ if(isset($_GET['OP'])){
             } elseif ($_POST['rg'] == "") {
                 $erros[] = 'Campo RG em branco!';
             } else {
-                $rg = filter_var($_POST['rg'], FILTER_SANITIZE_NUMBER_INT);
+                $rg = filter_var($_POST['rg'], FILTER_SANITIZE_SPECIAL_CHARS);
+                if(!Validacao::validarRG($rg)){
+                    $erros[] = 'RG inválido!';
+                }
             }
 
             if(!isset($_POST['cpf'])) {
@@ -53,7 +60,11 @@ if(isset($_GET['OP'])){
             } elseif ($_POST['cpf'] == "") {
                 $erros[] = 'Campo CPF em branco!';
             } else {
-                $cpf = filter_var($_POST['cpf'], FILTER_SANITIZE_NUMBER_INT);
+                if(!Validacao::validarCPF($_POST['cpf'])){
+                    $erros[] = 'CPF inválido!';
+                }else{
+                    $cpf = filter_var($_POST['cpf'], FILTER_SANITIZE_SPECIAL_CHARS);
+                }
             }
 
             if(!isset($_POST['telefone'])) {
@@ -62,6 +73,9 @@ if(isset($_GET['OP'])){
                 $erros[] = 'Campo Telefone em branco!';
             } else {
                 $telefone = filter_var($_POST['telefone'], FILTER_SANITIZE_NUMBER_INT);
+                if(!Validacao::validarContato($telefone)){
+                    $erros[] = 'Telefone inválido!';
+                }
             }
 
             if(!isset($_POST['bairro'])) {
@@ -88,12 +102,12 @@ if(isset($_GET['OP'])){
                 $uf = filter_var($_POST['uf'], FILTER_SANITIZE_SPECIAL_CHARS);
             }
 
-            if(!isset($_POST['logradouro'])) {
-                $erros[] = 'Campo Logradouro não existe!';
-            } elseif ($_POST['logradouro'] == "") {
-                $erros[] = 'Campo Logradouro em branco!';
+            if(!isset($_POST['rua'])) {
+                $erros[] = 'Campo rua não existe!';
+            } elseif ($_POST['rua'] == "") {
+                $erros[] = 'Campo rua em branco!';
             } else {
-                $logradouro = filter_var($_POST['logradouro'], FILTER_SANITIZE_SPECIAL_CHARS);
+                $rua = filter_var($_POST['rua'], FILTER_SANITIZE_SPECIAL_CHARS);
             }
 
             if(!isset($_POST['cep'])) {
@@ -106,8 +120,6 @@ if(isset($_GET['OP'])){
 
             if(!isset($_POST['complemento'])) {
                 $erros[] = 'Campo Complemento não existe!';
-            } elseif ($_POST['complemento'] == "") {
-                $erros[] = 'Campo Complemento em branco!';
             } else {
                 $complemento = filter_var($_POST['complemento'], FILTER_SANITIZE_SPECIAL_CHARS);
             }
@@ -120,7 +132,49 @@ if(isset($_GET['OP'])){
                 $numero = filter_var($_POST['numero'], FILTER_SANITIZE_NUMBER_INT);
             }
 
-            
+            if(!isset($_POST['campus'])){
+                $erros[] = 'Campo Campus não existe!';
+            }elseif($_POST['campus'] == "0"){
+                $erros[] = 'Nenhum Campus selecionado!';
+            }else{
+                $campus = filter_var($_POST['campus'], FILTER_SANITIZE_NUMBER_INT);
+            }
+
+            if(!isset($_POST['curso'])){
+                $erros[] = 'Campo Curso não existe!';
+            }elseif($_POST['curso'] == "0"){
+                $erros[] = 'Nenhum Curso selecionado!';
+            }else{
+                $curso = filter_var($_POST['curso'], FILTER_SANITIZE_NUMBER_INT);
+            }
+
+            if(count($erros) == 0){
+                $aluno = new Aluno();
+                $aluno->nome = Padronizacao::padronizarNome($nome);
+                $aluno->cpf = Padronizacao::padronizarCPF_RG($cpf);
+                $aluno->rg = Padronizacao::padronizarCPF_RG($rg);
+                $aluno->senha = Seguranca::criptografar($senha);
+                $aluno->email = Padronizacao::padronizarEmail($email);
+                $aluno->telefone = Padronizacao::padronizarContato($telefone);
+                $aluno->end = new Endereco();
+                $aluno->end->logradouro = Padronizacao::padronizarNome($rua) . ', ' . $numero;
+                $aluno->end->bairro = Padronizacao::padronizarNome($bairro);
+                $aluno->end->cidade = Padronizacao::padronizarNome($cidade);
+                $aluno->end->uf = Padronizacao::padronizarMaiusculas($uf);
+                $aluno->end->cep = Padronizacao::padronizarCEP($cep);
+                $aluno->end->complemento = $complemento;
+                $aluno->campus = $campus;
+                $aluno->curso = $curso;
+
+                $alunoDAO = new AlunoDAO();
+                $alunoDAO->cadastrarAluno($aluno);
+                
+                $_SESSION['msg'] = 'Aluno cadastrado com sucesso!';
+            }else{
+                $_SESSION['erros'] = serialize($erros);
+            }
+
+            header('Location: ../visao/telaCadastroAluno.php');
 
             break;
         case 2:

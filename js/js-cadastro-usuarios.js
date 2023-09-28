@@ -21,6 +21,13 @@ function mostrarSenha(input){
     }
 }
 
+function campusSelecionado(option){
+    var select = $(option);
+    var valor = select.val();
+    $('#curso').load('../visao/selecteCurso.php?ID='+valor);
+
+}
+
 $(document).ready(function(){
             
             $("#cpf").mask('000.000.000-00');

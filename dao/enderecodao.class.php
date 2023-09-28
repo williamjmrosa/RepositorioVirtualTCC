@@ -1,5 +1,6 @@
 <?php
-require '../persistencia/conexaobanco.class.php';
+require_once '../persistencia/conexaobanco.class.php';
+include_once '../Modelo/endereco.class.php';
 
 /**
  * @author William José
@@ -13,25 +14,26 @@ class EnderecoDAO{
     }
 
     //Cadastrar um Endereço
-    public function cadastrarEndereco(Endereco $endereco) {
+    public function cadastrarEndereco(Endereco $endereco){
         try{
-            $stat = $this->conexao->prepare("insert into endereco(idEndereco,bairro,logradouro,cep,uf,cidade,complemento) values(null,?,?,?,?,?,?)");
-
-            $stat->bindValue(1,$endereco->bairro);
+            $stat = $this->conexao->prepare("Insert into endereco(idEndereco,cep,logradouro,bairro,cidade,uf,complemento) values (null,?,?,?,?,?,?)");
+            
+            $stat->bindValue(1,$endereco->cep);
             $stat->bindValue(2,$endereco->logradouro);
-            $stat->bindValue(3,$endereco->cep);
-            $stat->bindValue(4,$endereco->uf);
-            $stat->bindValue(5,$endereco->cidade);
+            $stat->bindValue(3,$endereco->bairro);
+            $stat->bindValue(4,$endereco->cidade);
+            $stat->bindValue(5,$endereco->uf);
             $stat->bindValue(6,$endereco->complemento);
-
+            
             $stat->execute();
 
-            $id = $this->conexao->lastInsertId();
+            $endereco->idEndereco = $this->conexao->lastInsertId();
+            
+            return $endereco->idEndereco;
 
-            return $id;
 
-        }catch(PDOException $ex){
-            return $ex->getMessage();
+        } catch (PDOException $ex){
+            echo $ex->getMessage();//$_SESSION['erros'] =  $ex->getMessage();
         }
     }
 

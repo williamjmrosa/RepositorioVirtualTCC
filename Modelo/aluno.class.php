@@ -15,6 +15,8 @@ class Aluno{
     private $email;
     private $senha;
     private Endereco $end;
+    private $campus;
+    private $curso;
 
     //Construtor
     public function __construct(){
@@ -39,6 +41,8 @@ class Aluno{
                     Telefone: $this->telefone
                     E-mail: $this->email
                     Senha: $this->senha
+                    Campus: $this->campus
+                    Curso: $this->curso
                     Endereço: $this->end");
     }
 
