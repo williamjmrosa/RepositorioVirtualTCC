@@ -1,5 +1,5 @@
 <?php
-require '../persistencia/conexaobanco.class.php';
+require_once '../persistencia/conexaobanco.class.php';
 
 class CampusDAO{
 
@@ -42,6 +42,21 @@ class CampusDAO{
         }
     }
 
+    //Listar Campus
+    public function listarCampus(){
+        try{
+            $stat = $this->conexao->prepare("Select * From campus order by nome");
+            
+            $stat->execute();
+            
+            $array = $stat->fetchAll(PDO::FETCH_CLASS, 'Campus');
+            
+            return $array;
+
+        } catch (PDOException $ex){
+            return $ex->getMessage();
+        }
+    }
 
 }
 ?>

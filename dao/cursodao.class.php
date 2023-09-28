@@ -1,5 +1,5 @@
 <?php
-require '../persistencia/conexaobanco.class.php';
+require_once '../persistencia/conexaobanco.class.php';
 
 class CursoDAO{
 
@@ -21,14 +21,14 @@ class CursoDAO{
             $stat->execute();
 
         } catch (PDOException $ex) {
-            return "Erro ao Cadastrar! \n".$ex->errorInfo[2];
+            return "Erro ao Cadastrar! \n".$ex->getMessage();
         }//fecha catch
     }//fecha cadastrarCurso
 
     //Listar Cursos
     public function listarCursos(){
         try{
-            $stat = $this->conexao->prepare("Select * From curso");
+            $stat = $this->conexao->prepare("Select * From curso order by ensino");
 
             $stat->execute();
 
@@ -37,7 +37,22 @@ class CursoDAO{
             return $array;
 
         } catch (PDOException $ex){
-            return "Erro ao listar Cursos! \n".$ex->errorInfo[2];
+            return "Erro ao listar Cursos! \n".$ex->getMessage();
+        }
+    }
+
+    //Buscar por curso de um campus
+    public function buscarCursoCampus($idCampus){
+        try{
+            $stat = $this->conexao->prepare("Select c.idCurso, c.nome, c.ensino From curso c inner join campus_curso cc on c.idcurso = cc.idcurso where cc.idcampus =?");
+            $stat->bindValue(1, $idCampus);
+            $stat->execute();
+            
+            $array = $stat->fetchAll(PDO::FETCH_CLASS, 'Curso');
+
+            return $array;
+        }catch(PDOException $ex){
+            return "Erro ao buscar Curso da Campus! \n".$ex->getMessage();
         }
     }
 
