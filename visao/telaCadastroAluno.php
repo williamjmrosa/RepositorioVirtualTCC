@@ -1,5 +1,7 @@
 <?php
 session_start();
+include_once '../dao/campusdao.class.php';
+include_once '../Modelo/campus.class.php';
 ?>
 <!DOCTYPE html>
 <html lang="pt-br">
@@ -68,7 +70,7 @@ session_start();
         <!-- Mensagens de Alerta do retorno do Cadastro -->
         <?php
         
-          if (isset($_SESSION['erros']) && is_array(unserialize($_SESSION['erros']))) {
+          if (isset($_SESSION['erros'])) {
             $erros = unserialize($_SESSION['erros']);
             unset($_SESSION['erros']);
             $msg = "";
@@ -76,10 +78,6 @@ session_start();
               $msg = $msg . '<p class="m-0"> ' . $erro . '</p>';
             }
             $sucesso = false;
-          }elseif(isset($_SESSION['erros'])){
-            $sucesso = false;
-            $msg = $_SESSION['erros'];
-            unset($_SESSION['erros']);
           }elseif(isset($_SESSION['msg'])) {
             $sucesso = true;
             $msg = $_SESSION['msg'];
@@ -156,6 +154,27 @@ session_start();
         <div class="col-lg-12">
           <label for="complemento" class="form-label">Complemento</label>
           <input type="text" class="form-control" id="complemento" name="complemento" placeholder="Complemento">
+        </div>
+        <div class="col-lg-12">
+          <label for="campus" class="form-label">Campus</label>
+          <select class="form-select" id="campus" size="4" name="campus">
+            <option selected>Escolha...</option>
+            <?php
+            $campusDAO = new CampusDAO();
+            $campi = $campusDAO->listarCampus();
+            if(is_array($campi)){
+              foreach ($campi as $campus) {
+                echo "<option onClick='campusSelecionado(this)' value='$campus->idCampus'>$campus->nome</option>";
+              }
+            }
+            ?>
+            </select>
+        </div>
+        <div class="col-lg-12">
+          <label for="curso" class="form-label">Curso</label>
+          <select class="form-select" id="curso" size="4" name="curso">
+            <option value="0" selected>Selecione um campus...</option>
+          </select>
         </div>
         <div class="col-12">
           <button type="submit" class="btn btn-primary">Cadastrar</button>
