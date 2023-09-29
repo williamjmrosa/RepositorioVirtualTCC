@@ -35,7 +35,7 @@ class Professor{
     //Método toString
     public function __toString()
     {
-        nl2br("Matricula: $this->matricula
+        return nl2br("Matricula: $this->matricula
                 Nome: $this->nome
                 RG: $this->rg
                 CPF: $this->cpf
