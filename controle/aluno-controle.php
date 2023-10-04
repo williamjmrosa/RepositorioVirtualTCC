@@ -23,6 +23,9 @@ if(isset($_GET['OP'])){
                 $erros[] = 'Campo Nome Completo em branco!';
             }else{
                 $nome = filter_var($_POST['nome'],FILTER_SANITIZE_SPECIAL_CHARS);
+                if(!Validacao::validarNome($nome)){
+                    $erros[] = 'Nome inválido!';
+                }
             }
 
             if(!isset($_POST['email'])){
@@ -31,6 +34,9 @@ if(isset($_GET['OP'])){
                 $erros[] = 'Campo E-mail em branco!';
             }else{
                 $email = filter_var($_POST['email'],FILTER_SANITIZE_EMAIL);
+                if(!Validacao::validarEmail($email)){
+                    $erros[] = 'E-mail inválido!';
+                }
             }
 
             if(!isset($_POST['senha'])){
@@ -180,6 +186,7 @@ if(isset($_GET['OP'])){
         case 2:
             break;
         default:
+            header('Location: ../visao/telaCadastroAluno.php');
         break;
     }
 
