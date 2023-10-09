@@ -22,12 +22,12 @@ class Adm{
 
     //Método SET
     public function __set($a, $v){
-        $this->a = $v;
+        $this->$a = $v;
     }
 
     //Método toString
     public function __toString(){
-        nl2br("E-mail: $this->email
+        return nl2br("E-mail: $this->email
                 Nome: $this->nome
                 Senha: $this->senha");
     }
