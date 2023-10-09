@@ -56,5 +56,36 @@ class ProfessorDAO{
         }
     }
 
+    //Listar Professores
+    public function listarProfessores(){
+        try{
+            $stat = $this->conexao->prepare("Select * From professor order by nome");
+            $stat->execute();
+
+            $array = $stat->fetchAll(PDO::FETCH_CLASS, 'Professor');
+
+            return $array;
+
+        }catch(PDOException $ex){
+            echo $ex->getMessage();
+        }
+    }
+
+    //Buscar Professor por nome
+    public function buscarProfessorPorNome($nome){
+        try{
+            $stat = $this->conexao->prepare("Select * From professor where nome like ?");
+            $stat->bindValue(1, $nome."%");
+            $stat->execute();
+
+            $array = $stat->fetchAll(PDO::FETCH_CLASS, 'Professor');
+
+            return $array;
+
+        }catch(PDOException $ex){
+            echo $ex->getMessage();
+        }
+    }
+
 }
 ?>
