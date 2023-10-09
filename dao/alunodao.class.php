@@ -58,5 +58,36 @@ class AlunoDAO{
         }
     }
 
+    // Listar Alunos
+    public function listarAlunos(){
+        try{
+            $stat = $this->conexao->prepare("select * from aluno");
+            $stat->execute();
+
+            $array = $stat->fetchAll(PDO::FETCH_CLASS, 'Aluno');
+
+            return $array;
+
+        }catch(PDOException $ex){
+            return false;
+        }
+    }
+
+    // Buscar Aluno por nome
+    public function buscarAlunoPorNome($nome){
+        try{
+            $stat = $this->conexao->prepare("select * from aluno where nome like ?");
+            $stat->bindValue(1, $nome."%");
+            $stat->execute();
+
+            $array = $stat->fetchAll(PDO::FETCH_CLASS, 'Aluno');
+
+            return $array;
+
+        }catch(PDOException $ex){
+            return false;
+        }
+    }
+
 }
 ?>
