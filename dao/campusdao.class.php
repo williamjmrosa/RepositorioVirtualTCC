@@ -58,5 +58,22 @@ class CampusDAO{
         }
     }
 
+    // Buscar Campus de um Aluno
+    public function buscarCampusAluno($matricula){
+        try{
+            $stat = $this->conexao->prepare("Select c.idcampus,c.nome From campus as c inner join aluno as a on c.idcampus = a.campus where a.matricula = ?");
+            
+            $stat->bindValue(1,$matricula);
+            
+            $stat->execute();
+            
+            $array = $stat->fetchAll(PDO::FETCH_CLASS, 'Campus');
+            
+            return $array;
+        } catch (PDOException $ex){
+            return $ex->getMessage();
+        }
+    }
+
 }
 ?>
