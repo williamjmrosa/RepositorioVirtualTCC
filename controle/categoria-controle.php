@@ -43,7 +43,7 @@ if (isset($_GET['OP'])) {
             if(!isset($_POST['eSub'])){
                 $erros[] = 'Campo eSub não existe';
             }else{
-                $eSub  = filter_var($_POST['eSub'],FILTER_SANITIZE_SPECIAL_CHARS);
+                $eSub  = filter_var($_POST['eSub'],FILTER_VALIDATE_BOOLEAN);
             }
 
             if($eSub == 'true' && isset($_POST['principal']) && empty($_POST['principal'])){
@@ -63,8 +63,8 @@ if (isset($_GET['OP'])) {
                 $categoria->nomeAlternativo = $nomeAlternativo;
                 $categoria->eSub = $eSub;
                 $categoria->categoriaPrincipal = isset($principal)  ? $principal : NULL;
-                print_r($nomeAlternativo);
-                echo $eSub . ' convertido ' . $categoria->eSub;
+                /*print_r($nomeAlternativo);
+                echo $eSub . ' convertido ' . $categoria->eSub; **/
                 $cDAO = new CategoriaDAO();
                 $cDAO->cadastrarCategoria($categoria);
 
