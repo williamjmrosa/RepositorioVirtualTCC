@@ -56,6 +56,21 @@ class CursoDAO{
         }
     }
 
+    // Buscar curso de um aluno
+    public function buscarCursoAluno($idAluno){
+        try{
+            $stat = $this->conexao->prepare("Select c.idcurso, c.nome, c.ensino From curso c inner join aluno a on c.idcurso = a.curso where a.matricula =?");
+            $stat->bindValue(1, $idAluno);
+            $stat->execute();
+            
+            $array = $stat->fetchAll(PDO::FETCH_CLASS, 'Curso');
+        
+            return $array;
+        }catch(PDOException $ex){
+            echo "Erro ao buscar Curso do Aluno! \n".$ex->getMessage();
+        }
+    }
+
 }
 
 ?>
