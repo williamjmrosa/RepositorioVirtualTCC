@@ -39,7 +39,7 @@ include_once('../Modelo/categoria.class.php');
                   <a href="../visao/telaCadastroCampus.php">Cadastrar Campus</a>
                 </li>
                 <li>
-                  <a href="../visao//telaCadastroCategoria.php">Cadastrar Categoria</a>
+                  <a href="../visao/telaCadastroCategoria.php">Cadastrar Categoria</a>
                 </li>
                 <li>
                   <a href="../visao/telaCadastroAluno.php">Cadastrar Aluno</a>
@@ -49,6 +49,12 @@ include_once('../Modelo/categoria.class.php');
                 </li>
                 <li>
                   <a href="../visao/telaCadastroVisitante.php">Cadastrar Visitante</a>
+                </li>
+                <li>
+                  <a href="../visao/telaCadastroBibliotecario.php">Cadastrar Bibliotecário</a>
+                </li>
+                <li>
+                  <a href="../visao/telaCadastroAdm.php">Cadastrar Administrador</a>
                 </li>
                 <li>
                   <a href="../visao/telaCadastroTCC.php">Cadastrar TCC</a>
