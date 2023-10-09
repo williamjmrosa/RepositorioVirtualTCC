@@ -1,5 +1,5 @@
 <?php
-require '../persistencia/conexaobanco.class.php';
+require_once '../persistencia/conexaobanco.class.php';
 
 class CategoriaDAO{
     private $conexao = null;
@@ -41,6 +41,113 @@ class CategoriaDAO{
         }catch(PDOException $ex){
             echo $ex->getMessage();
         }
+    }
+
+    public function listarCategoriaPrincipal(){
+        try{
+            $stat = $this->conexao->prepare("Select * from categoria where eSub = 0");
+            
+            $stat->execute();
+            
+            $array = $stat->fetchAll(PDO::FETCH_CLASS, 'Categoria');
+
+            return $array;
+
+        }catch(PDOException $ex){
+            echo $ex->getMessage();
+        }
+    }
+
+    public function buscarCategoriaPrincipalPorNome($nome){
+        try{
+            $stat = $this->conexao->prepare("Select c.idCategoria, c.nome, c.eSub, c.categoriaPrincipal from categoria as c join nomeAlternativo as na on c.idCategoria = na.idCategoria where eSub = 0 and nome like ? or nomeAlternativo like ? UNION Select idCategoria, nome, eSub, categoriaPrincipal from categoria where eSub = 0 and nome like ?");
+
+            $stat->bindValue(1,$nome."%");
+            $stat->bindValue(2,$nome."%");
+            $stat->bindValue(3,$nome."%");
+
+            $stat->execute();
+
+            $array = $stat->fetchAll(PDO::FETCH_CLASS, 'Categoria');
+
+            return $array;
+
+        }catch(PDOException $ex){
+            echo $ex->getMessage();
+        }
+    }
+
+    public function listarSubCategorias(){
+        try{
+            $stat = $this->conexao->prepare("Select * from categoria where eSub = 1");
+            
+            $stat->execute();
+            
+            $array = $stat->fetchAll(PDO::FETCH_CLASS, 'Categoria');
+
+            return $array;
+
+        }catch(PDOException $ex){
+            echo $ex->getMessage();
+        }
+    }
+
+    public function listarSubCategoriasPelaPrincipal($id){
+        try{
+            $stat = $this->conexao->prepare("Select * from categoria where eSub = 1 and categoriaPrincipal = ?");
+            
+            $stat->bindValue(1,$id);
+
+            $stat->execute();
+
+            $array = $stat->fetchAll(PDO::FETCH_CLASS, 'Categoria');
+
+            return $array;
+
+        }catch(PDOException $ex){
+            echo $ex->getMessage();
+        }
+    }
+
+    public function buscarSubCategoriasPorNome($nome){
+        try{
+            $stat = $this->conexao->prepare("Select * from categoria as c inner join nomeAlternativo as na on c.idCategoria = na.idCategoria where eSub = 1 and nome like ? or nomeAlternativo like ?");
+
+            $stat->bindValue(1,$nome."%");
+
+            $stat->bindValue(2,$nome."%");
+
+            $stat->execute();
+
+            $array = $stat->fetchAll(PDO::FETCH_CLASS, 'Categoria');
+
+            return $array;
+
+        }catch(PDOException $ex){
+            echo $ex->getMessage();
+        }
+    }
+
+    public function buscarSubCategoriasPorNomeRelacionadoPrincipal($nome,$id){
+        try{
+            $stat = $this->conexao->prepare("Select c.idCategoria, c.nome, c.eSub, c.categoriaPrincipal from categoria as c inner join nomeAlternativo as na on c.idCategoria = na.idCategoria where  c.categoriaPrincipal = ? and eSub = 1 and nome like ? or nomeAlternativo like ? UNION Select idCategoria, nome, eSub, categoriaPrincipal from categoria where eSub = 1 and categoriaPrincipal = ? and nome like ?");
+
+            $stat->bindValue(1,$id);
+            $stat->bindValue(2,$nome."%");
+            $stat->bindValue(3,$nome."%");
+            $stat->bindValue(4,$id);
+            $stat->bindValue(5,$nome."%");
+
+            $stat->execute();
+
+            $array = $stat->fetchAll(PDO::FETCH_CLASS, 'Categoria');
+
+            return $array;
+
+        }catch(PDOException $ex){
+            echo $ex->getMessage();
+        }
+
     }
 
     public function cadastrarNomeAlternativo($nomeAlternativo,$idCategoria){
