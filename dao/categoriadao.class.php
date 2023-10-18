@@ -130,14 +130,13 @@ class CategoriaDAO{
 
     public function buscarSubCategoriasPorNomeRelacionadoPrincipal($nome,$id){
         try{
-            $stat = $this->conexao->prepare("Select c.idCategoria, c.nome, c.eSub, c.categoriaPrincipal from categoria as c inner join nomeAlternativo as na on c.idCategoria = na.idCategoria where  c.categoriaPrincipal = ? and eSub = 1 and nome like ? or nomeAlternativo like ? UNION Select idCategoria, nome, eSub, categoriaPrincipal from categoria where eSub = 1 and categoriaPrincipal = ? and nome like ?");
+            $stat = $this->conexao->prepare("Select c.idCategoria, c.nome, c.eSub, c.categoriaPrincipal from categoria as c inner join nomeAlternativo as na on c.idCategoria = na.idCategoria where c.categoriaPrincipal IN ($id) and eSub = 1 and nome like ? or nomeAlternativo like ? UNION Select idCategoria, nome, eSub, categoriaPrincipal from categoria where eSub = 1 and categoriaPrincipal IN ($id) and nome like ?");
 
-            $stat->bindValue(1,$id);
+            //$stat->bindValue(1,$id);
+            $stat->bindValue(1,$nome."%");
             $stat->bindValue(2,$nome."%");
+            //$stat->bindValue(4,$id);
             $stat->bindValue(3,$nome."%");
-            $stat->bindValue(4,$id);
-            $stat->bindValue(5,$nome."%");
-
             $stat->execute();
 
             $array = $stat->fetchAll(PDO::FETCH_CLASS, 'Categoria');
