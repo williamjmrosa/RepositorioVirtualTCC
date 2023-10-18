@@ -51,7 +51,10 @@ session_start();
                   <a href="../visao/telaCadastroVisitante.php">Cadastrar Visitante</a>
                 </li>
                 <li>
-                    <a href="../visao/telaCadastroBibliotecario.php">Cadastrar Bibliotecario</a>
+                    <a href="../visao/telaCadastroBibliotecario.php">Cadastrar Bibliotecário</a>
+                </li>
+                <li>
+                  <a href="../visao/telaCadastroAdm.php">Cadastrar Administrador</a>
                 </li>
                 <li>
                   <a href="../visao/telaCadastroTCC.php">Cadastrar TCC</a>
