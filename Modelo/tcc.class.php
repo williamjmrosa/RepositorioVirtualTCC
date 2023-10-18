@@ -14,7 +14,7 @@ class TCC{
     private Curso $curso;
     private Campus $campus;
     private Aluno $aluno;
-    private Professor $orientador;
+    private $orientador;
     private $categorias;
 
     //Construtor
@@ -33,7 +33,7 @@ class TCC{
 
     //Método toString
     public function __toString(){
-        nl2br("ID TCC: $this->idTCC
+        return nl2br("ID TCC: $this->idTCC
                 Titulo: $this->titulo
                 Descrição: $this->descricao
                 Local PDF: $this->localPDF
