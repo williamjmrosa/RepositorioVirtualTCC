@@ -20,6 +20,22 @@ Class Validacao{
         return preg_match($exp, $v);
     }
 
+    //Função que valida se arquivo é PDF
+    public static function validarPDF($file){
+        $finfo = finfo_open(FILEINFO_MIME_TYPE);
+        $mimeType = finfo_file($finfo, $file);
+        
+        if ($mimeType == 'application/pdf') {
+            $resposta = true;
+        } else {
+            $resposta = false;
+        }
+        
+        finfo_close($finfo);
+
+        return $resposta;
+    }
+
     //Função que valida senha
     public static function validarSenha($v){
         $exp ='/^.{6,25}$/';
