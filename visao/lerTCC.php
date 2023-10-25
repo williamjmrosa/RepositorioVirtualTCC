@@ -79,8 +79,16 @@ if(!isset($_GET['TCC'])){
                         </li>
                     </ul>
                 </div>
-                <div class="text-center">
+                <div class="text-center row g-3 w-100">
+                    <div class="col-lg-10 text-center">
                     <h3><?php echo $tcc['titulo']?></h3>
+                    </div>
+                    <div class="col-lg-2 text-end">
+                    <form action="../controle/tcc-controle.php?OP=4" method="post">
+                        <input type="hidden" name="idTCC" value="<?php echo $idTCC?>">
+                        <button type="submit" class="btn fundo-secundario fw-bold">Baixar TCC</button>
+                    </form>
+                    </div>
                 </div>
             </nav>
         </div>
