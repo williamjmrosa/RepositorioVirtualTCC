@@ -85,8 +85,10 @@ class TCCDAO{
                 
                 $stat->execute();
 
-                return true;
             }
+
+            return true;
+
         }catch(PDOException $ex){
             $this->gerenciarErros($ex->getMessage());
             //$_SESSION['erro'] =  $ex->getMessage();
@@ -104,9 +106,12 @@ class TCCDAO{
                 
                 $stat->execute();
 
-                return true;
+                
 
             }
+
+            return true;
+
         }catch(PDOException $ex){
             $this->gerenciarErros($ex->getMessage());
             //$_SESSION['erro'] =  $ex->getMessage();
@@ -155,6 +160,142 @@ class TCCDAO{
         }catch(PDOException $ex){
             $this->gerenciarErros($ex->getMessage());
             //$_SESSION['erro'] =  $ex->getMessage();
+        }
+    }
+
+    // Listar TCC
+    public function listarTCC($paginaAtual){
+        try{
+
+            $con = $this->conexao->prepare("Select count(*) as total from tcc");
+
+            $con->execute();
+
+            $totalRegistros = $con->fetch(PDO::FETCH_ASSOC)['total'];
+
+            $registrosPorPagina = 2;
+
+            $totalPaginas = ceil($totalRegistros / $registrosPorPagina);
+
+            if($paginaAtual > $totalPaginas){
+                $paginaAtual = $totalPaginas;
+            }
+
+            $offset = ($paginaAtual - 1) * $registrosPorPagina;
+
+            $_SESSION['totalPaginas'] = $totalPaginas;
+
+            $con->closeCursor();
+
+            $stat = $this->conexao->prepare("Select * from tcc LIMIT :offset,:registrosPorPagina");
+
+            $stat->bindValue(':offset',$offset,PDO::PARAM_INT);
+
+            $stat->bindValue(':registrosPorPagina',$registrosPorPagina,PDO::PARAM_INT);
+
+            $stat->execute();
+
+            $array = $stat->fetchAll(PDO::FETCH_CLASS, 'TCC');
+
+            $array = $this->listarOrientador($array);
+
+            $array = $this->listarCategorias($array);
+
+            $array = $this->buscarAlunoPorTCC($array);
+
+            return $array;
+
+        }catch(PDOException $ex){
+            echo $ex->getMessage();
+            //$this->gerenciarErros($ex->getMessage());
+        }
+
+
+    }
+
+    // Listar Orientador do TCC
+    public function listarOrientador($lista){
+        try{
+
+            for($i = 0; $i < count($lista); $i++){
+
+                $stat = $this->conexao->prepare("Select p.nome from orientador as o inner join professor as p on o.matricula = p.matricula where o.idTCC = ?");
+                $stat->bindValue(1,$lista[$i]->idTCC);
+                $stat->execute();
+
+                $array = $stat->fetchAll(PDO::FETCH_CLASS, 'Professor');
+
+                $lista[$i]->orientador = $array;
+
+            }
+
+            return $lista;
+
+        }catch(PDOException $ex){
+            $this->gerenciarErros($ex->getMessage());
+        }
+        
+    }
+
+    // Listar Categorias do TCC
+    public function listarCategorias($lista){
+        try{
+            for($i = 0; $i < count($lista); $i++){
+
+                $stat = $this->conexao->prepare("Select ca.nome from categorias as c inner join categoria as ca on c.idCategoria = ca.idCategoria where c.idTCC = ?");
+                $stat->bindValue(1,$lista[$i]->idTCC);
+                $stat->execute();
+
+                $array = $stat->fetchAll(PDO::FETCH_CLASS, 'Categoria');
+
+                $lista[$i]->categorias = $array;
+
+            }
+
+            return $lista;
+
+        }catch(PDOException $ex){
+            $this->gerenciarErros($ex->getMessage());
+        }
+
+    }
+
+    // Buscar Aluno do TCC
+    public function buscarAlunoPorTCC($lista){
+        try{
+
+            for($i = 0; $i < count($lista); $i++){
+
+            $stat = $this->conexao->prepare("Select a.nome from tcc as t inner join aluno as a on t.matricula = a.matricula where t.idTCC = ?");
+            $stat->bindValue(1,$lista[$i]->idTCC);
+            $stat->execute();
+
+            $aluno = $stat->fetchAll(PDO::FETCH_CLASS, 'Aluno');
+            
+        
+            $lista[$i]->aluno = $aluno[0];
+        }
+
+            return $lista;
+
+        }catch(PDOException $ex){
+            $this->gerenciarErros($ex->getMessage());
+        }
+    }
+
+    // Buscar TCC por id
+    public function buscarTCCID($id){
+        try{
+            $stat = $this->conexao->prepare("Select * from tcc where idTCC = ?");
+            $stat->bindValue(1,$id);
+            $stat->execute();
+
+            $array = $stat->fetch(PDO::FETCH_ASSOC);
+
+            return $array;
+
+        }catch(PDOException $ex){
+            $this->gerenciarErros($ex->getMessage());
         }
     }
 
