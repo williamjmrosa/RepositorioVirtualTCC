@@ -1,5 +1,30 @@
 <?php
 session_start();
+include_once '../dao/tccdao.class.php';
+include_once '../Modelo/tcc.class.php';
+include_once '../Modelo/aluno.class.php';
+include_once '../Modelo/curso.class.php';
+include_once '../Modelo/campus.class.php';
+include_once '../Modelo/professor.class.php';
+include_once '../Modelo/categoria.class.php';
+
+function gerarImagem($caminho_pdf, $id)
+{
+
+    if (!file_exists($caminho_pdf . 'capa.jpg')) {
+        // Define o caminho do diretório onde a imagem será salva
+        $diretorio_imagens = "../TCC/$id/";
+        // Comando Ghostscript para extrair a imagem da capa
+        $comando_ghostscript = 'gs -dFirstPage=1 -dLastPage=1 -sDEVICE=jpeg -dJPEGQ=100 -r300 -o "' . $diretorio_imagens . 'capa.jpg" "' . $caminho_pdf . '"';
+        // Executa o comando Ghostscript para extrair a imagem da capa
+        $output = shell_exec($comando_ghostscript);
+    }
+    // Obtém o caminho completo da imagem
+    $caminho_imagem = $diretorio_imagens . 'capa.jpg';
+
+    return $caminho_imagem;
+}
+
 ?>
 <!DOCTYPE html>
 <html lang="pt-br">
@@ -28,8 +53,7 @@ session_start();
                 <div class="div-login">
                     <ul id="login">
                         <li>
-                            <a class="btn fundo-secundario fw-bold m-1" href="#"><img id="img-login" class="me-4"
-                                    src="../img/login.png" />Login</a>
+                            <a class="btn fundo-secundario fw-bold m-1" href="#"><img id="img-login" class="me-4" src="../img/login.png" />Login</a>
                             <ul class="fundo-secundario p-2 fw-bold text-start">
                                 <li>
                                     <a href="../visao/telaCadastroCurso.php">Cadastrar Curso</a>
@@ -38,7 +62,7 @@ session_start();
                                     <a href="../visao/telaCadastroCampus.php">Cadastrar Campus</a>
                                 </li>
                                 <li>
-                                    <a href="../visao//telaCadastroCategoria.php">Cadastrar Categoria</a>
+                                    <a href="../visao/telaCadastroCategoria.php">Cadastrar Categoria</a>
                                 </li>
                                 <li>
                                     <a href="../visao/telaCadastroAluno.php">Cadastrar Aluno</a>
@@ -50,9 +74,16 @@ session_start();
                                     <a href="../visao/telaCadastroVisitante.php">Cadastrar Visitante</a>
                                 </li>
                                 <li>
+                                    <a href="../visao/telaCadastroBibliotecario.php">Cadastrar Bibliotecário</a>
+                                </li>
+                                <li>
+                                    <a href="../visao/telaCadastroAdm.php">Cadastrar Administrador</a>
+                                </li>
+                                <li>
                                     <a href="../visao/telaCadastroTCC.php">Cadastrar TCC</a>
                                 </li>
                             </ul>
+
                         </li>
                     </ul>
                 </div>
@@ -62,8 +93,7 @@ session_start();
                             <option value="">Autor</option>
                             <option value="">Titulo</option>
                         </select>
-                        <input class="form-control w-50 d-inline-block" type="text" name="pesquisar"
-                            placeholder="Pesquise">
+                        <input class="form-control w-50 d-inline-block" type="text" name="pesquisar" placeholder="Pesquise">
                         <input class="pesquisar form-control d-inline-block w-auto" type="submit" value="&#128270;">
                     </form>
                 </div>
@@ -86,146 +116,112 @@ session_start();
 
                 </span>
             </div>
-            <details>
-                <summary>Campus</summary>
-                <label class="container-filtro">IFRS Canoas
-                    <input type="checkbox">
-                    <span class="filtro"></span>
-                </label>
-
-                <label class="container-filtro">IFRS Alvorada
-                    <input type="checkbox">
-                    <span class="filtro"></span>
-                </label>
-
-                <label class="container-filtro">IFRS Bento Gonçalves
-                    <input type="checkbox">
-                    <span class="filtro"></span>
-                </label>
-
-                <label class="container-filtro">IFRS Caxias do Sul
-                    <input type="checkbox">
-                    <span class="filtro"></span>
-                </label>
-
-                <label class="container-filtro">IFRS Erechim
-                    <input type="checkbox">
-                    <span class="filtro"></span>
-                </label>
-
-                <label class="container-filtro">IFRS Farroupilha
-                    <input type="checkbox">
-                    <span class="filtro"></span>
-                </label>
-
-                <label class="container-filtro">IFRS Feliz
-                    <input type="checkbox">
-                    <span class="filtro"></span>
-                </label>
-
-                <label class="container-filtro">IFRS Ibirubá
-                    <input type="checkbox">
-                    <span class="filtro"></span>
-                </label>
-
-                <label class="container-filtro">IFRS Osório
-                    <input type="checkbox">
-                    <span class="filtro"></span>
-                </label>
-
-                <label class="container-filtro">IFRS Porto Alegre
-                    <input type="checkbox">
-                    <span class="filtro"></span>
-                </label>
+            <div>
+                <input type="text" id="buscarCampus" class="form-control mb-2" placeholder="Buscar campus">
+            </div>
+            <details id="listaCampus" open>
+                <!-- Lista de Campus -->
+                <!-- Carregado ao carregar a tela via JS -->
             </details>
-
+            <hr>
+            <div>
+                <input type="text" id="buscarCategoriaPrincipal" class="form-control mb-2" placeholder="Buscar Categoria Principal">
+            </div>
+            <details class="m-1" id="listarCategoriasPrincipal">
+                <!-- Lista de Categorias -->
+                <!-- Carregado ao carregar a tela via JS -->
+            </details>
             <hr>
         </div>
         <!-- Fim Filtro Esquerdo -->
         <!-- Inicio Conteudo -->
         <div class="conteudo float-start ms-1 me-1">
             <h1>Conteudo</h1>
-            <div class="card mb-3 ms-2 me-2" style="max-width: 100%;">
-                <a href="">
-                    <div class="row g-0">
-                        <div class="col-md-2">
-                            <img src="../img/PDF1.png" class="img-fluid rounded-start" alt="...">
-                        </div>
-                        <div class="col-md-10">
-                            <div class="card-body">
-                                <h5 class="card-title">Introdução a Programação com Linguagem C <b>(Livro Digital)</b>
-                                </h5>
-                                <p class="card-text">Autor: Rodrigo de Barros Paes
-                                    <br>ISBN impresso: 978-85-7522-485-4
-                                    <br>ISBN ebook: 978-85-7522-631-5
-                                    <br>Ano: 2016 Páginas: 296
-                                </p>
-                                <p class="card-text"><small class="text-muted">Last updated 3 mins ago</small></p>
+            <?php
+
+            
+            if(!isset($_SESSION['listaTCC']) || isset($_GET['pagina'])) {
+                $tccDAO = new TCCDAO();
+                $listaTCC = $tccDAO->listarTCC(isset($_GET['pagina']) ? $_GET['pagina'] : 1);
+                $_SESSION['listaTCC'] = serialize($listaTCC);
+            }else{
+                $listaTCC = unserialize($_SESSION['listaTCC']);
+                unset($_SESSION['listaTCC']);
+            }
+            
+            
+
+            foreach ($listaTCC as $tcc) {
+
+                echo "<div class='card mb-3 ms-2 me-2' style='max-width: 100%;'>
+                        <a href='../visao/lerTCC.php?TCC=" . $tcc->idTCC . "''>
+                            <div class='row g-0'>
+                                <div class='col-md-2'>
+                                    <img src='" . gerarImagem($tcc->localPDF, $tcc->idTCC) . "' class='img-fluid rounded-start' alt='...'>
+                                </div>
+                                <div class='col-md-10'>
+                                    <div class='card-body'>
+                                        <h5 class='card-title'>$tcc->titulo</h5>
+                                        <p class='card-text'>Autor: " . $tcc->aluno->nome . "</p>
+                                        <p class='card-text'>Orientadores: " . $tcc->verOrientadores() . "</p>
+                                    </div>
+                                </div>
                             </div>
-                        </div>
-                    </div>
-                </a>
-            </div>
-            <div class="card mb-3 ms-2 me-2" style="max-width: 100%;">
-                <a href="">
-                    <div class="row g-0">
-                        <div class="col-md-2">
-                            <img src="../img/PDF.svg" class="img-fluid rounded-start m-2" alt="...">
-                        </div>
-                        <div class="col-md-10">
-                            <div class="card-body">
-                                <h5 class="card-title">Algoritmos e Programação - Teoria e Prática <b>(Livro
-                                        Digital)</b></h5>
-                                <p class="card-text">Autor: Marco Medina Cristina Fertig
-                                    <br>ISBN impresso: 85-7522-073-X
-                                    <br>ISBN ebook: 978-85-7522-631-5
-                                    <br>Ano: 2005 Páginas: 384
-                                </p>
-                                <p class="card-text"><small class="text-muted">Last updated 3 mins ago</small></p>
-                            </div>
-                        </div>
-                    </div>
-                </a>
-            </div>
-            <div class="card mb-3" style="max-width: 100%;">
-                <a href="#">
-                    <div class="row g-0">
-                        <div class="col-md-2">
-                            <img src="../img/PDF.png" class="img-fluid rounded-start" alt="...">
-                        </div>
-                        <div class="col-md-10">
-                            <div class="card-body">
-                                <h5 class="card-title">Introdução à Programação com Python - 3ª Edição <b>(Livro
-                                        Digital)</b></h5>
-                                <p class="card-text">Autor: Nilo Ney Coutinho Menezes
-                                    <br>ISBN impresso: 978-85-7522-718-3
-                                    <br>Ano: 2019
-                                    <br>Páginas: 328
-                                </p>
-                                <p class="card-text"><small class="text-muted">Last updated 3 mins ago</small></p>
-                            </div>
-                        </div>
-                    </div>
-                </a>
-            </div>
+                        </a>
+                    </div>";
+            }
+
+            ?>
+            <nav aria-label="Navegação de página exemplo">
+                <ul class="pagination align-items-center justify-content-center">
+                    <?php
+                        $paginaAtual = isset($_GET['pagina']) ? $_GET['pagina'] : 1;
+                        $totalPaginas = isset($_SESSION['totalPaginas']) ? $_SESSION['totalPaginas'] : 1;
+
+
+
+                        if ($paginaAtual > 1) {
+                            echo "<li class='page-item'><a class='page-link' href='?pagina=" . ($paginaAtual - 1) . "'>Anterior</a></li>";
+                        }elseif($paginaAtual == 1){
+                            echo "<li class='page-item disabled'><a class='page-link' href='?pagina=" . ($paginaAtual - 1) . "'>Anterior</a></li>";
+                        }
+                            for ($i = 1; $i <= $totalPaginas; $i++) {
+                                if($i == $paginaAtual){
+                                    echo "<li class='page-item active'><a class='page-link' href='?pagina=" . $i . "'>" . $i . "</a></li>";
+                                }else{
+                                    echo "<li class='page-item'><a class='page-link' href='?pagina=" . $i . "'>" . $i . "</a></li>";
+                                }
+                            }
+                        if ($paginaAtual < $totalPaginas) {
+                            echo "<li class='page-item'><a class='page-link' href='?pagina=" . ($paginaAtual + 1) . "'>Próximo</a></li>";
+                        }elseif($totalPaginas == $paginaAtual){
+                            echo "<li class='page-item disabled'><a class='page-link' href='?pagina=" . ($paginaAtual + 1) . "'>Próximo</a></li>";
+                        }
+                    ?>
+                </ul>
+            </nav>
         </div>
+
         <!-- Fim Conteudo -->
         <!-- Inicio Filtro Direito -->
         <div class="filtro-direito float-end">
             <p class="clear">Filtro Direiro</p>
-            <details class="m-1">
-                <summary>Curso</summary>
-                <label class="container-filtro mt-1" for="TADS">Tecnologia em Análise e Desenvolvimento de Sistemas
-                    <input type="checkbox" value="" id="TADS">
-                    <span class="filtro"></span>
-                </label>
-
-                <label class="container-filtro" for="MAT">Matematica
-                    <input class="form-check-input" type="checkbox" value="" id="MAT">
-                    <span class="filtro"></span>
-                </label>
+            <div>
+                <input type="text" id="buscarCurso" class="form-control mb-2" placeholder="Buscar Curso">
+            </div>
+            <details class="m-1" id="listaCursos">
+                <!-- Lista de Cursos -->
+                <!-- Carregado ao carregar a tela via JS -->
             </details>
             <hr>
+            <div>
+                <input type="text" id="buscarCategoriaSecundaria" class="form-control mb-2" placeholder="Buscar Sub Categoria">
+            </div>
+            <details class="m-1" id="listaSubCategorias">
+                <!-- Lista de Sub Categorias -->
+                <!-- Carregado ao carregar a tela via JS -->
+            </details>
+           
         </div>
         <!-- Fim Filtro Direito -->
 
@@ -234,6 +230,7 @@ session_start();
     <script src="../Framework/js/jquery-3.6.4.js"></script>
     <script src="../Framework/js/popper.min.js"></script>
     <script src="../Framework/js/bootstrap.js"></script>
+    <script src="../js/js-tela-principal.js"></script>
 </body>
 
 </html>
