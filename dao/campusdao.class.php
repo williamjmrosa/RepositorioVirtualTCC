@@ -75,5 +75,22 @@ class CampusDAO{
         }
     }
 
+    // Buscar Campus por nome
+    public function buscarCampusPorNome($nome){
+        try{
+            $stat = $this->conexao->prepare("Select * From campus where nome like ?");
+            
+            $stat->bindValue(1, $nome."%");
+            
+            $stat->execute();
+            
+            $array = $stat->fetchAll(PDO::FETCH_CLASS, 'Campus');
+            
+            return $array;
+        } catch (PDOException $ex){
+            return $ex->getMessage();
+        }
+    }
+
 }
 ?>
