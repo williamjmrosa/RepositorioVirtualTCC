@@ -152,6 +152,43 @@ if(isset($_GET['OP'])){
             header('Location: ../visao/telaCadastroTCC.php');
 
         break;
+        //Alterar TCC
+        case 2:
+            break;
+        //Excluir TCC
+        case 3:
+            break;
+        // Baixar TCC
+        case 4:
+            $tccDAO = new TCCDAO();
+
+            if(isset($_POST['idTCC'])){
+                $idTCC = filter_var($_POST['idTCC'], FILTER_SANITIZE_NUMBER_INT);
+            }else{
+                $_SESSION['erro'] = 'Acesso Invalido';
+                header('Location: ../visao/index.php');
+            }
+            
+            $tcc = $tccDAO->buscarTCCID($idTCC);
+
+            // Caminho do arquivo PDF no servidor
+            $caminho_arquivo = $tcc['localPDF'];
+            
+            // Define o nome do arquivo para download
+            $nome_arquivo = $tcc['titulo'] . '.pdf';
+            
+            // Define o tipo de conteúdo como PDF
+            header('Content-Type: application/pdf');
+            
+            // Define o cabeçalho para download
+            header('Content-Disposition: attachment; filename="' . $nome_arquivo . '"');
+            
+            // Lê e envia o conteúdo do arquivo PDF
+            readfile($caminho_arquivo);
+            
+            // Encerra o script
+            header('Location: ../visao/lerTCC.php?TCC=' .$idTCC);
+            break;
         default:
         break;
     }
