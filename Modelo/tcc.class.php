@@ -31,6 +31,16 @@ class TCC{
         $this->$t = $v;
     }
 
+    // Ver Orientadores
+    public function verOrientadores(){
+        $nomes = "";
+        foreach($this->orientador as $v){
+            $nomes = $nomes . "<br>" . $v->nome;
+        }
+
+        return $nomes;
+    }
+
     //Método toString
     public function __toString(){
         return nl2br("ID TCC: $this->idTCC
@@ -40,7 +50,6 @@ class TCC{
                 Curso: $this->curso
                 Campus: $this->campus
                 Aluno: $this->aluno
-                Orientador: $this->orientador
                 Categorias: $this->categorias");
     }
 
