@@ -2,9 +2,17 @@
 include_once '../dao/categoriadao.class.php';
 include_once '../Modelo/categoria.class.php';
 
-function checkCategorias($array){
+function checkCategoriasPrincipal($array){
+    echo '<summary>Categoria Principal</summary>';
     foreach($array as $categoria){
-        echo "<label class='container-filtro'> $categoria->nome <input name='listarCategorias[]' type='checkbox' value='$categoria->idCategoria'><span class='filtro'></span></label>";
+        echo "<label class='container-filtro m-2'> $categoria->nome <input class='categoria' name='listarCategoriasPrincipal[]' type='checkbox' value='$categoria->idCategoria' onClick='categoriaPrincipalSelecionados(this)'><span class='filtro'></span></label>";
+    }
+}
+
+function checkCategoriasSecundaria($array){
+    echo '<summary>Categoria Secundaria</summary>';
+    foreach($array as $categoria){
+        echo "<label class='container-filtro m-2'> $categoria->nome <input class='categoria' name='listarCategoriasSecundaria[]' type='checkbox' value='$categoria->idCategoria' onClick='categoriaPrincipalSelecionados(this)'><span class='filtro'></span></label>";
     }
 }
 
@@ -17,24 +25,22 @@ if(isset($_GET['OP'])){
             $categoriaDAO = new CategoriaDAO();
             $array = $categoriaDAO->listarCategoriaPrincipal();
 
-            echo '<summary>Cursos</summary>';
-            checkCategorias($array);
+            checkCategoriasPrincipal($array);
 
             break;
 
         // Listar Categoria Secundaria
         case 2:
             $categoriaDAO = new CategoriaDAO();
-            if(isset($_GET['id'])){
-                $id = filter_var($_GET['id'], FILTER_SANITIZE_NUMBER_INT);
+            if(isset($_GET['ID'])){
+                $id = filter_var($_GET['ID'], FILTER_SANITIZE_NUMBER_INT);
 
                 $array = $categoriaDAO->listarSubCategoriasPelaPrincipal($id);
             }else{
                 $array = $categoriaDAO->listarSubCategorias();
             }
 
-            echo '<summary>Categoria Secundaria</summary>';
-            checkCategorias($array);
+           checkCategoriasSecundaria($array);
 
         break;
 
@@ -49,25 +55,50 @@ if(isset($_GET['OP'])){
                 $array = $categoriaDAO->listarCategoriaPrincipal();
             }
 
+            checkCategoriasPrincipal($array);
+
+        break;
+
+        // Buscar Categoria Secundaria
+        case 4:
+            $categoriaDAO = new CategoriaDAO();
+            if(isset($_GET['BUSCA']) && isset($_GET['ID'])){
+                $busca = filter_var($_GET['BUSCA'], FILTER_SANITIZE_SPECIAL_CHARS);
+
+                $id = filter_var($_GET['ID'], FILTER_SANITIZE_NUMBER_INT);
+
+                $array = $categoriaDAO->buscarSubCategoriasPorNomeRelacionadoPrincipal($busca, $id);
+
+            }elseif(isset($_GET['BUSCA'])){
+                
+                $busca = filter_var($_GET['BUSCA'], FILTER_SANITIZE_SPECIAL_CHARS);
+
+                $array = $categoriaDAO->buscarSubCategoriasPorNome($busca);
+
+            }elseif(isset($_GET['ID'])){
+                $id = filter_var($_GET['ID'], FILTER_SANITIZE_NUMBER_INT);
+
+                $array = $categoriaDAO->listarSubCategoriasPelaPrincipal($id);
+            }else{
+                $array = $categoriaDAO->listarSubCategorias();
+            }
+
+            checkCategoriasSecundaria($array);
+
+        break;
 
 
         default:
-            echo '<summary>Cursos</summary>';
+            echo '<summary>Categoria</summary>';
             $categoriaDAO = new CategoriaDAO();
-            foreach($categoriaDAO->listarSubCategorias() as $categoria){
-                echo "<label class='container-filtro'> $categoria->nome <input type='checkbox' name='categoria[]' value='$categoria->idCategoria'><span class='filtro'></span></label>";
-            }
-
+            checkCategoriasPrincipal($categoriaDAO->listarCategoria());
             break;
 
     }
 
 }else{
-    echo '<summary>Cursos</summary>';
     $categoriaDAO = new CategoriaDAO();
-    foreach($categoriaDAO->listarCategoria() as $categoria){
-        echo "<label class='container-filtro'> $categoria->nome <input type='checkbox' name='categoria[]' value='$categoria->idCategoria'><span class='filtro'></span></label>";
-    }
+    checkCategoriasPrincipal($categoriaDAO->listarCategoria());
 }
 
 ?>
