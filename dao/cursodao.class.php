@@ -86,6 +86,40 @@ class CursoDAO{
         }
     }
 
+    // Buscar curso de um campus
+    public function buscarCursoDeCampus($idCampus){
+        try{
+            $stat = $this->conexao->prepare("Select c.idCurso, c.nome, c.ensino From Curso as c inner join campus_curso cc on c.idCurso = cc.idCurso where cc.idcampus = ?");
+            $stat->bindValue(1, $idCampus);
+            $stat->execute();
+            
+            $array = $stat->fetchAll(PDO::FETCH_CLASS, 'Curso');
+        
+            return $array;
+        }catch(PDOException $ex){
+            echo "Erro ao buscar Curso por ID! \n".$ex->getMessage();
+        }
+    }
+
+    // Buscar curso por nome nos curso de um campus
+    public function buscarCursoPorNomeCampus($nome, $idCampus){
+        try{
+            $stat = $this->conexao->prepare("Select c.idCurso, c.nome, c.ensino From Curso c inner join campus_curso cc on c.idCurso = cc.idCurso where cc.idCampus = ? and c.nome like ?");
+            $stat->bindValue(1, $idCampus);
+            $stat->bindValue(2, $nome."%");
+            $stat->execute();
+            
+            $array = $stat->fetchAll(PDO::FETCH_CLASS, 'Curso');
+        
+            return $array;
+        }catch(PDOException $ex){
+            echo "Erro ao buscar Curso por Nome! \n".$ex->getMessage();
+        }
+    }
+
+
+
+
 }
 
 ?>
