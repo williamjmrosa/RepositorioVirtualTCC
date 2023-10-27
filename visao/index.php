@@ -105,16 +105,18 @@ function gerarImagem($caminho_pdf, $id)
         <!-- Inicio Filtro Esquerdo -->
         <div class="filtro-esquerdo float-start p-1">
             <div id="filtrosSelecionados" class="mb-3">
-                <p class="clear">Filtros Selecionados:</p>
+                <form action="" method="post">
 
-                <span class="badge bg-danger">Campus Canoas
-                    <input class="btn-close" type="button">
-                </span>
-                <span class="badge bg-info">HTML <input class="btn-close" type="button"></span>
-                <span class="badge selecionado bg-success">Tecnologia em Analise e Desenvolvimento de Sistemas
-                    <input class="btn-close" type="button">
+                    <p class="clear">Filtros Selecionados:</p>
 
-                </span>
+                    <span class="badge bg-danger">Campus Canoas
+                        <input class="btn-close" type="button">
+                    </span>
+                    <span class="badge bg-info">HTML <input class="btn-close" type="button"></span>
+                    <span class="badge selecionado bg-success">Tecnologia em Analise e Desenvolvimento de Sistemas
+                        <input class="btn-close" type="button">
+                    </span>
+                </form>
             </div>
             <div>
                 <input type="text" id="buscarCampus" class="form-control mb-2" placeholder="Buscar campus">
@@ -139,17 +141,17 @@ function gerarImagem($caminho_pdf, $id)
             <h1>Conteudo</h1>
             <?php
 
-            
-            if(!isset($_SESSION['listaTCC']) || isset($_GET['pagina'])) {
+
+            if (!isset($_SESSION['listaTCC']) || isset($_GET['pagina'])) {
                 $tccDAO = new TCCDAO();
                 $listaTCC = $tccDAO->listarTCC(isset($_GET['pagina']) ? $_GET['pagina'] : 1);
                 $_SESSION['listaTCC'] = serialize($listaTCC);
-            }else{
+            } else {
                 $listaTCC = unserialize($_SESSION['listaTCC']);
                 unset($_SESSION['listaTCC']);
             }
-            
-            
+
+
 
             foreach ($listaTCC as $tcc) {
 
@@ -175,28 +177,28 @@ function gerarImagem($caminho_pdf, $id)
             <nav aria-label="Navegação de página exemplo">
                 <ul class="pagination align-items-center justify-content-center">
                     <?php
-                        $paginaAtual = isset($_GET['pagina']) ? $_GET['pagina'] : 1;
-                        $totalPaginas = isset($_SESSION['totalPaginas']) ? $_SESSION['totalPaginas'] : 1;
+                    $paginaAtual = isset($_GET['pagina']) ? $_GET['pagina'] : 1;
+                    $totalPaginas = isset($_SESSION['totalPaginas']) ? $_SESSION['totalPaginas'] : 1;
 
 
 
-                        if ($paginaAtual > 1) {
-                            echo "<li class='page-item'><a class='page-link' href='?pagina=" . ($paginaAtual - 1) . "'>Anterior</a></li>";
-                        }elseif($paginaAtual == 1){
-                            echo "<li class='page-item disabled'><a class='page-link' href='?pagina=" . ($paginaAtual - 1) . "'>Anterior</a></li>";
+                    if ($paginaAtual > 1) {
+                        echo "<li class='page-item'><a class='page-link' href='?pagina=" . ($paginaAtual - 1) . "'>Anterior</a></li>";
+                    } elseif ($paginaAtual == 1) {
+                        echo "<li class='page-item disabled'><a class='page-link' href='?pagina=" . ($paginaAtual - 1) . "'>Anterior</a></li>";
+                    }
+                    for ($i = 1; $i <= $totalPaginas; $i++) {
+                        if ($i == $paginaAtual) {
+                            echo "<li class='page-item active'><a class='page-link' href='?pagina=" . $i . "'>" . $i . "</a></li>";
+                        } else {
+                            echo "<li class='page-item'><a class='page-link' href='?pagina=" . $i . "'>" . $i . "</a></li>";
                         }
-                            for ($i = 1; $i <= $totalPaginas; $i++) {
-                                if($i == $paginaAtual){
-                                    echo "<li class='page-item active'><a class='page-link' href='?pagina=" . $i . "'>" . $i . "</a></li>";
-                                }else{
-                                    echo "<li class='page-item'><a class='page-link' href='?pagina=" . $i . "'>" . $i . "</a></li>";
-                                }
-                            }
-                        if ($paginaAtual < $totalPaginas) {
-                            echo "<li class='page-item'><a class='page-link' href='?pagina=" . ($paginaAtual + 1) . "'>Próximo</a></li>";
-                        }elseif($totalPaginas == $paginaAtual){
-                            echo "<li class='page-item disabled'><a class='page-link' href='?pagina=" . ($paginaAtual + 1) . "'>Próximo</a></li>";
-                        }
+                    }
+                    if ($paginaAtual < $totalPaginas) {
+                        echo "<li class='page-item'><a class='page-link' href='?pagina=" . ($paginaAtual + 1) . "'>Próximo</a></li>";
+                    } elseif ($totalPaginas == $paginaAtual) {
+                        echo "<li class='page-item disabled'><a class='page-link' href='?pagina=" . ($paginaAtual + 1) . "'>Próximo</a></li>";
+                    }
                     ?>
                 </ul>
             </nav>
@@ -215,13 +217,14 @@ function gerarImagem($caminho_pdf, $id)
             </details>
             <hr>
             <div>
-                <input type="text" id="buscarCategoriaSecundaria" class="form-control mb-2" placeholder="Buscar Sub Categoria">
+                <input type="text" id="buscar" class="form-control mb-2 buscarCategoriaSecundaria" placeholder="Buscar Sub Categoria" oninput="buscarCategoriaSecundaria(this)">
+
+                <details class="m-1" id="listaSubCategorias">
+                    <!-- Lista de Sub Categorias -->
+                    <!-- Carregado ao carregar a tela via JS -->
+                </details>
+                <hr>
             </div>
-            <details class="m-1" id="listaSubCategorias">
-                <!-- Lista de Sub Categorias -->
-                <!-- Carregado ao carregar a tela via JS -->
-            </details>
-           
         </div>
         <!-- Fim Filtro Direito -->
 
