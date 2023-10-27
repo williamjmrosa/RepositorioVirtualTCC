@@ -9,13 +9,13 @@ if(isset($_GET['BUSCA'])){
     $campusDAO = new CampusDAO();
         echo '<summary>Campus</summary>';
     foreach($campusDAO->buscarCampusPorNome($busca) as $campus){
-        echo "<label class='container-filtro'>IFRS $campus->nome <input type='checkbox' name='listarCampus[]' value='$campus->idCampus'><span class='filtro'></span></label>";
+        echo "<label class='container-filtro'>$campus->nome <input type='checkbox' name='listarCampus[]' value='$campus->idCampus' onClick='campusSelecionados(this)'><span class='filtro'></span></label>";
     }
 }else{
     echo '<summary>Campus</summary>';
     $campusDAO = new CampusDAO();
     foreach($campusDAO->listarCampus() as $campus){
-        echo "<label class='container-filtro'>IFRS  $campus->nome <input type='checkbox' name='listarCampus[]' value='$campus->idCampus'><span class='filtro'></span></label>";
+        echo "<label class='container-filtro'>$campus->nome <input type='checkbox' name='listarCampus[]' value='$campus->idCampus' onClick='campusSelecionados(this)'><span class='filtro'></span></label>";
     }
 }
 ?>
