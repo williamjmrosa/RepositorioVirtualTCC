@@ -41,6 +41,16 @@ class TCC{
         return $nomes;
     }
 
+    //Ver Categorias
+    public function verCategorias(){
+        $nomes = "";
+        foreach($this->categorias as $v){
+            ($nomes == "") ? $nomes = $v->nome : $nomes = $nomes . "," . $v->nome;
+        }
+    
+        return $nomes;
+    }
+
     //Método toString
     public function __toString(){
         return nl2br("ID TCC: $this->idTCC

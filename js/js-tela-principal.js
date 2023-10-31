@@ -1,13 +1,36 @@
-campusSelecionado = null;
+var campusSelecionado = null;
 
 // Função para carregar a lista de Campus
-$("#listaCampus").load("../filtrosIndex/checkCampus.php");
+$("#listaCampus").load("../filtrosIndex/checkCampus.php",function(){
+    var valor = $('#formFiltrar input[name="campus"]');
+    var buscar = $(this).find('input[name="listarCampus[]"][value="' + valor.val() + '"]');
+
+    buscar.prop('checked', true);
+
+    valor.parent().remove();
+
+    campusSelecionados(buscar);
+
+});
 
 // Função para carregar a lista de Cursos
 $("#listaCursos").load("../filtrosIndex/checkCursos.php?OP=1");
 
 // Função para carregar a lista de Categorias
-$("#listarCategoriasPrincipal").load("../filtrosIndex/checkCategorias.php?OP=1");
+$("#listarCategoriasPrincipal").load("../filtrosIndex/checkCategorias.php?OP=1",function(){
+    var categorias = $('#formFiltrar input[name="categorias[]"]');
+    var buscar = $(this)
+    categorias.each(function(){
+        var valor = $(this);
+        var cat = buscar.find('input[value="' + valor.val() + '"]');
+
+        cat.prop('checked', true);
+        
+        valor.parent().remove();
+
+        categoriaPrincipalSelecionados(cat);
+    });
+});
 
 // Função para carregar a lista de SubCategorias
 $("#listaSubCategorias").load("../filtrosIndex/checkCategorias.php?OP=2", function () {
@@ -73,6 +96,10 @@ function categoriaPrincipalSelecionados(option) {
 
     }
 
+    if(option instanceof HTMLElement){
+        $('#formFiltrar').submit();
+    }
+
 }
 
 // Função que remove a categoria 
@@ -86,6 +113,8 @@ function removerCategoria(button) {
     select.parent().remove();
 
     $("#" + valor).remove();
+
+    $('#formFiltrar').submit();
 }
 
 // Busca sub-categorias
@@ -151,7 +180,7 @@ function campusSelecionados(option) {
             ID: valor
         });
 
-        var filtroSelecionado = "<span class='badge bg-danger me-1'>" + select.parent().text() + "<input type='hidden' name='campus[]' value='" + valor + "'><input class='btn-close' type='button' onclick='removerCampus(this)'></span>";
+        var filtroSelecionado = "<span class='badge bg-danger me-1'>" + select.parent().text() + "<input type='hidden' name='campus' value='" + valor + "'><input class='btn-close' type='button' onclick='removerCampus(this)'></span>";
 
         $("#filtrosSelecionados form").append(filtroSelecionado);
 
@@ -169,10 +198,13 @@ function campusSelecionados(option) {
 
         textoDigitado = $.param({
             OP: 1
-        })
+        });
 
     }
 
+    if(option instanceof HTMLElement){
+        $('#formFiltrar').submit();
+    }
 
     $('#listaCursos').prop("open", true);
 
@@ -191,6 +223,8 @@ function removerCampus(button) {
     select.parent().remove();
 
     $("#listaCursos").load("../filtrosIndex/checkCursos.php?OP=1");
+
+    $('#formFiltrar').submit();
 }
 
 function removerSubCategoria(button) {
@@ -202,6 +236,7 @@ function removerSubCategoria(button) {
 
     select.parent().remove();
 
+    $('#formFiltrar').submit();
 }
 
 
@@ -280,6 +315,35 @@ $(document).ready(function () {
         // Passa o parametro de busca e carrega a lista de cursos
         $("#listaCursos").load("../filtrosIndex/checkCursos.php?" + textoDigitado);
 
+    });
+
+    $("#proximo").click(function (event) {
+        event.preventDefault();
+        var proximo = $("input[name='paginaAtual']");
+        if(proximo.length > 0){
+            proximo.val(parseInt(proximo.val()) + 1);
+            $("#formFiltrar").submit();  
+            
+       }
+    });
+
+    $("#anterior").click(function (event) {
+        event.preventDefault();
+        var anterior = $("input[name='paginaAtual']");
+        if(anterior.length > 0){
+            //alert(parseInt(anterior.val()) - 1);
+            anterior.val(parseInt(anterior.val()) - 1);
+            $("#formFiltrar").submit();
+        } 
+    });
+
+    $(".pagina").click(function (event) {
+        event.preventDefault();
+        var pagina = $('input[name="paginaAtual"]');
+        if(pagina.length > 0){
+            pagina.val($(this).text());
+            $("#formFiltrar").submit();
+        }
     });
 
 });

@@ -299,5 +299,112 @@ class TCCDAO{
         }
     }
 
+    // Filtrar TCC por diversos campos
+    public function filtrarTCC($campo, $valor){
+        try{
+            $stat = $this->conexao->prepare("Select t.idTCC, t.titulo from tcc as t inner join orientador as o on t.idTCC = o.idTCC inner join professor as p on o.matricula = p.matricula inner join categorias as cs on t.idTCC = cs.idTCC WHERE cs.idCategoria IN (7,8) GROUP BY t.idTCC HAVING COUNT(DISTINCT cs.idCategoria) = 2");
+            $stat->bindValue(1,$valor);
+            $stat->execute();
+
+            $array = $stat->fetchAll(PDO::FETCH_CLASS, 'TCC');
+
+            return $array;
+
+        }catch(PDOException $ex){
+            $this->gerenciarErros($ex->getMessage());
+        }
+    }
+
+    function buscarTCCs($valorCurso = null, $valorCampus = null, $valorTitulo = null, $valorCategoria = null, $valorNomeAluno = null, $valorNomeProfessor = null, $paginaAtual = 1) {
+        
+        try {
+            // Construção da consulta SQL
+            $sql = "SELECT t.idTCC, t.titulo, t.descricao, t.localPDF, t.idCurso, t.idCampus, t.matricula
+                    FROM tcc AS t
+                    INNER JOIN categorias AS cs ON t.idTCC = cs.idTCC
+                    INNER JOIN aluno AS a ON t.matricula = a.matricula
+                    INNER JOIN orientador AS o ON t.idTCC = o.idTCC
+                    INNER JOIN professor AS p ON o.matricula = p.matricula
+                    WHERE 1 = 1";
+        
+            $params = array(); // Array para armazenar os parâmetros
+        
+            // Verificação e adição das cláusulas WHERE condicionalmente
+            if (!empty($valorCurso)) {
+                $sql .= " AND t.idCurso = :valorCurso";
+                $params[':valorCurso'] = $valorCurso;
+            }
+            if (!empty($valorCampus)) {
+                $sql .= " AND t.idCampus = :valorCampus";
+                $params[':valorCampus'] = $valorCampus;
+            }
+            if (!empty($valorTitulo)) {
+                $sql .= " AND t.titulo = :valorTitulo";
+                $params[':valorTitulo'] = $valorTitulo;
+            }
+            if (!empty($valorNomeAluno)) {
+                $sql .= " AND aluno.nome = :valorNomeAluno";
+                $params[':valorNomeAluno'] = $valorNomeAluno;
+            }
+            if (!empty($valorNomeProfessor)) {
+                $sql .= " AND p.nome = :valorNomeProfessor";
+                $params[':valorNomeProfessor'] = $valorNomeProfessor;
+            }
+            if (!empty($valorCategoria) && is_array($valorCategoria) && count($valorCategoria) > 0) {
+                $sql .= " AND cs.idCategoria IN (";
+                $placeholders = array();
+                foreach ($valorCategoria as $categoria) {
+                    $paramName = ':valorCategoria' . count($params);
+                    $placeholders[] = $paramName;
+                    $params[$paramName] = $categoria;
+                }
+                $sql .= implode(', ', $placeholders);
+                $sql .= ") GROUP BY t.idTCC HAVING COUNT(DISTINCT cs.idCategoria) = " . count($valorCategoria);
+            } else {
+                $sql .= " GROUP BY t.idTCC";
+            }
+
+            $stat = $this->conexao->prepare($sql);
+            $stat->execute($params);
+
+            $totalRegistros = $stat->rowCount();
+            //$stat->debugDumpParams();
+            $registrosPorPagina = 2;
+
+            $totalPaginas = ceil($totalRegistros / $registrosPorPagina);
+
+            $_SESSION['totalPaginas'] = $totalPaginas;
+
+            if($paginaAtual > $totalPaginas){
+                $paginaAtual = $totalPaginas;
+            }
+
+            $offset = ($paginaAtual - 1) * $registrosPorPagina;
+
+            $sql .= " LIMIT $offset,$registrosPorPagina";
+            
+            
+            // Execução da consulta com os parâmetros
+            $stat = $this->conexao->prepare($sql);
+            $stat->execute($params);
+        
+
+
+            // Obtenção dos resultados
+            $array = $stat->fetchAll(PDO::FETCH_CLASS, 'TCC');
+
+            $array = $this->listarOrientador($array);
+
+            $array = $this->listarCategorias($array);
+
+            $array = $this->buscarAlunoPorTCC($array);
+
+            return $array; 
+
+        } catch (PDOException $e) {
+            echo $stat->debugDumpParams();
+            echo $e->getMessage();
+        }
+    }
+
 }
-?>

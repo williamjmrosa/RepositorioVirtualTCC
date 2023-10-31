@@ -105,17 +105,26 @@ function gerarImagem($caminho_pdf, $id)
         <!-- Inicio Filtro Esquerdo -->
         <div class="filtro-esquerdo float-start p-1">
             <div id="filtrosSelecionados" class="mb-3">
-                <form action="" method="post">
-
-                    <p class="clear">Filtros Selecionados:</p>
-
-                    <span class="badge bg-danger">Campus Canoas
-                        <input class="btn-close" type="button">
-                    </span>
-                    <span class="badge bg-info">HTML <input class="btn-close" type="button"></span>
-                    <span class="badge selecionado bg-success">Tecnologia em Analise e Desenvolvimento de Sistemas
-                        <input class="btn-close" type="button">
-                    </span>
+                <form id="formFiltrar" action="../controle/tcc-controle.php?OP=5" method="post">
+                    <?php
+                        if(isset($_SESSION['filtros'])){
+                            
+                            foreach(unserialize($_SESSION['filtros']) as $key => $value){
+                                if($key == 'campus'){
+                                    echo "<span class='badge bg-danger me-1'> <input type='hidden' name='campus' value='" .$value. "'><input class='btn-close' type='button' onclick='removerCampus(this)'></span>";
+                                }elseif($key == 'categorias'){
+                                    foreach($value as $categoria){
+                                        echo "<span class='badge bg-info me-1'> <input type='hidden' name='categorias[]' value='" . $categoria . "'><input class='btn-close' type='button' onclick='removerCategoria(this)'></span>";
+                                    }
+                                }elseif($key == 'paginaAtual'){
+                                    $paginaAtual = $value;
+                                    echo "<input type='hidden' name='$key' value='" .$value. "'>";
+                                }else{
+                                    echo "<input type='hidden' name='$key' value='$value'>";
+                                }
+                            }
+                        }
+                    ?>
                 </form>
             </div>
             <div>
@@ -142,7 +151,11 @@ function gerarImagem($caminho_pdf, $id)
             <?php
 
 
-            if (!isset($_SESSION['listaTCC']) || isset($_GET['pagina'])) {
+            if(isset($_SESSION['tccs'])){
+                $listaTCC = unserialize($_SESSION['tccs']);
+                //unset($_SESSION['tccs']);
+                //unset($_SESSION['filtros']);
+            }elseif (!isset($_SESSION['listaTCC']) || isset($_GET['pagina'])) {
                 $tccDAO = new TCCDAO();
                 $listaTCC = $tccDAO->listarTCC(isset($_GET['pagina']) ? $_GET['pagina'] : 1);
                 $_SESSION['listaTCC'] = serialize($listaTCC);
@@ -164,8 +177,9 @@ function gerarImagem($caminho_pdf, $id)
                                 <div class='col-md-10'>
                                     <div class='card-body'>
                                         <h5 class='card-title'>$tcc->titulo</h5>
-                                        <p class='card-text'>Autor: " . $tcc->aluno->nome . "</p>
-                                        <p class='card-text'>Orientadores: " . $tcc->verOrientadores() . "</p>
+                                        <p class='card-text m-0'>Autor: " . $tcc->aluno->nome . "</p>
+                                        <p class='card-text m-0'>Categorias: " . $tcc->verCategorias() . "</p>
+                                        <p class='card-text m-0'>Orientadores: " . $tcc->verOrientadores() . "</p>
                                     </div>
                                 </div>
                             </div>
@@ -177,25 +191,30 @@ function gerarImagem($caminho_pdf, $id)
             <nav aria-label="Navegação de página exemplo">
                 <ul class="pagination align-items-center justify-content-center">
                     <?php
-                    $paginaAtual = isset($_GET['pagina']) ? $_GET['pagina'] : 1;
+                    if(!isset($paginaAtual)){
+                    
+                        $paginaAtual = isset($_GET['pagina']) ? $_GET['pagina'] : 1;
+                    
+                    }
+                    
                     $totalPaginas = isset($_SESSION['totalPaginas']) ? $_SESSION['totalPaginas'] : 1;
 
 
 
                     if ($paginaAtual > 1) {
-                        echo "<li class='page-item'><a class='page-link' href='?pagina=" . ($paginaAtual - 1) . "'>Anterior</a></li>";
+                        echo "<li class='page-item'><a id='anterior' class='page-link' href='?pagina=" . ($paginaAtual - 1) . "'>Anterior</a></li>";
                     } elseif ($paginaAtual == 1) {
                         echo "<li class='page-item disabled'><a class='page-link' href='?pagina=" . ($paginaAtual - 1) . "'>Anterior</a></li>";
                     }
                     for ($i = 1; $i <= $totalPaginas; $i++) {
                         if ($i == $paginaAtual) {
-                            echo "<li class='page-item active'><a class='page-link' href='?pagina=" . $i . "'>" . $i . "</a></li>";
+                            echo "<li class='page-item active'><a class='page-link pagina' href='?pagina=" . $i . "'>" . $i . "</a></li>";
                         } else {
-                            echo "<li class='page-item'><a class='page-link' href='?pagina=" . $i . "'>" . $i . "</a></li>";
+                            echo "<li class='page-item'><a class='page-link pagina' href='?pagina=" . $i . "'>" . $i . "</a></li>";
                         }
                     }
                     if ($paginaAtual < $totalPaginas) {
-                        echo "<li class='page-item'><a class='page-link' href='?pagina=" . ($paginaAtual + 1) . "'>Próximo</a></li>";
+                        echo "<li class='page-item'><a id='proximo' class='page-link ' href='?pagina=" . ($paginaAtual + 1) . "'>Próximo</a></li>";
                     } elseif ($totalPaginas == $paginaAtual) {
                         echo "<li class='page-item disabled'><a class='page-link' href='?pagina=" . ($paginaAtual + 1) . "'>Próximo</a></li>";
                     }

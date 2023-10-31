@@ -189,6 +189,68 @@ if(isset($_GET['OP'])){
             // Encerra o script
             header('Location: ../visao/lerTCC.php?TCC=' .$idTCC);
             break;
+        
+        // Filtrar TCC
+        case 5:
+            $filtros = array();
+            if(isset($_POST['categorias'])){
+                $categorias = array();
+                foreach($_POST['categorias'] as $categoria){
+                    $categorias[] = filter_var($categoria, FILTER_SANITIZE_NUMBER_INT);
+                }
+                $filtros['categorias'] = $categorias;
+            }else{
+                $categorias = null;
+            }
+
+            if(isset($_POST['orientador'])){
+                $filtros['orientador'] = $orientador = filter_var($_POST['orientador'], FILTER_SANITIZE_SPECIAL_CHARS);
+            }else{
+                $orientador = null;
+            }
+
+            if(isset($_POST['curso'])){
+                $filtros['curso'] = $curso = filter_var($_POST['curso'], FILTER_SANITIZE_NUMBER_INT);
+            }else{
+                $curso = null;
+            }
+
+            if(isset($_POST['campus'])){
+                $filtros['campus'] = $campus = filter_var($_POST['campus'], FILTER_SANITIZE_NUMBER_INT);
+            }else{
+                $campus = null;
+            }
+
+            if(isset($_POST['autor'])){
+                $filtros['autor'] = $autor = filter_var($_POST['autor'], FILTER_SANITIZE_NUMBER_INT);
+            }else{
+                $autor = null;
+            }
+
+            if(isset($_POST['titulo'])){
+                $filtros['titulo'] = $titulo = filter_var($_POST['titulo'],FILTER_SANITIZE_SPECIAL_CHARS);
+            }else{
+                $titulo = null;
+            }
+
+            if(isset($_POST['paginaAtual'])){
+                $filtros['paginaAtual'] = $paginaAtual = filter_var($_POST['paginaAtual'], FILTER_SANITIZE_NUMBER_INT);
+            }else{
+                $filtros['paginaAtual'] = $paginaAtual = 1;
+            }
+            
+            $tccDAO = new TCCDAO();
+            $tccs = $tccDAO->buscarTCCs($curso, $campus, $titulo, $categorias, $autor, $orientador, $paginaAtual);
+
+
+            
+            $_SESSION['tccs'] = serialize($tccs);
+            $_SESSION['filtros'] = serialize($filtros);
+
+            header('Location: ../visao/index.php');
+
+            break;
+
         default:
         break;
     }
