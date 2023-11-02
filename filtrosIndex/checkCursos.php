@@ -6,7 +6,7 @@ include_once '../Modelo/curso.class.php';
 function checkCursos($array){
     echo '<summary>Curso</summary>';
     foreach($array as $curso){
-        echo "<label class='container-filtro m-2'> $curso->nome <input type='checkbox' name='listarCursos[]' value='$curso->idCurso'><span class='filtro'></span></label>";
+        echo "<label class='container-filtro m-2'> $curso->nome <input type='checkbox' name='listarCursos[]' value='$curso->idCurso' onClick='cursoSelecionados(this)'><span class='filtro'></span></label>";
     }
 }
 

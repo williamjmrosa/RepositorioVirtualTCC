@@ -88,12 +88,13 @@ function gerarImagem($caminho_pdf, $id)
                     </ul>
                 </div>
                 <div class="text-center">
-                    <form action="" method="post">
+                    <form id="formPesquisar" action="../controle/tcc-controle.php?OP=5" method="post">
                         <select class="form-select d-inline-block w-auto" name="tipo">
-                            <option value="">Autor</option>
-                            <option value="">Titulo</option>
+                            <option value="titulo">Titulo</option>    
+                            <option value="autor">Autor</option>
+                            <option value="orientador">Orientador</option>
                         </select>
-                        <input class="form-control w-50 d-inline-block" type="text" name="pesquisar" placeholder="Pesquise">
+                        <input class="form-control w-50 d-inline-block textoPesquisa" type="text" name="pesquisar" placeholder="Pesquise">
                         <input class="pesquisar form-control d-inline-block w-auto" type="submit" value="&#128270;">
                     </form>
                 </div>
@@ -108,7 +109,7 @@ function gerarImagem($caminho_pdf, $id)
                 <form id="formFiltrar" action="../controle/tcc-controle.php?OP=5" method="post">
                     <?php
                         if(isset($_SESSION['filtros'])){
-                            
+                            print_r(unserialize($_SESSION['filtros'])); 
                             foreach(unserialize($_SESSION['filtros']) as $key => $value){
                                 if($key == 'campus'){
                                     echo "<span class='badge bg-danger me-1'> <input type='hidden' name='campus' value='" .$value. "'><input class='btn-close' type='button' onclick='removerCampus(this)'></span>";
@@ -119,6 +120,14 @@ function gerarImagem($caminho_pdf, $id)
                                 }elseif($key == 'paginaAtual'){
                                     $paginaAtual = $value;
                                     echo "<input type='hidden' name='$key' value='" .$value. "'>";
+                                }elseif($key == 'autor'){
+                                    echo "<span class='badge bg-danger me-1'> Autor: $value <input type='hidden' name='autor' value='$value'><input class='btn-close' type='button' onclick='remover(this)'></span>";
+                                }elseif($key == 'titulo'){
+                                    echo "<span class='badge bg-danger me-1'> Titulo: $value <input type='hidden' name='titulo' value='$value'><input class='btn-close' type='button' onclick='remover(this)'></span>";
+                                }elseif($key == 'curso'){
+                                    echo "<span class='badge bg-success me-1'> $value <input type='hidden' name='curso' value='$value'><input class='btn-close' type='button' onclick='remover(this)'></span>";
+                                }elseif($key == 'orientador'){
+                                    echo "<span class='badge bg-danger me-1'> $value <input type='hidden' name='orientador' value='$value'><input class='btn-close' type='button' onclick='remover(this)'></span>";
                                 }else{
                                     echo "<input type='hidden' name='$key' value='$value'>";
                                 }
@@ -147,14 +156,13 @@ function gerarImagem($caminho_pdf, $id)
         <!-- Fim Filtro Esquerdo -->
         <!-- Inicio Conteudo -->
         <div class="conteudo float-start ms-1 me-1">
-            <h1>Conteudo</h1>
             <?php
 
 
             if(isset($_SESSION['tccs'])){
                 $listaTCC = unserialize($_SESSION['tccs']);
-                //unset($_SESSION['tccs']);
-                //unset($_SESSION['filtros']);
+                unset($_SESSION['tccs']);
+                unset($_SESSION['filtros']);
             }elseif (!isset($_SESSION['listaTCC']) || isset($_GET['pagina'])) {
                 $tccDAO = new TCCDAO();
                 $listaTCC = $tccDAO->listarTCC(isset($_GET['pagina']) ? $_GET['pagina'] : 1);
@@ -165,26 +173,31 @@ function gerarImagem($caminho_pdf, $id)
             }
 
 
+            if(!empty($listaTCC)){
+                foreach ($listaTCC as $tcc) {
 
-            foreach ($listaTCC as $tcc) {
-
-                echo "<div class='card mb-3 ms-2 me-2' style='max-width: 100%;'>
-                        <a href='../visao/lerTCC.php?TCC=" . $tcc->idTCC . "''>
-                            <div class='row g-0'>
-                                <div class='col-md-2'>
-                                    <img src='" . gerarImagem($tcc->localPDF, $tcc->idTCC) . "' class='img-fluid rounded-start' alt='...'>
-                                </div>
-                                <div class='col-md-10'>
-                                    <div class='card-body'>
-                                        <h5 class='card-title'>$tcc->titulo</h5>
-                                        <p class='card-text m-0'>Autor: " . $tcc->aluno->nome . "</p>
-                                        <p class='card-text m-0'>Categorias: " . $tcc->verCategorias() . "</p>
-                                        <p class='card-text m-0'>Orientadores: " . $tcc->verOrientadores() . "</p>
+                    echo "<div class='card mb-3 ms-2 me-2' style='max-width: 100%;'>
+                            <a href='../visao/lerTCC.php?TCC=" . $tcc->idTCC . "''>
+                                <div class='row g-0'>
+                                    <div class='col-md-2'>
+                                        <img src='" . gerarImagem($tcc->localPDF, $tcc->idTCC) . "' class='img-fluid rounded-start' alt='...'>
+                                    </div>
+                                    <div class='col-md-10'>
+                                        <div class='card-body'>
+                                            <h5 class='card-title'>$tcc->titulo</h5>
+                                            <p class='card-text m-0'>Autor: " . $tcc->aluno->nome . "</p>
+                                            <p class='card-text m-0'>Campus: " . $tcc->campus->nome . "</p>
+                                            <p class='card-text m-0'>Curso: " . $tcc->curso->nome . "</p>
+                                            <p class='card-text m-0'>Orientadores: " . $tcc->verOrientadores() . "</p>
+                                            <p class='card-text m-0'>Categorias: " . $tcc->verCategorias() . "</p>
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
-                        </a>
-                    </div>";
+                            </a>
+                        </div>";
+                }
+            }else{
+                echo "<div class='alert alert-warning m-2' role='alert'>Nenhum TCC encontrado</div>";
             }
 
             ?>

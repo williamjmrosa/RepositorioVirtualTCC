@@ -222,7 +222,7 @@ if(isset($_GET['OP'])){
             }
 
             if(isset($_POST['autor'])){
-                $filtros['autor'] = $autor = filter_var($_POST['autor'], FILTER_SANITIZE_NUMBER_INT);
+                $filtros['autor'] = $autor = filter_var($_POST['autor'], FILTER_SANITIZE_SPECIAL_CHARS);
             }else{
                 $autor = null;
             }

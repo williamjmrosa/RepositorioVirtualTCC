@@ -203,6 +203,12 @@ class TCCDAO{
 
             $array = $this->buscarAlunoPorTCC($array);
 
+            for($i = 0; $i < count($array); $i++){
+                
+                $array[$i]->campus = $this->buscarCampusPorTCC($array[$i]->idCampus)[0];
+                $array[$i]->curso = $this->buscarCursoPorTCC($array[$i]->idCurso)[0];
+            }
+
             return $array;
 
         }catch(PDOException $ex){
@@ -299,22 +305,7 @@ class TCCDAO{
         }
     }
 
-    // Filtrar TCC por diversos campos
-    public function filtrarTCC($campo, $valor){
-        try{
-            $stat = $this->conexao->prepare("Select t.idTCC, t.titulo from tcc as t inner join orientador as o on t.idTCC = o.idTCC inner join professor as p on o.matricula = p.matricula inner join categorias as cs on t.idTCC = cs.idTCC WHERE cs.idCategoria IN (7,8) GROUP BY t.idTCC HAVING COUNT(DISTINCT cs.idCategoria) = 2");
-            $stat->bindValue(1,$valor);
-            $stat->execute();
-
-            $array = $stat->fetchAll(PDO::FETCH_CLASS, 'TCC');
-
-            return $array;
-
-        }catch(PDOException $ex){
-            $this->gerenciarErros($ex->getMessage());
-        }
-    }
-
+    // Buscar TCC por filtros
     function buscarTCCs($valorCurso = null, $valorCampus = null, $valorTitulo = null, $valorCategoria = null, $valorNomeAluno = null, $valorNomeProfessor = null, $paginaAtual = 1) {
         
         try {
@@ -339,16 +330,16 @@ class TCCDAO{
                 $params[':valorCampus'] = $valorCampus;
             }
             if (!empty($valorTitulo)) {
-                $sql .= " AND t.titulo = :valorTitulo";
-                $params[':valorTitulo'] = $valorTitulo;
+                $sql .= " AND t.titulo LIKE :valorTitulo";
+                $params[':valorTitulo'] = "%" . $valorTitulo."%";
             }
             if (!empty($valorNomeAluno)) {
-                $sql .= " AND aluno.nome = :valorNomeAluno";
-                $params[':valorNomeAluno'] = $valorNomeAluno;
+                $sql .= " AND a.nome LIKE :valorNomeAluno";
+                $params[':valorNomeAluno'] = "%".$valorNomeAluno."%";
             }
             if (!empty($valorNomeProfessor)) {
-                $sql .= " AND p.nome = :valorNomeProfessor";
-                $params[':valorNomeProfessor'] = $valorNomeProfessor;
+                $sql .= " AND p.nome LIKE :valorNomeProfessor";
+                $params[':valorNomeProfessor'] = "%".$valorNomeProfessor."%";
             }
             if (!empty($valorCategoria) && is_array($valorCategoria) && count($valorCategoria) > 0) {
                 $sql .= " AND cs.idCategoria IN (";
@@ -399,12 +390,62 @@ class TCCDAO{
 
             $array = $this->buscarAlunoPorTCC($array);
 
+            
+
+            for($i = 0; $i < count($array); $i++){
+                
+                $array[$i]->campus = $this->buscarCampusPorTCC($array[$i]->idCampus)[0];
+                $array[$i]->curso = $this->buscarCursoPorTCC($array[$i]->idCurso)[0];
+            }
+
+
+            
             return $array; 
 
         } catch (PDOException $e) {
             echo $stat->debugDumpParams();
             echo $e->getMessage();
         }
+    }//fecha Buscar TCC por filtros
+
+    // Buscar Campus de um TCC
+    public function buscarCampusPorTCC($id){
+        try{
+            $sql = "SELECT * FROM campus WHERE idCampus = ?";
+
+            $stat = $this->conexao->prepare($sql);
+
+            $stat->bindValue(1,$id);
+
+            $stat->execute(array($id));
+
+            $array = $stat->fetchAll(PDO::FETCH_CLASS, 'Campus');
+
+            return $array;
+        }catch(PDOException $ex){
+            $this->gerenciarErros($ex->getMessage());
+        }
+    }
+
+    // Buscar Curso de um TCC
+    public function buscarCursoPorTCC($id){
+        try{
+            $sql = "SELECT * FROM curso WHERE idCurso = ?";
+
+            $stat = $this->conexao->prepare($sql);
+
+            $stat->bindValue(1,$id);
+
+            $stat->execute(array($id));
+
+            $array = $stat->fetchAll(PDO::FETCH_CLASS, 'Curso');
+
+            return $array;
+
+        }catch(PDOException $ex){
+            $this->gerenciarErros($ex->getMessage());
+        }
+
     }
 
 }

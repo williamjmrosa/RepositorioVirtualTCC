@@ -36,7 +36,7 @@ class Curso{
 
     //Método toString
     public function __toString(){
-        nl2br("ID Curso: $this->idCurso
+        return nl2br("ID Curso: $this->idCurso
             Nome: $this->nome
             Ensino "+ $this->mostrarEnsino()+"");
     }

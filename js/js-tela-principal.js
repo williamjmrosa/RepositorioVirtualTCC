@@ -1,4 +1,5 @@
 var campusSelecionado = null;
+var cursoSelecionado = null;
 
 // Função para carregar a lista de Campus
 $("#listaCampus").load("../filtrosIndex/checkCampus.php",function(){
@@ -13,22 +14,21 @@ $("#listaCampus").load("../filtrosIndex/checkCampus.php",function(){
 
 });
 
-// Função para carregar a lista de Cursos
-$("#listaCursos").load("../filtrosIndex/checkCursos.php?OP=1");
-
 // Função para carregar a lista de Categorias
 $("#listarCategoriasPrincipal").load("../filtrosIndex/checkCategorias.php?OP=1",function(){
     var categorias = $('#formFiltrar input[name="categorias[]"]');
-    var buscar = $(this)
+    var buscar = $(this);
     categorias.each(function(){
         var valor = $(this);
         var cat = buscar.find('input[value="' + valor.val() + '"]');
-
-        cat.prop('checked', true);
+        if(cat.length > 0){
+            cat.prop('checked', true);
         
-        valor.parent().remove();
+            valor.parent().remove();
 
-        categoriaPrincipalSelecionados(cat);
+            categoriaPrincipalSelecionados(cat);
+        }
+        
     });
 });
 
@@ -37,11 +37,65 @@ $("#listaSubCategorias").load("../filtrosIndex/checkCategorias.php?OP=2", functi
     var summary = $(this).find('summary');
 
     summary.text("Todas as Sub Categorias");
+
+    var categorias = $('#formFiltrar input[name="categorias[]"]');
+
+    var buscar = $(this);
+
+    categorias.each(function () {
+       var valor = $(this);
+       var subCat = buscar.find('input[value="' + valor.val() + '"]');
+       if(subCat.length > 0){
+           subCat.prop('checked', true);
+
+           valor.parent().remove();
+
+           categoriaPrincipalSelecionados(subCat);
+       }
+    });
+    
 });
+// Função que add o curso selecionado ao filtro
+function cursoSelecionados(option) {
+    var select = $(option);
+
+    var valor = select.val();
+
+    if(select.prop('checked')){
+        // O checkbox estava marcado
+        console.log('O checkbox estava marcado');
+
+        $('input[name="listarCursos[]"]').prop('checked', false);
+
+        select.prop('checked', true);
+
+        var filtroSelecionado = "<span class='badge bg-success me-1'>" + select.parent().text() + "<input type='hidden' name='curso' value='" + valor + "'><input class='btn-close' type='button' onclick='remover(this)'></span>";
+
+        $("#filtrosSelecionados form").append(filtroSelecionado);
+
+        if(cursoSelecionado != null){
+            $("#filtrosSelecionados").find("input[name='curso'][value='" + cursoSelecionado + "']").parent().remove();
+        }
+        cursoSelecionado = valor;
+    }else{
+        // O checkbox não está marcado
+        console.log('O checkbox não está marcado');
+
+        $('#filtrosSelecionados input[name="curso"][value="' + cursoSelecionado + '"]').parent().remove();
+
+        cursoSelecionado = null;
+
+    }
+
+    if(option instanceof HTMLElement){
+        $('#formFiltrar').submit();
+    }
+    
+}
 
 // Função que add a categoria principal selecionada ao filtro e carregar a lista de SubCategorias dessa categoria principal
 function categoriaPrincipalSelecionados(option) {
-    var select = $(option)
+    var select = $(option);
 
     var valor = select.val();
 
@@ -76,7 +130,6 @@ function categoriaPrincipalSelecionados(option) {
                     var seleciona = $(this);
                     
                     if(seleciona.prop("checked")){
-                        alert("seleciona revisado: " + seleciona.val());
                         details.find('input[type="checkbox"][value="' + seleciona.val() + '"]').prop('checked', true);
                     }
                     
@@ -184,15 +237,16 @@ function campusSelecionados(option) {
 
         $("#filtrosSelecionados form").append(filtroSelecionado);
 
-        $("#filtrosSelecionados").find("input[value='" + campusSelecionado + "']").parent().remove();
-
+        if(campusSelecionado != null){
+            $("#filtrosSelecionados").find("input[name='campus'][value='" + campusSelecionado + "']").parent().remove();
+        }
         campusSelecionado = valor;
 
     } else {
         // O checkbox não está marcado
         console.log('O checkbox não está marcado');
 
-        $('#filtrosSelecionados input[name="campus[]"][value="' + campusSelecionado + '"]').parent().remove();
+        $('#filtrosSelecionados input[name="campus"][value="' + campusSelecionado + '"]').parent().remove();
 
         campusSelecionado = null;
 
@@ -208,7 +262,20 @@ function campusSelecionados(option) {
 
     $('#listaCursos').prop("open", true);
 
-    $('#listaCursos').load("../filtrosIndex/checkCursos.php?" + textoDigitado);
+    $('#listaCursos').load("../filtrosIndex/checkCursos.php?" + textoDigitado,function(){
+        var curso = $("#formFiltrar input[name='curso']");
+        
+        if(curso.length > 0){
+            var buscar = $(this).find('input[value="' + curso.val() + '"]');
+
+            buscar.prop('checked', true);
+
+            curso.parent().remove();
+
+            cursoSelecionados(buscar);
+            
+        }
+    });
 }
 
 function removerCampus(button) {
@@ -227,19 +294,13 @@ function removerCampus(button) {
     $('#formFiltrar').submit();
 }
 
-function removerSubCategoria(button) {
+function remover(button){
     var select = $(button);
-
-    var valor = select.parent().find("input[type='hidden']").val();
-
-    $("#listarCategoriasPrincipal input[value='" + valor + "']").prop("checked", false);
 
     select.parent().remove();
 
     $('#formFiltrar').submit();
 }
-
-
 
 $(document).ready(function () {
 
@@ -317,6 +378,21 @@ $(document).ready(function () {
 
     });
 
+    $('#formPesquisar').on('submit', function(event) {
+        event.preventDefault(); // Evita o comportamento padrão do formulário
+    
+        // Coloque aqui o código que você deseja executar antes do envio do formulário
+        // Por exemplo:
+        var select = $(this).find('select').val();
+
+        var input = $(this).find('.textoPesquisa');
+
+        input.attr('name',select);
+    
+        // Em seguida, você pode permitir o envio do formulário
+        $(this).off('submit').submit();
+      });
+
     $("#proximo").click(function (event) {
         event.preventDefault();
         var proximo = $("input[name='paginaAtual']");
@@ -324,7 +400,10 @@ $(document).ready(function () {
             proximo.val(parseInt(proximo.val()) + 1);
             $("#formFiltrar").submit();  
             
-       }
+       }else{
+        // Executar o comportamento padrão do link
+        window.location.href = $(this).attr("href");
+    }
     });
 
     $("#anterior").click(function (event) {
@@ -334,7 +413,10 @@ $(document).ready(function () {
             //alert(parseInt(anterior.val()) - 1);
             anterior.val(parseInt(anterior.val()) - 1);
             $("#formFiltrar").submit();
-        } 
+        }else{
+            // Executar o comportamento padrão do link
+            window.location.href = $(this).attr("href");
+       }
     });
 
     $(".pagina").click(function (event) {
@@ -343,7 +425,10 @@ $(document).ready(function () {
         if(pagina.length > 0){
             pagina.val($(this).text());
             $("#formFiltrar").submit();
-        }
+        }else{
+            // Executar o comportamento padrão do link
+            window.location.href = $(this).attr("href");
+       }
     });
 
 });
