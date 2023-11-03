@@ -70,7 +70,7 @@ include_once('../Modelo/categoria.class.php');
   </div>
   <div class="corpo">
     <div class="cadastro w-auto">
-      <form class="row" method="post" action="../controle/categoria-controle.php?OP=1">
+      <form id="cadastrarCategoria" class="row" method="post" action="../controle/categoria-controle.php?OP=1">
         <!-- Mensagens de Alerta do retorno do Cadastro -->
         <?php
         
@@ -152,6 +152,33 @@ include_once('../Modelo/categoria.class.php');
           <button type="submit" class="btn btn-primary">Cadastrar Categoria</button>
         </div>
       </form>
+    </div>
+    <div class="row g-3 m-4 cadastro w-auto">
+      <div class="col-12">
+        <h3>Categorias Cadastradas</h3>
+      </div>
+      <div class="col-12">
+        <label class="form-label" for="buscarNome"> Buscar Nome de Categoria</label>
+        <input type="text" class="form-control" id="buscarNome" name="buscarNome" placeholder="Buscar nome categoria">
+      </div>
+        <table class="table table-striped">
+          <thead>
+            <tr>
+              <th scope="col">#</th>
+              <th scope="col">Nome</th>
+              <th scope="col">E Sub</th>
+              <th scope="col">Categoria Principal</th>
+              <th scope="col">Alterar</th>
+              <th scope="col">Excluir</th>
+            </tr>
+          </thead>
+          <tbody id="alterar">
+            <!-- Inicio da Lista de Categoria para Alterar/Excluir -->
+            <!-- Carregamento da Lista de Categorias via JS -->
+            <!-- Fim da Lista de Categoria para Alterar/Excluir -->
+          </tbody>
+        </table>
+      </div>
     </div>
   </div>
   <script src="../Framework/js/jquery-3.6.4.js"></script>

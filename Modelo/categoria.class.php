@@ -29,11 +29,11 @@ class Categoria{
 
     //Método toString
     public function __toString(){
-        nl2br("ID Categoria: $this->idCategoria
+        return nl2br("ID Categoria: $this->idCategoria
                 Nome: $this->nome
                 É subCategoria: $this->eSub
                 ID Categoria Principal: $this->categoriaPrincipal
-                Nome Alternativo: $this->nomeAlternativo");
+                Nome Alternativo: ".$this->nomeAlternativo[0]);
     }
 
 }

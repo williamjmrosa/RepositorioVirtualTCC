@@ -10,6 +10,7 @@ if (isset($_GET['OP'])) {
 
     switch ($OP) {
 
+        //Cadastrar Categoria
         case 1:
 
             $erros = array();
@@ -22,15 +23,11 @@ if (isset($_GET['OP'])) {
             }
 
             if(!isset($_POST['nomeAlternativo'])){
-                $erros[] = 'Campo nome alternativo não existe';
-            }else{
                 foreach($_POST['nomeAlternativo'] as $v) {
-                    if(empty($v)){
-                        $erros[] = 'Campo nome alternativo em branco';
-                    }else{
+                    $nomeAlternativo = array();
+                    if(!empty($v)){
                         if(!Validacao::validarCategoria($v)){
                             $erros[] = 'Nome alternativo inválido';
-                            echo "entrou";
                             break;
                         }else{
                             $nomeAlternativo[] = filter_var($v, FILTER_SANITIZE_SPECIAL_CHARS);
@@ -57,8 +54,10 @@ if (isset($_GET['OP'])) {
             if(count($erros) == 0){
                 $categoria = new Categoria();
                 $categoria->nome = Padronizacao::padronizarNome($nome);
-                for($i = 0; $i < count($nomeAlternativo); $i++){
-                    $nomeAlternativo[$i] = Padronizacao::padronizarNome($nomeAlternativo[$i]);
+                if(!empty($nomeAlternativo)){
+                    for($i = 0; $i < count($nomeAlternativo); $i++){
+                        $nomeAlternativo[$i] = Padronizacao::padronizarNome($nomeAlternativo[$i]);
+                    }
                 }
                 $categoria->nomeAlternativo = $nomeAlternativo;
                 $categoria->eSub = $eSub;
@@ -76,7 +75,10 @@ if (isset($_GET['OP'])) {
             }
             header('location: ../visao/telaCadastroCategoria.php');
                 break;
-
+        
+        //Alterar Categoria
+        case 2:
+            break;
         default:
             break;
     }
