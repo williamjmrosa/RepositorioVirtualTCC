@@ -239,13 +239,15 @@ if(isset($_GET['OP'])){
                 $filtros['paginaAtual'] = $paginaAtual = 1;
             }
             
+            if(count($filtros) > 1){
+
             $tccDAO = new TCCDAO();
             $tccs = $tccDAO->buscarTCCs($curso, $campus, $titulo, $categorias, $autor, $orientador, $paginaAtual);
-
-
             
             $_SESSION['tccs'] = serialize($tccs);
             $_SESSION['filtros'] = serialize($filtros);
+
+            }
 
             header('Location: ../visao/index.php');
 
@@ -257,7 +259,7 @@ if(isset($_GET['OP'])){
 
 }else{
     $_SESSION['erro'] = 'Acesso Invalido';
-    header('Location: ../visao/telaLogin.php');
+    header('Location: ../visao/index.php');
 }
 
 ?>

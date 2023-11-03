@@ -172,6 +172,15 @@ function gerarImagem($caminho_pdf, $id)
                 unset($_SESSION['listaTCC']);
             }
 
+            if(isset($_SESSION['erro'])){
+                echo "<div class='alert alert-danger m-2' role='alert'>" . $_SESSION['erro'] . "</div>";
+                unset($_SESSION['erro']);
+            }elseif(isset($_SESSION['erros'])){
+                foreach($_SESSION['erros'] as $erro){
+                    echo "<div class='alert alert-danger m-2' role='alert'>" . $erro . "</div>";
+                }
+                unset($_SESSION['erros']);
+            }
 
             if(!empty($listaTCC)){
                 foreach ($listaTCC as $tcc) {
