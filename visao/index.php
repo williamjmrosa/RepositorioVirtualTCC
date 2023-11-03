@@ -166,10 +166,6 @@ function gerarImagem($caminho_pdf, $id)
             }elseif (!isset($_SESSION['listaTCC']) || isset($_GET['pagina'])) {
                 $tccDAO = new TCCDAO();
                 $listaTCC = $tccDAO->listarTCC(isset($_GET['pagina']) ? $_GET['pagina'] : 1);
-                $_SESSION['listaTCC'] = serialize($listaTCC);
-            } else {
-                $listaTCC = unserialize($_SESSION['listaTCC']);
-                unset($_SESSION['listaTCC']);
             }
 
             if(isset($_SESSION['erro'])){
