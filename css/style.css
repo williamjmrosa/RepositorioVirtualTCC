@@ -130,6 +130,7 @@ nav .btn:hover{
 	width: 25%;
 	position: relative;
 	float: right;
+	z-index: 1;
 }
 
 #login:hover ul{
