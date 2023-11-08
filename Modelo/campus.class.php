@@ -11,6 +11,7 @@ class Campus{
     private $idCampus;
     private $nome;
     private $cursos;
+    private $ativo;
 
     //Construtor
     public function __construct(){
@@ -33,8 +34,9 @@ class Campus{
 
     //Método toString
     public function __toString(){
-        nl2br("ID Campus: $this->idCampus
+        return nl2br("ID Campus: $this->idCampus
                 Nome: $this->nome
+                Ativo: $this->ativo
                 Cursos: Curso");
     }
 

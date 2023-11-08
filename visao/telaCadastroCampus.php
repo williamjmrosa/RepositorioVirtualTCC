@@ -131,6 +131,32 @@ include_once '../Modelo/curso.class.php';
                 </div>
             </form>
         </div>
+        <div class="row g-3 m-4 cadastro w-auto">
+            <div class="col-12">
+                <h3>Campus Cadastrados</h3>
+            </div>
+            <div class="col-12">
+                <label class="form-label" for="buscarNome"> Buscar Nome de Campus</label>
+                <input type="text" class="form-control" id="buscarNome" name="buscarNome" placeholder="Buscar nome campus">
+            </div>
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th scope="col">#</th>
+                        <th scope="col">Nome</th>
+                        <th scope="col">Ativo</th>
+                        <th scope="col">Alterar</th>
+                        <th scope="col">Ativo</th>
+                    </tr>
+                </thead>
+                <tbody id="alterar">
+                    <!-- Inicio da Lista de Campus para Alterar/Ativar/Desativar -->
+                    <!-- Carregamento da Lista de Campus via JS -->
+                    <!-- Fim da Lista de Categoria para Alterar/Ativar/Desativar -->
+                </tbody>
+            </table>
+        </div>
+    </div>
     </div>
     <script src="../Framework/js/jquery-3.6.4.js"></script>
     <script src="../Framework/js/popper.min.js"></script>

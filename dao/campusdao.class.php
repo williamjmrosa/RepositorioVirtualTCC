@@ -92,5 +92,56 @@ class CampusDAO{
         }
     }
 
+    // Buscar Campus por idCampus
+    public function buscarCampusPorId($id){
+        try{
+            $stat = $this->conexao->prepare("Select * From campus where idcampus = ?");
+            
+            $stat->bindValue(1, $id);
+            
+            $stat->execute();
+            
+            $campus = $stat->fetchAll(PDO::FETCH_ASSOC);
+            if(is_array($campus)){
+                $campus['cursos'].= $this->buscarCursoDeUmCampus($id);
+            }
+            
+            return $campus;
+        } catch (PDOException $ex){
+            echo $ex->getMessage();
+        }
+    }
+
+    // Buscar Curso por idCampus
+    public function buscarCursoDeUmCampus($idCampus){
+        try{
+            $stat = $this->conexao->prepare("Select c.idCurso, c.nome, c.ensino c.ativo From Curso as c inner join campus_curso cc on c.idCurso = cc.idCurso where cc.idcampus = ?");
+            
+            $stat->bindValue(1, $idCampus);
+            
+            $stat->execute();
+            
+            $array = $stat->fetchAll(PDO::FETCH_ASSOC);
+            
+            return $array;
+        } catch (PDOException $ex){
+            return $ex->getMessage();
+        }
+    }
+
+    // Desativar/Ativar Campus
+    public function alterarStatusCampus($id){
+        try{
+           $stat = $this->conexao->prepare("Update campus set ativo = IF(ativo is null,1,null) where idcampus = ?");
+           $stat->bindValue(1, $id);
+           $stat->execute();
+
+           return true;
+
+        } catch (PDOException $ex){
+            return $ex->getMessage();
+        }
+    }
+
 }
 ?>

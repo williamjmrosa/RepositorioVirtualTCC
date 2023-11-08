@@ -53,6 +53,34 @@ if (isset($_GET['OP'])) {
             }
             header('location: ../visao/telaCadastroCampus.php');
             break;
+        //Alterar Campus
+        case 2:
+            break;
+        //Desativar/Ativar Campus
+        case 3:
+
+            $erros = array();
+            if(isset($_GET['id'])){
+                $id = filter_var($_GET['id'], FILTER_SANITIZE_NUMBER_INT);
+
+                $cDAO = new CampusDAO();
+                $campus = $cDAO->alterarStatusCampus($id);
+
+                if($campus){
+                    $_SESSION['msg'] = "Campus ativado/desativado com sucesso!";
+                }else{
+                    $erros[] = "Erro ao ativar/desativar campus!";
+                    $_SESSION['erros'] = serialize($erros);
+                }
+
+            }else{
+                $erros[] = "Nenhum campus selecionado!";
+                $_SESSION['erros'] = serialize($erros);
+            }
+
+            header('Location: ../visao/telaCadastroCampus.php');
+
+            break;
 
         default:
             header('location: ../visao/telaCadastroCampus.php');

@@ -1,3 +1,5 @@
+$("#alterar").load("../alterarCadastros/alterarCampus.php?OP=1");
+
 function lista(option){
 	var select = $(option);
 	var texto = select.text();
