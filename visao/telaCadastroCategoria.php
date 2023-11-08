@@ -115,6 +115,8 @@ include_once('../Modelo/categoria.class.php');
           <input type="text" class="form-control" id="nomeCategoria" name="nomeCategoria" placeholder="Nome Categoria">
         </div>
         <div class="col-12 mt-3 mb-3" id="nomesAlternativos">
+          <div class="alternativas">
+          </div>
           <div class="col-12">
             <label for="nomeAlternativo" class="form-label me-2">Nome Alternativo</label>
             <input type="text" class="form-control d-inline w-50" id="nomeAlternativo" name="nomeAlternativo[]">
@@ -133,7 +135,7 @@ include_once('../Modelo/categoria.class.php');
           </div>
         </div>
         <div class="col-6 d-none" id="catPrincipal">
-          <label class="form-label">Categoria Princiapal</label>
+          <label class="form-label">Categoria Pai</label>
           <select class="form-select" size="4" name="principal" id="principal">
             <?php
               $cDAO = new CategoriaDAO();

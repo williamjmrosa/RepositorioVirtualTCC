@@ -47,12 +47,12 @@ if(isset($_GET['OP'])) {
                 $id = filter_var($_GET['id'], FILTER_SANITIZE_NUMBER_INT);
                 
                 $cDAO = new CategoriaDAO();
-                $categoria = array();
-                $categoria[] = $cDAO->buscarCategoriasPorId($id);
-                if(!empty($categoria)){
+                $categoria = $cDAO->buscarCategoriasPorId($id);
+                if(is_array($categoria)){
                     echo json_encode($categoria);
                 }else{
-                    trigger_error("Nenhuma categoria encontrada.", E_USER_ERROR);     
+                    $error = array("error" => "Nenhuma categoria encontrada.");
+                    echo json_encode($error);
                 }
 
                 //montarListaCategoria($categoria);

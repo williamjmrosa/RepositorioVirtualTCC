@@ -187,9 +187,11 @@ class CategoriaDAO{
             $stat->execute();
 
             $categoria = $stat->fetch(PDO::FETCH_ASSOC);
-
-            $categoria['nomeAlternativo'] = $this->buscarNomeAlternativoPorId($categoria['idCategoria']);
-
+            if(is_array($categoria)){
+                
+                $categoria['nomeAlternativo'] = $this->buscarNomeAlternativoPorId($categoria['idCategoria']);
+            
+            }
             return $categoria;
 
         }catch(PDOException $ex){
@@ -223,30 +225,41 @@ class CategoriaDAO{
             return true;
 
         } catch (PDOException $ex){
-            $_SESSION['erros'] =  $ex->getMessage();
+            echo  $ex->getMessage();
         }
     }
     
     public function alterarCategoria(Categoria $categoria){
         try{
+            
             $stat = $this->conexao->prepare("Update categoria set nome =?, eSub =?, categoriaPrincipal =? where idCategoria =?");
             $stat->bindValue(1,$categoria->nome);
             $stat->bindValue(2,$categoria->eSub);
             $stat->bindValue(3,$categoria->categoriaPrincipal);
             $stat->bindValue(4,$categoria->idCategoria);
+            
+            if(count($categoria->nomeAlternativo) > 0){
+                
+                foreach($categoria->nomeAlternativo as $v){
+                    $this->cadastrarNomeAlternativo($v,$categoria->idCategoria);
+                }
+            }
+
             $stat->execute();
             
         } catch (PDOException $ex){
-            return $ex->getMessage();
+            echo $ex->getMessage();
         }
     }
 
-    public function alterarNomeAlternativo(Categoria $categoria){
+    public function alterarNomeAlternativo($nomeAlternativo,$idNomeAlternativo){
         try{
-            $stat = $this->conexao->prepare("Update nomeAlternativo set nomeAlternativo =? where idCategoria =?");
-            $stat->bindValue(1,$categoria->nomeAlternativo);
-            $stat->bindValue(2,$categoria->idNomeAlternativo);
+            $stat = $this->conexao->prepare("Update nomeAlternativo set nomeAlternativo =? where idNomeAlternativo =?");
+            $stat->bindValue(1,$nomeAlternativo);
+            $stat->bindValue(2,$idNomeAlternativo);
             $stat->execute();
+
+            return true;
             
         } catch (PDOException $ex){
             return $ex->getMessage();
