@@ -39,7 +39,7 @@ include_once '../Modelo/curso.class.php';
                                     <a href="../visao/telaCadastroCampus.php">Cadastrar Campus</a>
                                 </li>
                                 <li>
-                                    <a href="../visao//telaCadastroCategoria.php">Cadastrar Categoria</a>
+                                    <a href="../visao/telaCadastroCategoria.php">Cadastrar Categoria</a>
                                 </li>
                                 <li>
                                     <a href="../visao/telaCadastroAluno.php">Cadastrar Aluno</a>
@@ -109,22 +109,26 @@ include_once '../Modelo/curso.class.php';
                 <div class="col-12">
                     <label class="form-label">Lista de Cursos</label>
                     <select id="lista" name="lista" class="form-select" size="6" aria-label="Lista de Cursos">
-                        <!--<option selected value="teste">Lista de Cursos</option>-->
+                        
                         <?php
                         $cDAO = new CursoDAO();
                         $cursos = $cDAO->listarCursos();
-                        if (is_array($cursos)) {
+                        if (is_array($cursos) && count($cursos) > 0) {
                             foreach ($cursos as $c) {
                         ?>
                                 <option onclick="lista(this)" value="<?php echo $c->idCurso; ?>"><?php echo $c->nome . " | " . $c->mostrarEnsino(); ?></option>
                         <?php
                             }
+                        }else{
+                            echo '<option>Não existem Cursos Cadastrados</option>';
                         }
                         ?>
                     </select>
                     <label class="form-label">Cursos selecionados</label>
                     <select id="cursos" name="cursos[]" class="form-select" size="4" multiple>
                     </select>
+                    <div id="cursosCadastrados" class="row g-3 align-items-center">
+                    </div>
                 </div>
                 <div class="col-12">
                     <button type="submit" class="btn btn-primary">Cadastrar</button>

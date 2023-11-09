@@ -45,7 +45,7 @@ class CampusDAO{
     //Listar Campus
     public function listarCampus(){
         try{
-            $stat = $this->conexao->prepare("Select * From campus order by nome");
+            $stat = $this->conexao->prepare("Select * From campus order by idCampus");
             
             $stat->execute();
             
@@ -101,9 +101,9 @@ class CampusDAO{
             
             $stat->execute();
             
-            $campus = $stat->fetchAll(PDO::FETCH_ASSOC);
+            $campus = $stat->fetch(PDO::FETCH_ASSOC);
             if(is_array($campus)){
-                $campus['cursos'].= $this->buscarCursoDeUmCampus($id);
+                $campus['cursos'] = $this->buscarCursoDeUmCampus($id);
             }
             
             return $campus;
@@ -115,7 +115,7 @@ class CampusDAO{
     // Buscar Curso por idCampus
     public function buscarCursoDeUmCampus($idCampus){
         try{
-            $stat = $this->conexao->prepare("Select c.idCurso, c.nome, c.ensino c.ativo From Curso as c inner join campus_curso cc on c.idCurso = cc.idCurso where cc.idcampus = ?");
+            $stat = $this->conexao->prepare("Select c.idCurso, c.nome, c.ensino, c.ativo From Curso as c inner join campus_curso as cc on c.idCurso = cc.idCurso where cc.idcampus = ?");
             
             $stat->bindValue(1, $idCampus);
             
@@ -124,6 +124,21 @@ class CampusDAO{
             $array = $stat->fetchAll(PDO::FETCH_ASSOC);
             
             return $array;
+        } catch (PDOException $ex){
+            echo $ex->getMessage();
+        }
+    }
+
+    // Alterar Campus
+    public function alterarCampus(Campus $c){
+        try{
+           $stat = $this->conexao->prepare("Update campus set nome = ? where idcampus = ?");
+           $stat->bindValue(1, $c->nome);
+           $stat->bindValue(2, $c->idCampus);
+           $stat->execute();
+
+           return true;
+
         } catch (PDOException $ex){
             return $ex->getMessage();
         }
@@ -141,6 +156,22 @@ class CampusDAO{
         } catch (PDOException $ex){
             return $ex->getMessage();
         }
+    }
+
+    // Remover Curso do Campus
+    public function removerCursoDoCampus($idCurso,$idCampus){
+        try{
+           $stat = $this->conexao->prepare("delete from campus_curso where idCurso = ? and idCampus = ?");
+           $stat->bindValue(1, $idCurso);
+           $stat->bindValue(2, $idCampus);
+           $stat->execute();
+
+           return true;
+
+        } catch (PDOException $ex){
+            return $ex->getMessage();
+        }
+
     }
 
 }

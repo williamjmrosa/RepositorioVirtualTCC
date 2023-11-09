@@ -10,7 +10,7 @@ function montarListaCampus($campus){
                     <th scope="row">' . $c->idCampus . '</th>
                     <td>' . $c->nome . '</td>
                     <td>' . $ativo . '</td>
-                    <td><a href="../alterarCadastros/alterarCampus.php?OP=3&id=' . $c->idCampus . '" class="btn btn-primary alterarCampus" onclick="preencherForm(this,event)">Alterar</a></td>
+                    <td><a href="'. $c->idCampus . '" class="btn btn-primary alterarCampus" onclick="preencherForm(this,event)">Alterar</a></td>
                     <td><a href="../controle/campus-controle.php?OP=3&id=' . $c->idCampus . '" class="btn btn-danger excluir">'. $ativar.'</a></td>
                 </tr>';
         }
@@ -48,6 +48,7 @@ if(isset($_GET['OP'])) {
 
                 $cDAO = new CampusDAO();
                 $campus = $cDAO->buscarCampusPorId($id);
+                //print_r($campus);
                 if(is_array($campus)){
                     echo json_encode($campus);
                 }else{

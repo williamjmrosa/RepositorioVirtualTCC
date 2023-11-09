@@ -55,6 +55,65 @@ if (isset($_GET['OP'])) {
             break;
         //Alterar Campus
         case 2:
+
+            $erros = array();
+
+            if(!isset($_POST['id'])){
+                $erros[] = "Campo id nao existe.";
+            }else if($_POST["id"] == ""){
+                $erros[] = "Campo id em branco";
+            }else{
+                $idCampus = filter_var($_POST['id'], FILTER_SANITIZE_NUMBER_INT);
+
+            }
+
+            if (!isset($_POST['nome'])) {
+                $erros[] = "Campo nome não existe.";
+            } elseif ($_POST["nome"] == "") {
+                $erros[] = "Campo nome em branco";
+            } else {
+                $nome = filter_var($_POST['nome'], FILTER_SANITIZE_SPECIAL_CHARS);
+            }
+
+            if (isset($_POST["cursos"])) {
+                $cursos = array();
+                foreach ($_POST['cursos'] as $v) {
+                    $cursos[] = filter_var($v, FILTER_SANITIZE_NUMBER_INT);
+                }
+            }
+
+            if (!Validacao::validarNome($nome) && isset($nome)) {
+                $erros[] = "Nome para Curso invalido!";
+            }
+
+            if (count($erros) == 0) {
+                $c = new Campus;
+                $c->idCampus = $idCampus;
+                $c->nome = $nome;
+                
+
+                $cDAO = new CampusDAO;
+                $campus = $cDAO->alterarCampus($c);
+                if(isset($cursos)){
+                    $c->cursos = $cursos;
+                    for ($i = 0; $i < count($c->cursos); $i++) {
+                        # code...
+                        $cDAO->cadastrarCursoNoCampus($c->idCampus, $c->cursos[$i]);
+                    }
+                }
+
+                if($campus){
+                    $_SESSION['msg'] = 'Campus Alterado!';
+                }else{
+                    $erros[] = "Erro ao alterar campus!";
+                    $_SESSION['erros'] = serialize($erros);
+                }
+
+            } else {
+                $_SESSION['erros'] = serialize($erros);
+            }
+            header('location: ../visao/telaCadastroCampus.php');
+
             break;
         //Desativar/Ativar Campus
         case 3:
@@ -75,6 +134,32 @@ if (isset($_GET['OP'])) {
 
             }else{
                 $erros[] = "Nenhum campus selecionado!";
+                $_SESSION['erros'] = serialize($erros);
+            }
+
+            header('Location: ../visao/telaCadastroCampus.php');
+
+            break;
+        //Remover Curso do Campus
+        case 4:
+            if(isset($_GET['idCurso']) && isset($_GET['idCampus'])){
+                $idCurso = filter_var($_GET['idCurso'], FILTER_SANITIZE_NUMBER_INT);
+
+                $idCampus = filter_var($_GET['idCampus'], FILTER_SANITIZE_NUMBER_INT);
+
+                $cDAO = new CampusDAO();
+
+                $campus = $cDAO->removerCursoDoCampus($idCurso,$idCampus);
+
+                if($campus){
+                    $_SESSION['msg'] = "Curso removido com sucesso!";
+                }else{
+                    $erros[] = "Erro ao remover curso!";
+                    $_SESSION['erros'] = serialize($erros);
+                }
+
+            }else{
+                $erros[] = "Nenhum Curso selecionado para remover!";
                 $_SESSION['erros'] = serialize($erros);
             }
 
