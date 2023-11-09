@@ -80,8 +80,6 @@ function preencherForm(option, event) {
         id: id
     });
 
-    console.log(id);
-
     $.ajax({
         url: '../alterarCadastros/alterarCategoria.php?' + parametros,
         method: 'GET',
@@ -89,26 +87,26 @@ function preencherForm(option, event) {
         success: function (response) {
             // Manipular o objeto JSON retornado
             var categoria = response;
-            console.log(categoria.nomeAlternativo);
             // Exibir os valores das propriedades do objeto
             $('#nomeCategoria').val(categoria.nome);
             if(response.error){
                 alert(response.error);
-            }else if(categoria.nomeAlternativo.length > 0){
-                var nomeAlternativo = categoria.nomeAlternativo;
-                var divNomeAlternativo = $(".alternativas");
-                divNomeAlternativo.empty();
-                for(var i = 0; i <nomeAlternativo.length; i++){
-                    var valor = nomeAlternativo[i];
-                    divNomeAlternativo.append('<div class="col-12">'
-                        + '<label for="nomeAlternativo' + valor.idNomeAlternativo + '" class="form-label me-2">Nome Alternativo</label>'
-                        + '<input type="text" class="form-control d-inline w-50" id="nomeAlternativo' + valor.idNomeAlternativo + '" value="' + valor.nomeAlternativo + '">'
-                        + '<a href="../controle/categoria-controle.php?OP=4&id=' + valor.idNomeAlternativo + '" class="btn btn-danger ms-1"> Excluir </a>'
-                        + '<a href="' + valor.idNomeAlternativo + '" class="btn btn-primary ms-1" onclick="alterarNome(event,this)"> Alterar </a>'
-                        + '</div>');
-                }
+            }else{ 
+                if(categoria.nomeAlternativo.length > 0){
+                    var nomeAlternativo = categoria.nomeAlternativo;
+                    var divNomeAlternativo = $(".alternativas");
+                    divNomeAlternativo.empty();
+                    for(var i = 0; i <nomeAlternativo.length; i++){
+                        var valor = nomeAlternativo[i];
+                        divNomeAlternativo.append('<div class="col-12">'
+                            + '<label for="nomeAlternativo' + valor.idNomeAlternativo + '" class="form-label me-2">Nome Alternativo</label>'
+                            + '<input type="text" class="form-control d-inline w-50" id="nomeAlternativo' + valor.idNomeAlternativo + '" value="' + valor.nomeAlternativo + '">'
+                            + '<a href="../controle/categoria-controle.php?OP=4&id=' + valor.idNomeAlternativo + '" class="btn btn-danger ms-1"> Excluir </a>'
+                            + '<a href="' + valor.idNomeAlternativo + '" class="btn btn-primary ms-1" onclick="alterarNome(event,this)"> Alterar </a>'
+                            + '</div>');
+                    }
                 
-            }
+                }
 
             if (categoria.eSub == 1) {
                 $("input[name=eSub][value='true']").prop("checked", true).change();
@@ -132,6 +130,8 @@ function preencherForm(option, event) {
             $("#cadastrarCategoria").append('<input type="hidden" name="id" value="' + categoria.idCategoria + '">');
 
             $('#cadastrarCategoria').show();
+
+            }
         },
         error: function (jqXHR, textStatus, errorThrown) {
             // Acessar informações sobre o erro
