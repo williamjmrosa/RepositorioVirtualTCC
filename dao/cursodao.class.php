@@ -28,7 +28,7 @@ class CursoDAO{
     //Listar Cursos
     public function listarCursos(){
         try{
-            $stat = $this->conexao->prepare("Select * From curso order by ensino");
+            $stat = $this->conexao->prepare("Select * From curso");
 
             $stat->execute();
 
@@ -117,9 +117,52 @@ class CursoDAO{
         }
     }
 
+    // Buscar Cursos por ID
+    public function buscarCursosPorId($id){
+        try{
+            $stat = $this->conexao->prepare("Select * From Curso where idCurso = ?");
+            $stat->bindValue(1, $id);
+            $stat->execute();
+            
+            $array = $stat->fetch(PDO::FETCH_ASSOC);
+        
+            return $array;
+        }catch(PDOException $ex){
+            echo "Erro ao buscar Cursos por ID! \n".$ex->getMessage();
+        }
+    }
 
+    // Alterar Curso
+    public function alterarCurso(Curso $c){
+        try{
+            $stat = $this->conexao->prepare("update curso set nome = ?, ensino = ? where idCurso = ?");
+            $stat->bindValue(1, $c->nome);
+            $stat->bindValue(2, $c->ensino);
+            $stat->bindValue(3, $c->idCurso);
 
+            $stat->execute();
 
+            return true;
+
+        }catch(PDOException $ex){
+            echo "Erro ao alterar Curso! \n".$ex->getMessage();
+        }
+    }
+
+    // Ativar e Desativar Cursos
+    public function alterarStatusCurso($id){
+        try{
+            $stat = $this->conexao->prepare("update curso set ativo = IF(ativo is null,1,null) where idCurso = ?");
+            $stat->bindValue(1, $id);
+
+            $stat->execute();
+
+            return true;
+
+        }catch(PDOException $ex){
+            echo "Erro ao alterar Status do Curso! \n".$ex->getMessage();
+        }
+    }
 }
 
 ?>

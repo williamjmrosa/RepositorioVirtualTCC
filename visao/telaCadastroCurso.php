@@ -26,12 +26,33 @@
                             <li>
                                 <a class="btn fundo-secundario fw-bold m-1" href="#"><img id="img-login" class="me-4" src="../img/login.png"/>Login</a>
                                 <ul class="fundo-secundario p-2 fw-bold text-start">
-                                    <li>
-                                        <a class="" href="../visao/telaCadastroCurso.php">Cadastrar Curso</a>    
-                                    </li>
-                                    <li>
-                                        <a class="" href="../visao/telaCadastroTCC.php">Cadastrar TCC</a>    
-                                    </li>
+                                <li>
+                                    <a href="../visao/telaCadastroCurso.php">Cadastrar Curso</a>
+                                </li>
+                                <li>
+                                    <a href="../visao/telaCadastroCampus.php">Cadastrar Campus</a>
+                                </li>
+                                <li>
+                                    <a href="../visao/telaCadastroCategoria.php">Cadastrar Categoria</a>
+                                </li>
+                                <li>
+                                    <a href="../visao/telaCadastroAluno.php">Cadastrar Aluno</a>
+                                </li>
+                                <li>
+                                    <a href="../visao/telaCadastroProfessor.php">Cadastrar Professor</a>
+                                </li>
+                                <li>
+                                    <a href="../visao/telaCadastroVisitante.php">Cadastrar Visitante</a>
+                                </li>
+                                <li>
+                                    <a href="../visao/telaCadastroBibliotecario.php">Cadastrar Bibliotecário</a>
+                                </li>
+                                <li>
+                                    <a href="../visao/telaCadastroAdm.php">Cadastrar Administrador</a>
+                                </li>
+                                <li>
+                                    <a href="../visao/telaCadastroTCC.php">Cadastrar TCC</a>
+                                </li>
                                 </ul>
                             </li>
                         </ul>
@@ -87,15 +108,46 @@
                     <label class="form-check-label" for="superior">
                       Ensino Superior
                     </label>
+                    <input class="form-check-input" value="2" type="radio" name="ensino" id="posGraduacao">
+                    <label class="form-check-label" for="posGraduacao">
+                      Pós Graduação
+                    </label>
                   </div>
                   <div class="col-12">
                     <button type="submit" class="btn btn-primary">Cadastrar</button>
                   </div>
                 </form>
             </div>
+            <div class="row g-3 m-4 cadastro w-auto">
+            <div class="col-12">
+                <h3>Cursos Cadastrados</h3>
+            </div>
+            <div class="col-12">
+                <label class="form-label" for="buscarNome"> Buscar Nome de Campus</label>
+                <input type="text" class="form-control" id="buscarNome" name="buscarNome" placeholder="Buscar nome Curso">
+            </div>
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th scope="col">#</th>
+                        <th scope="col">Nome</th>
+                        <th class="text-center" scope="col">Ensino</th>
+                        <th class="text-center" scope="col">Status</th>
+                        <th class="text-center" scope="col">Alterar</th>
+                        <th class="text-center" scope="col">Ativo</th>
+                    </tr>
+                </thead>
+                <tbody id="alterar">
+                    <!-- Inicio da Lista de Campus para Alterar/Ativar/Desativar -->
+                    <!-- Carregamento da Lista de Campus via JS -->
+                    <!-- Fim da Lista de Categoria para Alterar/Ativar/Desativar -->
+                </tbody>
+            </table>
+        </div>
         </div>
         <script src="../Framework/js/jquery-3.6.4.js"></script>
         <script src="../Framework/js/popper.min.js"></script>
         <script src="../Framework/js/bootstrap.js"></script>
+        <script src="../js/js-cadastro-curso.js"></script>
     </body>
 </html>

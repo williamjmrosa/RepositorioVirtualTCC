@@ -16,12 +16,9 @@ if(isset($_GET['OP'])){
             if(!(isset($_POST['nome']) && isset($_POST['ensino']))){
                 header('location: ../index.php');
                 break;
-            }
-
-            
-            $nome = filter_var($_POST['nome'],FILTER_SANITIZE_SPECIAL_CHARS);
-                        
-            $ensino = filter_var($_POST['ensino'],FILTER_SANITIZE_NUMBER_INT);
+            }else{
+                $nome = filter_var($_POST['nome'],FILTER_SANITIZE_SPECIAL_CHARS);
+            }      
 
             $erro = array();
 
@@ -29,7 +26,13 @@ if(isset($_GET['OP'])){
                 $erro[] = "Nome para Curso invalido!";
             }
 
-            if(!($ensino == 0 || $ensino == 1)){
+            if(!isset($_POST['ensino'])){
+                $erro[] = "Ensino para Curso invalido!";
+            }else{
+                $ensino = filter_var($_POST['ensino'],FILTER_SANITIZE_NUMBER_INT);
+            }
+
+            if(!($ensino == 0 || $ensino == 1 || $ensino == 2)){
                 $erro[] = "Ensino não Selecionado";
             }
             
@@ -57,8 +60,101 @@ if(isset($_GET['OP'])){
             header('location: ../visao/telaCadastroCurso.php');
 
         break;
+
+        // Alterar Curso
+        case 2:
+            $erro = array();
+
+            if(!isset($_POST['idCurso'])){
+                $erro[] = "ID para Curso não existe!";
+            }elseif($_POST['idCurso'] == ""){
+                $erro[] = "ID para Curso em branco!";
+            }else{
+                $idCurso = filter_var($_POST['idCurso'],FILTER_SANITIZE_NUMBER_INT);
+            }
+
+            if(!isset($_POST['nome'])){
+                $erro[] = "Campo Nome para Curso não existe!";
+            }elseif(!Validacao::validarNome($_POST['nome'])){
+                $erro[] = "Nome para Curso invalido!";
+            }else{
+                $nome = filter_var($_POST['nome'],FILTER_SANITIZE_SPECIAL_CHARS);
+            }            
+
+            if(!isset($_POST['ensino'])){
+                $erro[] = "Ensino para Curso invalido!";
+            }elseif(!($_POST['ensino'] == 0 || $_POST['ensino'] == 1 || $_POST['ensino'] == 2)){
+                $erro[] = "Ensino não Selecionado";
+            }else{
+                $ensino = filter_var($_POST['ensino'],FILTER_SANITIZE_NUMBER_INT);
+            }   
+            
+            if(count($erro) == 0){    
+                
+                $c = new Curso();
+                $c->idCurso = $idCurso;
+                $c->nome = Padronizacao::padronizarNome($nome);
+                $c->ensino = $ensino;
+                
+                $cDAO = new CursoDAO();
+                $erroBanco = $cDAO->alterarCurso($c);
+                
+                if(!$erroBanco){
+                    $erro[] = $erroBanco."\n";
+                    $_SESSION['erros'] = serialize($erro);
+                    
+                }else{
+                    $_SESSION['msg'] = 'Curso Alterado!';
+                }
+            }else{
+                $_SESSION['erros'] = serialize($erro);
+            }
+
+
+            header('location: ../visao/telaCadastroCurso.php');
+
+            break;
+        // Desativar/Ativar Curso
+        case 3:
+            $erro = array();
+
+            if(!isset($_GET['id'])){
+                $erro[] = "ID para Curso não existe!";
+            }elseif($_GET['id'] == ""){
+                $erro[] = "ID para Curso em branco!";
+            }else{
+                $idCurso = filter_var($_GET['id'],FILTER_SANITIZE_NUMBER_INT);
+            }
+
+            if(count($erro) == 0){
+                $cDAO = new CursoDAO;
+                $erroBanco = $cDAO->alterarStatusCurso($idCurso);
+
+                if(!$erroBanco == true){
+                    $erro[] = $erroBanco."\n";
+                    $_SESSION['erros'] = serialize($erro);
+                }else{
+                    $_SESSION['msg'] = 'Status do Curso alterado!\n';
+                }
+            }else{
+                $_SESSION['erros'] = serialize($erro);
+            }
+
+            header('location: ../visao/telaCadastroCurso.php');
+            
+            break;
+        default:
+            $erro[] = "Nenhuma opcao valida selecionada!";
+            $_SESSION['erros'] = serialize($erro);
+            header('location: ../visao/telaCadastroCurso.php');
+            break;
+
     }
 
+}else{
+    $erro[] = "Nenhuma opcao selecionada!";
+    $_SESSION['erros'] = serialize($erro);
+    header('location: ../visao/telaCadastroCurso.php');
 }
 
 ?>
