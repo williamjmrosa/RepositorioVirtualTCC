@@ -16,6 +16,10 @@ function montarListaCurso($cursos){
                         <td class="text-center"><a href="../controle/curso-controle.php?OP=3&id=' . $c->idCurso . '" class="btn btn-danger excluir">'. $ativar.'</a></td>
                 </tr>';
         }
+    }else{
+        echo '<tr>
+                <th colspan="6">Nenhum Curso encontrado</th>
+            </tr>';
     }
 }
 
@@ -69,6 +73,8 @@ if(isset($_GET['OP'])) {
 
     }
 
+}else{
+    header('Location: ../alterarCadastros/alterarCurso.php?OP=1');
 }
 
 ?>
