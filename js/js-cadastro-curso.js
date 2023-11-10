@@ -47,5 +47,17 @@ function preencherForm(option, event) {
 }
 
 $(document).ready(function () {
-    
+    $("#buscarNome").on("input", function () {
+        var nome = $(this).val();
+        
+        console.log("Nome: " + nome);
+        
+        var parametros = $.param({
+            OP: 2,
+            BUSCA: nome
+        });
+
+        $("#alterar").load("../alterarCadastros/alterarCurso.php?"+parametros);
+
+    });
 });
