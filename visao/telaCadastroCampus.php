@@ -51,6 +51,12 @@ include_once '../Modelo/curso.class.php';
                                     <a href="../visao/telaCadastroVisitante.php">Cadastrar Visitante</a>
                                 </li>
                                 <li>
+                                    <a href="../visao/telaCadastroBibliotecario.php">Cadastrar Bibliotecário</a>
+                                </li>
+                                <li>
+                                    <a href="../visao/telaCadastroAdm.php">Cadastrar Administrador</a>
+                                </li>
+                                <li>
                                     <a href="../visao/telaCadastroTCC.php">Cadastrar TCC</a>
                                 </li>
                             </ul>
@@ -109,7 +115,7 @@ include_once '../Modelo/curso.class.php';
                 <div class="col-12">
                     <label class="form-label">Lista de Cursos</label>
                     <select id="lista" name="lista" class="form-select" size="6" aria-label="Lista de Cursos">
-                        
+
                         <?php
                         $cDAO = new CursoDAO();
                         $cursos = $cDAO->listarCursos();
@@ -119,7 +125,7 @@ include_once '../Modelo/curso.class.php';
                                 <option onclick="lista(this)" value="<?php echo $c->idCurso; ?>"><?php echo $c->nome . " | " . $c->mostrarEnsino(); ?></option>
                         <?php
                             }
-                        }else{
+                        } else {
                             echo '<option>Não existem Cursos Cadastrados</option>';
                         }
                         ?>
