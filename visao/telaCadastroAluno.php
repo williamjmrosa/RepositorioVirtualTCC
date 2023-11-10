@@ -31,8 +31,7 @@ include_once '../Modelo/campus.class.php';
         <div class="div-login">
           <ul id="login">
             <li>
-              <a class="btn fundo-secundario fw-bold m-1" href="#"><img id="img-login" class="me-4"
-                  src="../img/login.png" />Login</a>
+              <a class="btn fundo-secundario fw-bold m-1" href="#"><img id="img-login" class="me-4" src="../img/login.png" />Login</a>
               <ul class="fundo-secundario p-2 fw-bold text-start">
                 <li>
                   <a href="../visao/telaCadastroCurso.php">Cadastrar Curso</a>
@@ -69,22 +68,21 @@ include_once '../Modelo/campus.class.php';
       <form class="row g-3" method="POST" action="../controle/aluno-controle.php?OP=1">
         <!-- Mensagens de Alerta do retorno do Cadastro -->
         <?php
-        
-          if (isset($_SESSION['erros'])) {
-            $erros = unserialize($_SESSION['erros']);
-            unset($_SESSION['erros']);
-            $msg = "";
-            foreach ($erros as $erro) {
-              $msg = $msg . '<p class="m-0"> ' . $erro . '</p>';
-            }
-            $sucesso = false;
-          }elseif(isset($_SESSION['msg'])) {
-            $sucesso = true;
-            $msg = $_SESSION['msg'];
-            unset($_SESSION['msg']);
-            
+
+        if (isset($_SESSION['erros'])) {
+          $erros = unserialize($_SESSION['erros']);
+          unset($_SESSION['erros']);
+          $msg = "";
+          foreach ($erros as $erro) {
+            $msg = $msg . '<p class="m-0"> ' . $erro . '</p>';
           }
-          if(isset($sucesso)){
+          $sucesso = false;
+        } elseif (isset($_SESSION['msg'])) {
+          $sucesso = true;
+          $msg = $_SESSION['msg'];
+          unset($_SESSION['msg']);
+        }
+        if (isset($sucesso)) {
         ?>
           <div class="alert <?php if ($sucesso) {
                               echo 'alert-success';
@@ -100,7 +98,7 @@ include_once '../Modelo/campus.class.php';
         ?>
         <!-- Fim da mensagens de Alerta do retorno do Cadastro -->
         <div class="col-12">
-            <h3>Cadastrar Aluno</h3>
+          <h3>Cadastrar Aluno</h3>
         </div>
         <div class="col-12">
           <label for="nome" class="form-label">Nome Completo</label>
@@ -162,13 +160,13 @@ include_once '../Modelo/campus.class.php';
             <?php
             $campusDAO = new CampusDAO();
             $campi = $campusDAO->listarCampus();
-            if(is_array($campi)){
+            if (is_array($campi)) {
               foreach ($campi as $campus) {
                 echo "<option onClick='campusSelecionado(this)' value='$campus->idCampus'>$campus->nome</option>";
               }
             }
             ?>
-            </select>
+          </select>
         </div>
         <div class="col-lg-12">
           <label for="curso" class="form-label">Curso</label>
@@ -181,11 +179,51 @@ include_once '../Modelo/campus.class.php';
         </div>
       </form>
     </div>
+    <div class="row g-3 m-4 cadastro w-auto">
+      <div class="col-12">
+        <h3>Categorias Cadastradas</h3>
+      </div>
+      <div class="col-12 row g-3">
+        <div class="col-2">
+          <select class="form-select" name="busca" id="busca">
+            <option value="nome">Nome</option>
+            <option value="matricula">Matricula</option>
+            <option value="email">Email</option>
+            <option value="cpf">CPF</option>
+            <option value="rg">RG</option>
+          </select>
+        </div>
+        <div class="col-6">
+          <input type="text" class="form-control" id="buscarNome" name="buscarNome" placeholder="Buscar Aluno">
+        </div>
+      </div>
+      <table class="table table-striped">
+        <thead>
+          <tr>
+            <th scope="col">Matricula</th>
+            <th scope="col">Nome</th>
+            <th scope="col">Email</th>
+            <th scope="col">CPF</th>
+            <th scope="col">RG</th>
+            <th scope="col">Ativo</th>
+            <th class="text-center" scope="col">Alterar</th>
+            <th class="text-center" scope="col">Status</th>
+          </tr>
+        </thead>
+        <tbody id="alterar">
+          <!-- Inicio da Lista de Categoria para Alterar/Excluir -->
+          <!-- Carregamento da Lista de Categorias via JS -->
+          <!-- Fim da Lista de Categoria para Alterar/Excluir -->
+        </tbody>
+      </table>
+    </div>
+  </div>
   </div>
   <script src="../Framework/js/jquery-3.6.4.js"></script>
   <script src="../Framework/js/popper.min.js"></script>
   <script src="../Framework/js/bootstrap.js"></script>
   <script src="../js/js-cadastro-usuarios.js"></script>
+  <script src="../js/js-cadastro-aluno.js"></script>
   <script src="../Framework/jQuery-Mask-Plugin/jquery.mask.js"></script>
 </body>
 

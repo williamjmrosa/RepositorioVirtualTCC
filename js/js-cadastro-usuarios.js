@@ -21,10 +21,36 @@ function mostrarSenha(input){
     }
 }
 
-function campusSelecionado(option){
+function campusSelecionado(option,callback){
     var select = $(option);
     var valor = select.val();
-    $('#curso').load('../visao/selecteCurso.php?ID='+valor);
+    $('#curso').load('../visao/selecteCurso.php?ID='+valor,function(){
+        callback();
+    });
+
+}
+
+function completeForm(entrada){
+    var usuario = entrada;
+
+    $("#nome").val(usuario.nome);
+    $("#cpf").val(usuario.cpf).unmask().mask('000.000.000-00');
+    $("#rg").val(usuario.rg).unmask().mask('99.999.999-9');
+    $("#email").val(usuario.email);
+    $("#cep").val(usuario.end.cep);
+    $("#rua").val(usuario.end.logradouro.split(",")[0].trim());
+    $("#numero").val(usuario.end.logradouro.replace(/^.*?,\s*/, ""));
+    $("#complemento").val(usuario.end.complemento);
+    $("#bairro").val(usuario.end.bairro);
+    $("#cidade").val(usuario.end.cidade);
+    $("#uf").val(usuario.end.uf);
+    $("#telefone").val(usuario.telefone).unmask().mask('(00) 00000 - 0000');
+
+    $("input[name=matricula]").remove();
+
+    $(".cadastro form").append('<input type="hidden" name="matricula" value="'+usuario.matricula+'"/>');
+
+    $(".cadastro form").append('<input type="hidden" name="idEndereco" value="'+usuario.end.idEndereco+'"/>');
 
 }
 

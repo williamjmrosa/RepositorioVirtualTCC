@@ -37,5 +37,44 @@ class EnderecoDAO{
         }
     }
 
+    // Buscar Endereço por ID
+    public function encontrarEnderecoPorId($id){
+        try{
+            $stat = $this->conexao->prepare("select * from Endereco where idEndereco = ?");
+            $stat->bindValue(1,$id);
+            $stat->execute();
+
+            $endereco = $stat->fetch(PDO::FETCH_ASSOC);
+
+            return $endereco;
+
+        }catch(PDOException $ex){
+            echo $ex->getMessage();
+        }
+        
+    }
+
+    // Alterar Endereço
+    public function alterarEndereco(Endereco $endereco){
+        try{
+            echo "entrou";
+            $stat = $this->conexao->prepare("update Endereco set cep = ?, logradouro = ?, bairro = ?, cidade = ?, uf = ?, complemento = ? where idEndereco = ?");
+
+            $stat->bindValue(1,$endereco->cep);
+            $stat->bindValue(2,$endereco->logradouro);
+            $stat->bindValue(3,$endereco->bairro);
+            $stat->bindValue(4,$endereco->cidade);
+            $stat->bindValue(5,$endereco->uf);
+            $stat->bindValue(6,$endereco->complemento);
+            $stat->bindValue(7,$endereco->idEndereco);
+
+            $stat->execute();
+
+            return true;
+        }catch(PDOException $ex){
+            echo $ex->getMessage();
+        }
+    }
+
 }
 ?>

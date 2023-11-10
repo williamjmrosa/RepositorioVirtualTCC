@@ -1,5 +1,6 @@
 <?php
 require_once '../persistencia/conexaobanco.class.php';
+include_once '../dao/enderecodao.class.php';
 
 class AlunoDAO{
 
@@ -87,6 +88,122 @@ class AlunoDAO{
         }catch(PDOException $ex){
             return false;
         }
+    }
+
+    // Buscar Aluno por tipo
+    public function buscarAlunoPorTipo($busca,$tipo){
+        try{  
+
+            $stat = $this->conexao->prepare("select * from aluno where $tipo like ?");
+            $stat->bindValue(1, $busca."%");
+            $stat->execute();
+
+            $alunos = $stat->fetchAll(PDO::FETCH_CLASS, 'Aluno');
+            echo $stat->debugDumpParams();
+            return $alunos;
+
+        }catch(PDOException $ex){
+            echo $ex->getMessage();
+        }
+    }
+
+    // Buscar Aluno por matricula
+    public function buscarAlunoPorMatricula($id){
+        try{
+            $stat = $this->conexao->prepare("select * from aluno where matricula = ?");
+            $stat->bindValue(1, $id);
+            $stat->execute();
+
+            $aluno = $stat->fetch(PDO::FETCH_ASSOC);
+
+            $EndDAO = new EnderecoDAO();
+            $aluno['end'] = $EndDAO->encontrarEnderecoPorId($aluno['idEndereco']);
+
+            return $aluno;
+
+        }catch(PDOException $ex){
+            echo $ex->getMessage();
+        }
+
+    }
+
+    // Alterar Aluno por ADM/Bibliotecario
+    public function alterarAlunoADM(Aluno $aluno){
+        try{
+
+            $sql = 'update aluno set';
+            $params = array();
+            if($aluno->nome != null){
+                $sql .= ($sql == "update aluno set") ? " nome = :nome" : ", nome = :nome";
+                $params[':nome'] = $aluno->nome;
+            }
+            if($aluno->rg != null){
+                $sql.= ($sql == "update aluno set") ? " rg = :rg" : ", rg = :rg";
+                $params[':rg'] = $aluno->rg;
+            }
+            if($aluno->cpf != null){
+                $sql.= ($sql == "update aluno set") ? " cpf = :cpf" : ", cpf = :cpf";
+                $params[':cpf'] = $aluno->cpf;
+            }
+            if($aluno->telefone != null){
+                $sql.= ($sql == "update aluno set") ? " telefone = :telefone" : ", telefone = :telefone";
+                $params[':telefone'] = $aluno->telefone;
+            }
+            if($aluno->email != null){
+                $sql.= ($sql == "update aluno set") ? " email = :email" : ", email = :email";
+                $params[':email'] = $aluno->email;
+            }
+            if($aluno->senha != null){
+                $sql.= ($sql == "update aluno set") ? " senha = :senha" : ", senha = :senha";
+                $params[':senha'] = $aluno->senha;
+            }
+            if($aluno->campus != null){
+                $sql.= ($sql == "update aluno set") ? " campus = :campus" : ", campus = :campus";
+                $params[':campus'] = $aluno->campus;
+            }
+            if($aluno->curso != null){
+                $sql.= ($sql == "update aluno set") ? " curso = :curso" : ", curso = :curso";
+                $params[':curso'] = $aluno->curso;
+            }
+            $sql.=" where matricula = :matricula";
+            $stat = $this->conexao->prepare($sql);
+            
+            $params[':matricula'] = $aluno->matricula;
+            
+            foreach($params as $key => $value){
+                $stat->bindValue($key, $value);
+            }
+            
+            $stat->execute();
+            echo "foi";
+            $EndDAO = new EnderecoDAO();
+            if($EndDAO->alterarEndereco($aluno->end)){
+                return true;
+            }else{
+                return false;
+            }
+
+        }catch(PDOException $ex){
+            echo $sql;
+            echo "<br>";
+            echo "Aluno:".$ex->getMessage();
+        }
+
+    }
+
+    // Ativar/Desativar Aluno
+    public function alterarStatusAluno($id){
+        try{
+            $stat = $this->conexao->prepare("update aluno set ativo = IF(ativo = 1,NULL,1) where matricula = ?");
+            $stat->bindValue(1,$id);
+            $stat->execute();
+
+            return true;
+
+        }catch(PDOException $ex){
+            echo $ex->getMessage();
+        }
+
     }
 
 }

@@ -17,6 +17,7 @@ class Aluno{
     private Endereco $end;
     private $campus;
     private $curso;
+    private $ativo;
 
     //Construtor
     public function __construct(){
@@ -30,6 +31,14 @@ class Aluno{
     //Método SET
     public function __set($a, $v){
         $this->$a = $v;
+    }
+
+    public function mostrarStatus(){
+        if($this->ativo == 1){
+            return 'Inativo';
+        }else{
+            return 'Ativo';
+        }
     }
 
     //Método toString
