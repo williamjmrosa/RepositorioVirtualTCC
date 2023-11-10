@@ -10,10 +10,14 @@ function montarListaCampus($campus){
                     <th scope="row">' . $c->idCampus . '</th>
                     <td>' . $c->nome . '</td>
                     <td>' . $ativo . '</td>
-                    <td><a href="'. $c->idCampus . '" class="btn btn-primary alterarCampus" onclick="preencherForm(this,event)">Alterar</a></td>
-                    <td><a href="../controle/campus-controle.php?OP=3&id=' . $c->idCampus . '" class="btn btn-danger excluir">'. $ativar.'</a></td>
+                    <td class="text-center"><a href="'. $c->idCampus . '" class="btn btn-primary alterarCampus w-100" onclick="preencherForm(this,event)">Alterar</a></td>
+                    <td class="text-center"><a href="../controle/campus-controle.php?OP=3&id=' . $c->idCampus . '" class="btn btn-danger excluir w-100">'. $ativar.'</a></td>
                 </tr>';
         }
+    }else{
+        echo '<tr>
+                <th colspan="5">Nenhum Campus encontrado</th>
+            </tr>';
     }
 }
 

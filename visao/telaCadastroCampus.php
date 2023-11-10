@@ -131,7 +131,7 @@ include_once '../Modelo/curso.class.php';
                     </div>
                 </div>
                 <div class="col-12">
-                    <button type="submit" class="btn btn-primary">Cadastrar</button>
+                    <button type="submit" class="btn btn-primary mt-3">Cadastrar</button>
                 </div>
             </form>
         </div>
@@ -149,8 +149,8 @@ include_once '../Modelo/curso.class.php';
                         <th scope="col">#</th>
                         <th scope="col">Nome</th>
                         <th scope="col">Ativo</th>
-                        <th scope="col">Alterar</th>
-                        <th scope="col">Ativo</th>
+                        <th class="text-center" scope="col">Alterar</th>
+                        <th class="text-center" scope="col">Ativo</th>
                     </tr>
                 </thead>
                 <tbody id="alterar">
