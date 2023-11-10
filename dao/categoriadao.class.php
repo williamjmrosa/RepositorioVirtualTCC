@@ -162,7 +162,7 @@ class CategoriaDAO{
     // Buscar Categorias por nome
     public function buscarCategoriasPorNome($nome){
         try{
-            $stat = $this->conexao->prepare("Select c.idCategoria, c.nome, c.eSub, c.categoriaPrincipal from categoria as c left join nomeAlternativo as na on c.idCategoria = na.idCategoria where nome like ? or na.nomeAlternativo like ?");
+            $stat = $this->conexao->prepare("Select c.idCategoria, c.nome, c.eSub, c.categoriaPrincipal from categoria as c left join nomeAlternativo as na on c.idCategoria = na.idCategoria where nome like ? or na.nomeAlternativo like ? group by c.idCategoria");
 
             $stat->bindValue(1,"%".$nome."%");
             $stat->bindValue(2,"%".$nome."%");
