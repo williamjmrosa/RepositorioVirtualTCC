@@ -175,7 +175,6 @@ class AlunoDAO{
             }
             
             $stat->execute();
-            echo "foi";
             $EndDAO = new EnderecoDAO();
             if($EndDAO->alterarEndereco($aluno->end)){
                 return true;
@@ -184,9 +183,7 @@ class AlunoDAO{
             }
 
         }catch(PDOException $ex){
-            echo $sql;
-            echo "<br>";
-            echo "Aluno:".$ex->getMessage();
+            echo "Aluno: ".$ex->getMessage();
         }
 
     }
