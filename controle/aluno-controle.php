@@ -365,7 +365,7 @@ if(isset($_GET['OP'])){
                 $alunoDAO = new AlunoDAO();
                 $alunoDAO->alterarAlunoADM($aluno);
                 
-                $_SESSION['msg'] = 'Aluno cadastrado com sucesso!';
+                $_SESSION['msg'] = 'Aluno alterado com sucesso!';
             }else{
                 $_SESSION['erros'] = serialize($erros);
             }
