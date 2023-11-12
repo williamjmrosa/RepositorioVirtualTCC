@@ -1,6 +1,7 @@
 // Carregar lista de visitantes
 $("#alterar").load('../alterarCadastros/alterarVisitante.php?OP=1');
 
+// Função para preencher o formulário com os dados do visitante
 function preencherForm(option, event) {
     event.preventDefault();
     var select = $(option);
@@ -49,3 +50,20 @@ function preencherForm(option, event) {
     });
 
 }
+
+$(document).ready(function () {
+   
+    // Buscar pelo tipo selecionado o texto digitado
+    $("#buscarNome").on("input", function () {
+        // Obter o texto digitado
+        var busca = $(this).val();
+        // Obter o tipo selecionado
+        var tipo = $("select[name=busca] option:selected").val();
+        // Carregar lista de visitantes passando o tipo e o texto digitado como parâmetro para a requisição
+        $.post("../alterarCadastros/alterarVisitante.php?OP=2",{BUSCA: busca, TIPO: tipo},function(data){
+            $("#alterar").html(data);
+        });
+    
+    });
+
+});
