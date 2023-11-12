@@ -66,6 +66,64 @@ if(isset($_GET['OP'])){
             header('Location: ../visao/telaCadastroVisitante.php');
 
             break;
+
+        // Alterar Visitante
+        case 2:
+
+            $erros = array();
+
+            if(!isset($_POST['id']) || empty($_POST['id'])){
+                $erros[] = 'Campo ID não existe!';
+            }elseif($_POST['id'] == ""){
+                $erros[] = 'Campo ID em branco!';
+            }else{
+                $id = filter_var($_POST['id'],FILTER_SANITIZE_EMAIL);
+                if(!isset($_POST['email'])){
+                    $erros[] = 'Campo E-mail não existe!';
+                }elseif($_POST['email'] == ""){
+                    $erros[] = 'Campo E-mail em branco!';
+                }else{
+                    $email = filter_var($_POST['email'],FILTER_SANITIZE_EMAIL);
+                    if(!Validacao::validarEmail($email)){
+                        $erros[] = 'E-mail inválido!';
+                    }elseif(VisitanteDAO::verificarEmail($email) && $email != $id){
+                        $erros[] = 'E-mail já cadastrado!';
+                    }
+                }
+            }
+
+            if(!isset($_POST['nome'])){
+                $erros[] = 'Campo Nome Completo não existe!';
+            }elseif($_POST['nome'] == ""){
+                $erros[] = 'Campo Nome Completo em branco!';
+            }else{
+                $nome = filter_var($_POST['nome'],FILTER_SANITIZE_SPECIAL_CHARS);
+                if(!Validacao::validarNome($nome)){
+                    $erros[] = 'Nome inválido!';
+                }
+            }
+
+            if(count($erros) == 0){
+                
+                $visitante = new Visitante();
+                $visitante->nome = Padronizacao::padronizarNome($nome);
+                $visitante->email = Padronizacao::padronizarEmail($email);
+                $visitanteDao = new VisitanteDao();
+                
+                if($visitanteDao->alterarVisitante($visitante, $id)){
+                    $_SESSION['msg'] = "Visitante alterado com sucesso!";
+                }else{
+                    $erros[] = 'Erro ao alterar Visitante!';
+                    $_SESSION['erros'] = serialize($erros);
+                }
+            }else{
+                $_SESSION['erros'] = serialize($erros);
+            }
+
+            header('Location: ../visao/telaCadastroVisitante.php');
+            
+            break;
+
         default:
             header('Location: ../visao/telaCadastroVisitante.php');
             break;

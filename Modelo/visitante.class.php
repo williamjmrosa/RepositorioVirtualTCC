@@ -27,7 +27,7 @@ class Visitante{
 
     //Método toString
     public function __toString(){
-        nl2br("E-mail: $this->email
+        return nl2br("E-mail: $this->email
                 Nome: $this->nome
                 Senha: $this->senha");
     }

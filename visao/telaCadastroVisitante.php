@@ -92,11 +92,43 @@ session_start();
         </div>
       </form>
     </div>
+    <div class="row g-3 m-4 cadastro w-auto">
+      <div class="col-12">
+        <h3>Visitantes Cadastrados</h3>
+      </div>
+      <div class="col-12 row g-3">
+        <div class="col-2">
+          <select class="form-select" name="busca" id="busca">
+            <option value="nome">Nome</option>
+            <option value="email">Email</option>
+          </select>
+        </div>
+        <div class="col-6">
+          <input type="text" class="form-control" id="buscarNome" name="buscarNome" placeholder="Buscar Visitante">
+        </div>
+      </div>
+      <table class="table table-striped">
+        <thead>
+          <tr>
+            <th scope="col">E-mail</th>
+            <th scope="col">Nome</th>
+            <th class="text-center" scope="col">Alterar</th>
+            <th class="text-center" scope="col">Status</th>
+          </tr>
+        </thead>
+        <tbody id="alterar">
+          <!-- Inicio da Lista de Categoria para Alterar/Excluir -->
+          <!-- Carregamento da Lista de Categorias via JS -->
+          <!-- Fim da Lista de Categoria para Alterar/Excluir -->
+        </tbody>
+      </table>
+    </div>
   </div>
   <script src="../Framework/js/jquery-3.6.4.js"></script>
   <script src="../Framework/js/popper.min.js"></script>
   <script src="../Framework/js/bootstrap.js"></script>
   <script src="../js/js-cadastro-usuarios.js"></script>
+  <script src="../js/js-cadastro-visitante.js"></script>
   <script src="../Framework/jQuery-Mask-Plugin/jquery.mask.js"></script>
 </body>
 
