@@ -1,3 +1,6 @@
+//Menu Login Universal
+$("#login").load("../menuLogin/menuLogin.php");
+
 // Variavel de seleção de categoria principal
 var categoriaSelecionada = null;
 
@@ -58,12 +61,11 @@ $(document).ready(function(){
       // Obter o valor do texto digitado no campo
       var textoDigitado = $(this).val();
 
-      textoDigitado = $.param({BUSCA:textoDigitado});//textoDigitado.replace(/ /g,'%20');
-      
+      textoDigitado = $.param({BUSCA:textoDigitado});
+    
+    // Buscar os alunos que correspondem ao texto digitado
     $('#autor').load('../visao/selectAluno.php?'+textoDigitado);
 
-      // Exibir o valor do texto digitado
-      //console.log(textoDigitado);
     });
 
     $('#buscaOrientador').on('input', function() {
@@ -77,6 +79,7 @@ $(document).ready(function(){
       console.log(textoDigitado);
     });
 
+    // Busca categorias principais que correspondem ao texto digitado
     $('#buscaCategoriaPrincipal').on('input', function() {
 
       var textoDigitado = $(this).val();
@@ -89,6 +92,7 @@ $(document).ready(function(){
 
     });
 
+    // Busca categorias secundarias que correspondem ao texto digitado
     $('#buscaCategoriaSecundaria').on('input', function() {
 
       var textoDigitado = $(this).val();
@@ -119,6 +123,7 @@ $(document).ready(function(){
 
     });
 
+    // Seleciona a categoria principal e carrega as categorias secundarias
     $('#categoriaPrincipal').change(function(){
       var opcaoSelecionada = $(this).val();
       var texto = $(this).find('option:selected').text();
@@ -135,6 +140,7 @@ $(document).ready(function(){
 
     });
 
+    // Seleciona a categoria secundaria e carrega as categorias subsecundarias
     $('#categoriaSecundaria').change(function(){
 
       var opcaoSelecionada = $(this).val();
@@ -152,6 +158,8 @@ $(document).ready(function(){
 
     });
 
+
+    // Busca o aluno correspondente a matricula e carrega o campus e o curso desse aluno
     $('#autor').click(function(){
       var autor = $('#autor option:selected').val();
 
@@ -159,7 +167,7 @@ $(document).ready(function(){
       $('#divCurso').load('../visao/inputCurso.php?BUSCA='+autor);
 
     });
-
+    // Selecionar todas as opções do select múltiplo do orientador
     $('#orientador').click(function(){
 
       // Selecionar todas as opções do select múltiplo

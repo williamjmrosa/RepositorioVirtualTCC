@@ -1,4 +1,9 @@
+// Função para carregar o menu de login
+$("#login").load("../menuLogin/menuLogin.php");
+
+// Variavel de seleção de campus global
 var campusSelecionado = null;
+// Variavel de seleção de curso global
 var cursoSelecionado = null;
 
 // Função para carregar a lista de Campus
@@ -278,6 +283,7 @@ function campusSelecionados(option) {
     });
 }
 
+// Função que remove o campus selecionado
 function removerCampus(button) {
     var select = $(button);
 
@@ -294,6 +300,7 @@ function removerCampus(button) {
     $('#formFiltrar').submit();
 }
 
+// Função que remove uma categoria do filtro
 function remover(button){
     var select = $(button);
 
@@ -321,6 +328,7 @@ $(document).ready(function () {
         $("#listaCampus").load("../filtrosIndex/checkCampus.php?" + textoDigitado);
     });
 
+    // Função para buscar categoria principal
     $("#buscarCategoriaPrincipal").on("input", function () {
 
         $('.filtro-esquerdo details').prop("open", false);
@@ -378,6 +386,7 @@ $(document).ready(function () {
 
     });
 
+    // Função de buscar por pesquisar
     $('#formPesquisar').on('submit', function(event) {
         event.preventDefault(); // Evita o comportamento padrão do formulário
     
@@ -393,6 +402,7 @@ $(document).ready(function () {
         $(this).off('submit').submit();
       });
 
+    // Função para paginar proximo
     $("#proximo").click(function (event) {
         event.preventDefault();
         var proximo = $("input[name='paginaAtual']");
@@ -406,6 +416,7 @@ $(document).ready(function () {
     }
     });
 
+    // Função para paginar anterior
     $("#anterior").click(function (event) {
         event.preventDefault();
         var anterior = $("input[name='paginaAtual']");
@@ -419,6 +430,7 @@ $(document).ready(function () {
        }
     });
 
+    // Função para paginar por numero da pagina
     $(".pagina").click(function (event) {
         event.preventDefault();
         var pagina = $('input[name="paginaAtual"]');
