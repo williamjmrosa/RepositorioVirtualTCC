@@ -102,10 +102,10 @@ class VisitanteDAO{
     }
 
     // Excluir Visitante
-    public function excluirVisitante($matricula){
+    public function excluirVisitante($email){
         try{
-            $stat = $this->conexao->prepare("delete from visitante where matricula = ?");
-            $stat->bindValue(1,$matricula);
+            $stat = $this->conexao->prepare("delete from visitante where email = ?");
+            $stat->bindValue(1,$email);
             $stat->execute();
 
             return true;

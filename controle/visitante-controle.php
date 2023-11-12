@@ -124,6 +124,28 @@ if(isset($_GET['OP'])){
             
             break;
 
+        // Excluir Visitante
+        case 3:
+            $erros = array();
+
+            if(isset($_GET['id']) && !empty($_GET['id'])){
+                
+                $id = filter_var($_GET['id'],FILTER_SANITIZE_EMAIL);
+                $visitanteDao = new VisitanteDao();
+                if($visitanteDao->excluirVisitante($id)){
+                    $_SESSION['msg'] = "Visitante excluído com sucesso!";
+                }else{
+                    $erros[] = 'Erro ao excluir Visitante!';
+                    $_SESSION['erros'] = serialize($erros);
+                }
+
+            }else{
+                $erros[] = "Acesso negado!";
+                $_SESSION['erros'] = serialize($erros);
+            }
+
+            header('Location: ../visao/telaCadastroVisitante.php');
+            break;
         default:
             header('Location: ../visao/telaCadastroVisitante.php');
             break;
