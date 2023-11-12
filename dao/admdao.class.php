@@ -68,6 +68,7 @@ class AdmDAO{
 
             if($adm->senha != null && $adm->senha != ""){
                 $sql = $sql == "update adm set" ? $sql . " senha = :senha" : $sql . ", senha = :senha";
+                $parametros[':senha'] = $adm->senha;
             }
 
             $sql = $sql . " where email = :id";

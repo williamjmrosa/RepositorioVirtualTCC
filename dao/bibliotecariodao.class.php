@@ -65,6 +65,7 @@ class BibliotecarioDAO{
 
             if ($bibliotecario->senha != null && $bibliotecario->senha != "") {
                 $sql = $sql == "update bibliotecario set" ? $sql . " senha = :senha" : $sql . ", senha = :senha";
+                $parametros[':senha'] = $bibliotecario->senha;
             }
 
             $sql = $sql . " where email = :id";

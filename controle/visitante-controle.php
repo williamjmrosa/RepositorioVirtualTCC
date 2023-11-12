@@ -103,11 +103,21 @@ if(isset($_GET['OP'])){
                 }
             }
 
+            if(!isset($_POST['senha'])){
+                $erros[] = 'Campo Senha não existe!';
+            }else{
+                $senha = filter_var($_POST['senha'],FILTER_SANITIZE_SPECIAL_CHARS);
+                if(!Validacao::validarSenha($senha) && $senha != ""){
+                    $erros[] = 'Senha inválida!';
+                }
+            }
+
             if(count($erros) == 0){
                 
                 $visitante = new Visitante();
                 $visitante->nome = Padronizacao::padronizarNome($nome);
                 $visitante->email = Padronizacao::padronizarEmail($email);
+                $visitante->senha = $senha == "" ? $senha : Seguranca::criptografar($senha);
                 $visitanteDao = new VisitanteDao();
                 
                 if($visitanteDao->alterarVisitante($visitante, $id)){

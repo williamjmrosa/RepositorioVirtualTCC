@@ -105,11 +105,21 @@ if(isset($_GET['OP'])){
                 }
             }
 
+            if(!isset($_POST['senha'])){
+                $erros[] = 'Campo Senha não existe!';
+            }else{
+                $senha = filter_var($_POST['senha'],FILTER_SANITIZE_SPECIAL_CHARS);
+                if(!Validacao::validarSenha($senha) && $senha != ""){
+                    $erros[] = 'Senha inválida!';
+                }
+            }
+
             if(count($erros) == 0){
                 
                 $bibliotecario = new Bibliotecario();
                 $bibliotecario->nome = Padronizacao::padronizarNome($nome);
                 $bibliotecario->email = Padronizacao::padronizarEmail($email);
+                $bibliotecario->senha = $senha == "" ? $senha : Seguranca::criptografar($senha);
                 $bibliotecarioDAO = new BibliotecarioDAO();
                 
                 if($bibliotecarioDAO->alterarbibliotecario($bibliotecario, $id)){
