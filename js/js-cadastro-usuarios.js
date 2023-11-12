@@ -1,3 +1,5 @@
+$("#login").load("../menuLogin/menuLogin.php");
+
 function limpa_formulário_cep() {
     // Limpa valores do formulário de cep.
     $("#rua").val("");
