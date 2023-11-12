@@ -14,6 +14,7 @@ class Professor{
     private $email;
     private $senha;
     private Endereco $end;
+    private $ativo;
 
     //Construtor
     public function __construct(){
@@ -30,6 +31,14 @@ class Professor{
     public function __set($p, $v)
     {
         $this->$p = $v;
+    }
+
+    public function mostrarStatus(){
+        if($this->ativo == 1){
+            return 'Inativo';
+        }else{
+            return 'Ativo';
+        }
     }
 
     //Método toString

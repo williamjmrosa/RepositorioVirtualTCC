@@ -1,5 +1,6 @@
 <?php
 require_once '../persistencia/conexaobanco.class.php';
+include_once '../dao/enderecodao.class.php';
 
 class ProfessorDAO{
     
@@ -81,6 +82,106 @@ class ProfessorDAO{
             $array = $stat->fetchAll(PDO::FETCH_CLASS, 'Professor');
 
             return $array;
+
+        }catch(PDOException $ex){
+            echo $ex->getMessage();
+        }
+    }
+
+    //Buscar Professor por matricula
+    public function buscarProfessorPorMatricula($matricula){
+        try{
+            $stat = $this->conexao->prepare("Select * From professor where matricula = ?");
+            $stat->bindValue(1, $matricula);
+            $stat->execute();
+
+            $professor = $stat->fetch(PDO::FETCH_ASSOC);
+
+            $endDAO = new EnderecoDAO();
+            $professor['end'] = $endDAO->encontrarEnderecoPorId($professor['idEndereco']);
+
+            return $professor;
+
+        }catch(PDOException $ex){
+            echo $ex->getMessage();
+        }
+    }
+
+    //Buscar Professor por tipo
+    public function buscarProfessorPorTipo($busca, $tipo){
+        try{
+            $stat = $this->conexao->prepare("Select * From professor where $tipo like ?");
+            $stat->bindValue(1, $busca."%");
+            $stat->execute();
+
+            $professores = $stat->fetchAll(PDO::FETCH_CLASS, 'Professor');
+
+            return $professores;
+        }catch(PDOException $ex){
+            echo $ex->getMessage();
+        }
+    }
+
+    //Alterar Professor por ADM/Bibliotecario
+    public function alterarProfessorADM(Professor $professor){
+        try{
+            $sql = 'update professor set';
+            $params = array();
+            if($professor->nome != null){
+                $sql .= ($sql == "update professor set") ? " nome = :nome" : ", nome = :nome";
+                $params[':nome'] = $professor->nome;
+            }
+            if($professor->rg != null){
+                $sql .= ($sql == "update professor set") ? " rg = :rg" : ", rg = :rg";
+                $params[':rg'] = $professor->rg;
+            }
+            if($professor->cpf != null){
+                $sql .= ($sql == "update professor set") ? " cpf = :cpf" : ", cpf = :cpf";
+                $params[':cpf'] = $professor->cpf;
+            }
+            if($professor->telefone != null){
+                $sql .= ($sql == "update professor set") ? " telefone = :telefone" : ", telefone = :telefone";
+                $params[':telefone'] = $professor->telefone;
+            }
+            if($professor->email != null){
+                $sql .= ($sql == "update professor set") ? " email = :email" : ", email = :email";
+                $params[':email'] = $professor->email;
+            }
+            if($professor->senha != null){
+                $sql .= ($sql == "update professor set") ? " senha = :senha" : ", senha = :senha";
+                $params[':senha'] = $professor->senha;
+            }
+
+            $sql .= " where matricula = :matricula";
+            $params[':matricula'] = $professor->matricula;
+            $stat = $this->conexao->prepare($sql);
+
+            foreach($params as $k => $v){
+                $stat->bindValue($k, $v);
+            }
+
+            $stat->execute();
+
+            $endDAO = new EnderecoDAO();
+            if($endDAO->alterarEndereco($professor->end)){
+                return true;
+            }else{
+                return false;
+            }
+
+        }catch(PDOException $ex){
+            echo $ex->getMessage();
+        }
+    }
+    
+    //Ativar/Desativar Professor
+    public function alterarStatusProfessor($id){
+        try{
+            $stat = $this->conexao->prepare("update professor set ativo = IF(ativo = 1,NULL,1) where matricula = ?");
+            $stat->bindValue(1, $id);
+            $stat->execute();
+
+            return true;
 
         }catch(PDOException $ex){
             echo $ex->getMessage();
