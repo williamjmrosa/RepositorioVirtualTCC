@@ -27,7 +27,7 @@ class Bibliotecario{
 
     //Método toString
     public function __toString(){
-        nl2br("Nome: $this->nome
+        return nl2br("Nome: $this->nome
                 E-mail: $this->email
                 Senha: $this->senha");
     }
