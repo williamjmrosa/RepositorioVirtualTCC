@@ -113,7 +113,7 @@ session_start();
             <th scope="col">E-mail</th>
             <th scope="col">Nome</th>
             <th class="text-center" scope="col">Alterar</th>
-            <th class="text-center" scope="col">Status</th>
+            <th class="text-center" scope="col">Excluir</th>
           </tr>
         </thead>
         <tbody id="alterar">
