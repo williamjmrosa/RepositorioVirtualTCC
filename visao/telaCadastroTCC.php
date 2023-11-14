@@ -10,6 +10,7 @@ include_once '../Modelo/curso.class.php';
 include_once '../Modelo/campus.class.php';
 include_once '../Modelo/professor.class.php';
 include_once '../Modelo/categoria.class.php';
+
 ?>
 <!DOCTYPE html>
 <html lang="pt-br">
@@ -50,7 +51,6 @@ include_once '../Modelo/categoria.class.php';
       <form class="row g-3" method="POST" action="../controle/tcc-controle.php?OP=1"  enctype="multipart/form-data">
         <!-- Mensagens de Alerta do retorno do Cadastro -->
         <?php
-        
           if (isset($_SESSION['erros'])) {
             $erros = unserialize($_SESSION['erros']);
             unset($_SESSION['erros']);
@@ -174,11 +174,53 @@ include_once '../Modelo/categoria.class.php';
         </div>
       </form>
     </div>
+    <div class="row g-3 m-4 cadastro w-auto">
+      <div class="col-12">
+        <h3>Visitantes Cadastrados</h3>
+      </div>
+      <div class="col-12 row g-3">
+        <div class="col-2">
+          <select class="form-select" name="busca" id="busca">
+            <option value="titulo">Titulo</option>
+            <option value="nome">Autor</option>
+            <option value="idTCC">ID TCC</option>
+          </select>
+        </div>
+        <div class="col-6">
+          <input type="text" class="form-control" id="buscarNome" name="buscarNome" placeholder="Buscar Visitante">
+        </div>
+      </div>
+      <table class="table table-striped">
+        <thead>
+          <tr>
+            <th scope="col">#</th>
+            <th scope="col">Titulo</th>
+            <th scope="col">Autor</th>
+            <th class="text-center" scope="col">Alterar</th>
+            <th class="text-center" scope="col">Excluir</th>
+          </tr>
+        </thead>
+        <tbody id="alterar">
+          <!-- Inicio da Lista de TCC para Alterar/Excluir -->
+          <!-- Carregamento da Lista de TCC via JS -->
+          <!-- Fim da Lista de TCC para Alterar/Excluir -->
+        </tbody>
+      </table>
+    </div>
   </div>
+  <?php
+    
+  ?>
   <script src="../Framework/js/jquery-3.6.4.js"></script>
   <script src="../Framework/js/popper.min.js"></script>
   <script src="../Framework/js/bootstrap.js"></script>
-  <script src="../js/js-cadastro-tcc.js"></script>
+  <script src="../Framework/he/he.js"></script>
+  <script src="../js/js-cadastro-tcc.js">
+      
+      
+
+
+  </script>
 </body>
 
 </html>

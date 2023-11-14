@@ -26,6 +26,10 @@ if(isset($_GET['BUSCA'])){
         mostrarAlunos($alunos);
     }
 
+}else{
+    $alunoDAO = new AlunoDAO();
+    $alunos = $alunoDAO->listarAlunos();
+    mostrarAlunos($alunos);
 }
 
 ?>

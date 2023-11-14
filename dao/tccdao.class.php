@@ -1,5 +1,8 @@
 <?php
 require_once '../persistencia/conexaobanco.class.php';
+include_once '../Modelo/Aluno.class.php';
+include_once '../Modelo/campus.class.php';
+include_once '../Modelo/curso.class.php';
 
 class TCCDAO{
     private $conexao = null;
@@ -106,8 +109,6 @@ class TCCDAO{
                 
                 $stat->execute();
 
-                
-
             }
 
             return true;
@@ -163,7 +164,7 @@ class TCCDAO{
         }
     }
 
-    // Listar TCC
+    // Listar TCC com paginação
     public function listarTCC($paginaAtual){
         try{
 
@@ -217,6 +218,27 @@ class TCCDAO{
         }
 
 
+    }
+
+    // Listar TCC todos os registros
+    public function listarTodosTCC(){
+        try{
+
+            $stat = $this->conexao->prepare("Select * from tcc");
+
+            $stat->execute();
+
+            $array = $stat->fetchAll(PDO::FETCH_CLASS, 'TCC');
+
+            $array = $this->buscarAlunoPorTCC($array);
+
+            return $array;
+
+        }catch(PDOException $ex){
+            $this->gerenciarErros($ex->getMessage());
+            return false;
+        }
+           
     }
 
     // Listar Orientador do TCC
@@ -290,7 +312,7 @@ class TCCDAO{
     }
 
     // Buscar TCC por id
-    public function buscarTCCID($id){
+    public function buscarTCCID($id,$alterar = false){
         try{
             $stat = $this->conexao->prepare("Select * from tcc where idTCC = ?");
             $stat->bindValue(1,$id);
@@ -298,11 +320,53 @@ class TCCDAO{
 
             $array = $stat->fetch(PDO::FETCH_ASSOC);
 
+            if($alterar){
+                $stat = $this->conexao->prepare("Select matricula, nome, email, campus, curso, rg, cpf, telefone from aluno where matricula = ?");
+                $stat->bindValue(1,$array['matricula']);
+                $stat->execute();
+                $array['aluno'] = $stat->fetch(PDO::FETCH_ASSOC);
+                $stat = $this->conexao->prepare("Select matricula from orientador where idTCC = ?");
+                $stat->bindValue(1,$array['idTCC']);
+                $stat->execute();
+                $array['orientador'] = $stat->fetchAll(PDO::FETCH_ASSOC);
+                $stat = $this->conexao->prepare("Select idCategoria from categorias where idTCC = ?");
+                $stat->bindValue(1,$array['idTCC']);
+                $stat->execute();
+                $array['categorias'] = $stat->fetchAll(PDO::FETCH_ASSOC);
+                $array['campus'] = get_object_vars($this->buscarCampusPorTCC($array['idCampus'])[0]);
+                $array['curso'] = get_object_vars($this->buscarCursoPorTCC($array['idCurso'])[0]);
+            }
+
             return $array;
 
         }catch(PDOException $ex){
             $this->gerenciarErros($ex->getMessage());
+
         }
+    }
+
+    // Buscar TCC por tipo
+    public function buscarTCCPorTipo($busca,$tipo){
+        
+        try{
+
+            $stat = $this->conexao->prepare("Select t.idTCC, t.titulo ,a.nome from tcc as t inner join aluno as a on t.matricula = a.matricula where $tipo like ?");
+
+            $stat->bindValue(1,$busca.'%');
+
+            $stat->execute();
+
+            $array = $stat->fetchAll(PDO::FETCH_CLASS, 'TCC');
+            
+            $array = $this->buscarAlunoPorTCC($array);
+
+            return $array;
+
+        }catch(PDOException $ex){
+            $this->gerenciarErros($ex->getMessage());
+            return false;
+        }
+
     }
 
     // Buscar TCC por filtros

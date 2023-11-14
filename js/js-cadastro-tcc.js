@@ -1,5 +1,12 @@
 //Menu Login Universal
 $("#login").load("../menuLogin/menuLogin.php");
+// Carregar lista de tccs
+$("#alterar").load("../alterarCadastros/alterarTCC.php?OP=1");
+
+// Função para decodificar entidades HTML usando a biblioteca he.js
+function decodeHtmlEntities(json) {
+  return he.decode(json);
+}
 
 // Variavel de seleção de categoria principal
 var categoriaSelecionada = null;
@@ -54,8 +61,101 @@ function limpar(){
 
 }
 
+// Função para preencher o formulário com os dados do TCC
+function preencherForm(option,event){
+  event.preventDefault();
+
+  var select = $(option);
+
+  var id = select.attr('href');
+
+  $.ajax({
+    url: '../alterarCadastros/alterarTCC.php?OP=3&id='+id,
+    dataType: 'json'
+  }).done(function(response){
+    
+    if(response.error){
+      var insertHtml = "<div class='alert alert-danger alert-dismissible fade show' role='alert'>"+response.error+"<button type='button' class='btn-close' data-bs-dismiss='alert' aria-label='Close'></button></div>";
+      $(".cadastro form").prepend(insertHtml);
+    }else{
+
+      var tcc = decodeHtmlEntities(JSON.stringify(response));
+      var tcc = JSON.parse(tcc);
+      // Receber os dados do TCC no formulário
+      $("#titulo").val(tcc.titulo);
+      $("#descricao").val(tcc.descricao);
+      console.log(tcc.categorias);
+
+      $("#autor").load("../visao/selectAluno.php",function(){
+        $("#buscaAluno").val("");
+        $("#autor").val(tcc.aluno.matricula).click();
+      });
+      $("#listaOrientador").load("../visao/selectProfessor.php",function(){
+        $("#buscaOrientador").val("");
+        var lista = $(this);
+        $("#orientador").empty();
+        tcc.orientador.forEach(matricula => {
+          lista.val(matricula.matricula).trigger("click");
+          listaOrientador($(lista).find("option:selected"));
+        });
+        
+      });
+      $("#categoriasSalvas div").remove();
+      $("#categoriaSecundaria").load("../visao/selectCategoriaSecundaria.php",function(){
+        var lista = $("#categoriaSecundaria");
+        $("#buscaCategoriaSecundaria").val("");
+        //lista.val(tcc.categorias[1].idCategoria).trigger("change");
+        for(var i = 0; i < tcc.categorias.length; i++){
+          lista.val(tcc.categorias[i].idCategoria).trigger("change");
+        }
+      });
+      $("#categoriaPrincipal").load("../visao/selectCategoriaPrincipal.php",function(){
+        var lista = $(this);
+        $("#buscaCategoriaPrincipal").val("");
+        for(var i = 0; i < tcc.categorias.length; i++){
+          lista.val(tcc.categorias[i].idCategoria).trigger("change");
+        }
+      })
+      
+
+      
+     
+      $("#limpar").remove();
+      $(".cadastro form").attr("action", "../controle/tcc-controle.php?OP=2");
+      $(".cadastro form button[type='submit']").text("Alterar TCC");
+      $(".cadastro form button[type='submit']").parent().append('<a href="../visao/telaCadastroTCC.php" id="limpar" class="btn btn-danger"> Limpar </a>');
+
+      $(".cadastro form input[name='id']").remove();
+
+      $(".cadastro form").append('<input type="hidden" name="id" value="'+id+'">');
+
+
+
+    }
+
+  }).fail(function(jqXHR, textStatus, errorThrown){
+      // Acessar informações sobre o erro
+      console.log("Erro na requisição AJAX: "+textStatus);
+
+      // Verificar se o erro é um erro customizado
+      console.log("Erro customizado: "+jqXHR.responseText);
+  });
+
+}
+
 $(document).ready(function(){
     
+    // Buscar tcc por tipo
+    $("#buscarNome").on("input", function(){
+      var busca = $(this).val();
+
+      var tipo = $("select[name='busca'] option:selected").val();
+      console.log(busca);
+      $.post("../alterarCadastros/alterarTCC.php?OP=2", {BUSCA: busca, TIPO: tipo}, function(data){
+        $("#alterar").html(data);
+      });
+    });
+
     // Acompanhar as alterações no campo de texto usando o evento input
     $('#buscaAluno').on('input', function() {
       // Obter o valor do texto digitado no campo
@@ -124,16 +224,16 @@ $(document).ready(function(){
     });
 
     // Seleciona a categoria principal e carrega as categorias secundarias
-    $('#categoriaPrincipal').change(function(){
+    $('#categoriaPrincipal').change(function(event){
       var opcaoSelecionada = $(this).val();
       var texto = $(this).find('option:selected').text();
       
       categoriaSelecionada = opcaoSelecionada;
 
       var textoDigitado = $.param({ID:opcaoSelecionada,BUSCA:''});
-
-      $('#categoriaSecundaria').load('../visao/selectCategoriaSecundaria.php?'+textoDigitado);
-
+      if(!event.isTrigger){
+        $('#categoriaSecundaria').load('../visao/selectCategoriaSecundaria.php?'+textoDigitado);
+      }
       if(!$('#categoriasSalvas input[value="'+opcaoSelecionada+'"]').length && opcaoSelecionada > 0){
         $('#categoriasSalvas').append('<div class="d-inline-block m-2"><input class="form-check-input" type="checkbox" name="categorias[]" value="'+opcaoSelecionada+'" checked onclick="removerCategoria(this)"> <label class="form-check-label">'+texto+'</label></div>');
       }
@@ -141,7 +241,7 @@ $(document).ready(function(){
     });
 
     // Seleciona a categoria secundaria e carrega as categorias subsecundarias
-    $('#categoriaSecundaria').change(function(){
+    $('#categoriaSecundaria').change(function(event){
 
       var opcaoSelecionada = $(this).val();
       var texto = $(this).find('option:selected').text();
@@ -151,9 +251,9 @@ $(document).ready(function(){
         $('#categoriasSalvas').append('<div class="d-inline-block m-2"><input class="form-check-input" type="checkbox" name="categorias[]" value="'+opcaoSelecionada+'" checked onclick="removerCategoria(this)"> <label class="form-check-label">'+texto+'</label></div>');
       
         var textoDigitado = $.param({ID:opcaoSelecionada,BUSCA:''});
-
-        $('#categoriaSecundaria').load('../visao/selectCategoriaSecundaria.php?'+textoDigitado);
-      
+        if(!event.isTrigger){
+         $('#categoriaSecundaria').load('../visao/selectCategoriaSecundaria.php?'+textoDigitado);
+        }
       }
 
     });

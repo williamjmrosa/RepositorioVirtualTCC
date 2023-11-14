@@ -27,6 +27,10 @@ if(isset($_GET['BUSCA'])){
         mostrarCategorias($categorias);
     }
 
+}else{
+    $cDAO = new CategoriaDAO();
+    $categorias = $cDAO->listarCategoriaPrincipal();
+    mostrarCategorias($categorias);
 }
 
 ?>
