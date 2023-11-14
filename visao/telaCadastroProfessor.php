@@ -163,9 +163,9 @@ session_start();
           </tr>
         </thead>
         <tbody id="alterar">
-          <!-- Inicio da Lista de Categoria para Alterar/Excluir -->
-          <!-- Carregamento da Lista de Categorias via JS -->
-          <!-- Fim da Lista de Categoria para Alterar/Excluir -->
+          <!-- Inicio da Lista de Professores para Alterar/Excluir -->
+          <!-- Carregamento da Lista de Professores via JS -->
+          <!-- Fim da Lista de Professores para Alterar/Excluir -->
         </tbody>
       </table>
     </div>

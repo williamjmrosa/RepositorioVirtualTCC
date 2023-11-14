@@ -115,9 +115,9 @@
                     </tr>
                 </thead>
                 <tbody id="alterar">
-                    <!-- Inicio da Lista de Campus para Alterar/Ativar/Desativar -->
-                    <!-- Carregamento da Lista de Campus via JS -->
-                    <!-- Fim da Lista de Categoria para Alterar/Ativar/Desativar -->
+                    <!-- Inicio da Lista de Cursos para Alterar/Ativar/Desativar -->
+                    <!-- Carregamento da Lista de Cursos via JS -->
+                    <!-- Fim da Lista de Cursos para Alterar/Ativar/Desativar -->
                 </tbody>
             </table>
         </div>
