@@ -11,7 +11,7 @@ include_once '../Modelo/categoria.class.php';
 function gerarImagem($caminho_pdf, $id)
 {
 
-    if (!file_exists($caminho_pdf . 'capa.jpg')) {
+    if (!file_exists('../TCC/' . $id . '/capa.jpg')) {
         // Define o caminho do diretório onde a imagem será salva
         $diretorio_imagens = "../TCC/$id/";
         // Comando Ghostscript para extrair a imagem da capa
@@ -20,8 +20,8 @@ function gerarImagem($caminho_pdf, $id)
         $output = shell_exec($comando_ghostscript);
     }
     // Obtém o caminho completo da imagem
-    $caminho_imagem = $diretorio_imagens . 'capa.jpg';
-
+    $caminho_imagem = '../TCC/' . $id . '/capa.jpg';
+    
     return $caminho_imagem;
 }
 
@@ -140,7 +140,9 @@ function gerarImagem($caminho_pdf, $id)
             if (isset($_SESSION['erro'])) {
                 echo "<div class='alert alert-danger m-2' role='alert'>" . $_SESSION['erro'] . "</div>";
                 unset($_SESSION['erro']);
-            } elseif (isset($_SESSION['erros'])) {
+            } 
+            
+            if (isset($_SESSION['erros'])) {
                 foreach ($_SESSION['erros'] as $erro) {
                     echo "<div class='alert alert-danger m-2' role='alert'>" . $erro . "</div>";
                 }
