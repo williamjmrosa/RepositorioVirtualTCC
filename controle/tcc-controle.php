@@ -18,6 +18,20 @@ function diretorioExiste($dir){
     }
 }
 
+function excluirDiretorio($dir) {
+    if (is_dir($dir)) {
+        $files = glob($dir . '/*'); // Obtém todos os arquivos e diretórios dentro do diretório
+        foreach ($files as $file) {
+            if (is_file($file)) {
+                unlink($file); // Exclui o arquivo
+            } elseif (is_dir($file)) {
+                excluirDiretorio($file); // Chama recursivamente a função para excluir subdiretórios
+            }
+        }
+        rmdir($dir); // Exclui o diretório vazio 
+    }
+}
+
 function salvarArquivo($file,$id) {
     $raiz = '../TCC/'.$id;
     $destino = $raiz.'/' . $file['name'];
@@ -35,6 +49,40 @@ function salvarArquivo($file,$id) {
     }
 }
 
+function alterarArquivo($file, $id, $localPDFOriginal) {
+    if($file != null){
+
+        $raiz = '../TCC/' . $id;
+        $destino = $raiz . '/' . $file['name'];
+
+        if (diretorioExiste($raiz) == false) {
+            mkdir($raiz, 0777, true);
+        }
+
+        
+        $tccDAO = new TCCDAO();
+        if (move_uploaded_file($file['tmp_name'], $destino) && $tccDAO->updateLocalPDF($id, $destino)) {
+            // Deleta o arquivo antigo, se existir
+            $arquivoAntigo = $localPDFOriginal;
+            if (file_exists($arquivoAntigo)) {
+                unlink($arquivoAntigo);
+            }
+            // Deleta a capa antiga, se existir
+            $capaAntiga = $raiz . '/capa.jpg';
+            if (file_exists($capaAntiga)) {
+                unlink($capaAntiga);
+            }
+            return true;
+        } else {
+            return false;
+        }
+
+    }else{
+        return true;
+    }
+}
+
+
 if(isset($_GET['OP'])){
     $OP = filter_var($_GET['OP'], FILTER_SANITIZE_NUMBER_INT);
     switch($OP){
@@ -48,12 +96,14 @@ if(isset($_GET['OP'])){
                 $erros[] = 'Campo Título em branco!';
             }elseif(strlen($_POST['titulo']) < 10){
                 $erros[] = 'Titulo deve ter no minimo 10 caracteres!';
+            }else if(strlen($_POST['titulo']) > 60){
+                $erros[] = 'Título deve ter no maximo 60 caracteres!';
             }else{
                 $titulo = filter_var($_POST['titulo'],FILTER_SANITIZE_SPECIAL_CHARS);
             }
 
             if(!isset($_POST['autor'])){
-                $erros[] = 'Campo Autor não existe!';
+                $erros[] = 'Campo Autor não selecionado!';
             }elseif($_POST['autor'] == 0){
                 $erros[] = 'Selecione um autor!';
             }else{
@@ -69,7 +119,7 @@ if(isset($_GET['OP'])){
             }
 
             if(!isset($_POST['curso'])){
-                $erros[] = 'Campo Curso.Undefinido!';
+                $erros[] = 'Campo Curso não existe!';
             }elseif($_POST['curso'] == ''){
                 $erros[] = 'Campo Curso em branco!';
             }else{
@@ -80,13 +130,17 @@ if(isset($_GET['OP'])){
                 $erros[] = 'Campo Descrição não existe!';
             }elseif($_POST['descricao'] == ""){
                 $erros[] = 'Campo Descrição em branco!';
+            }elseif(strlen($_POST['descricao']) < 10){
+                $erros[] = 'Descrição deve ter no minimo 10 caracteres!';
+            }elseif(strlen($_POST['descricao']) > 600){
+                $erros[] = 'Descrição deve ter no maximo 600 caracteres!';
             }else{
                 $descricao = filter_var($_POST['descricao'],FILTER_SANITIZE_SPECIAL_CHARS);
             }
 
             if(!isset($_FILES['localPDF']['tmp_name'])){
                 $erros[] = 'Campo Local PDF não existe!';
-            }elseif($_FILES['localPDF'] == ""){
+            }elseif(empty($_FILES['localPDF']['tmp_name'])){
                 $erros[] = 'Campo Local PDF em branco!';
             }elseif(!validacao::validarPDF($_FILES['localPDF']['tmp_name'])){
                 $erros[] = 'Arquivo não é um PDF!';
@@ -95,7 +149,7 @@ if(isset($_GET['OP'])){
             }
 
             if(!isset($_POST['categorias'])){
-                $erros[] = 'Campo Categorias não existe!';
+                $erros[] = 'Campo Categorias não selecionado!';
             }elseif($_POST['categorias'] == ""){
                 $erros[] = 'Nenhum categoria foi marcada!';
             }else{
@@ -106,7 +160,7 @@ if(isset($_GET['OP'])){
             }
 
             if(!isset($_POST['orientador'])){
-                $erros[] = 'Campo Orientador não existe!';
+                $erros[] = 'Campo Orientador não selecionado!';
             }elseif($_POST['orientador'] == ""){
                 $erros[] = 'Campo Orientador em branco!';
             }else{
@@ -134,15 +188,25 @@ if(isset($_GET['OP'])){
                 $tccDAO = new TCCDAO();
                 $tcc = $tccDAO->cadastrarTCC($tcc);
 
-                if(!isset($_SESSION['erro']) && !isset($_SESSION['erros'])){
+                if($tcc != false){
                     if(salvarArquivo($localPDF,$tcc->idTCC)){
                         $_SESSION['msg'] = 'TCC cadastrado com sucesso!';
                     }else{
-                        $_SESSION['erro'] = 'Erro ao salvar o arquivo!';
+                        $erros[] = 'Erro ao salvar o arquivo!';
+                        if(isset($_SESSION['erros'])){
+                            $erros = unserialize($_SESSION['erros']);
+                            $erros[] = 'Erro ao salvar o arquivo!';
+                            $_SESSION['erros'] = serialize($erros);
+                        }
                     }
 
-
-                    $_SESSION['msg'] = 'TCC cadastrado com sucesso!';
+                }else{
+                    $erros[] = 'Erro ao cadastrar TCC!';
+                    if(isset($_SESSION['erros'])){
+                        $erros = unserialize($_SESSION['erros']);
+                        $erros[] = 'Erro ao cadastrar TCC!';
+                        $_SESSION['erros'] = serialize($erros);
+                    }
                 }
 
             }else{
@@ -154,9 +218,160 @@ if(isset($_GET['OP'])){
         break;
         //Alterar TCC
         case 2:
+
+            $erros = array();
+
+            if(isset($_POST['idTCC']) && filter_var($_POST['idTCC'], FILTER_VALIDATE_INT) && $_POST['idTCC'] > 0){
+                $idTCC = filter_var($_POST['idTCC'], FILTER_SANITIZE_NUMBER_INT);
+            }else{
+                $erros[] = 'Campo ID TCC não existe ou é inválido!';
+            }
+
+            if(!isset($_POST['localPDFOriginal']) || empty($_POST['localPDFOriginal'])){
+                $erros[] = 'Campo Local PDF não existe ou esta em branco!';
+            }else{
+                $localPDFOriginal = $_POST['localPDFOriginal'];
+            }                     
+
+            if(!isset($_POST['titulo'])){
+                $erros[] = 'Campo Título não existe!';
+            }elseif($_POST['titulo'] == ""){
+                $erros[] = 'Campo Título em branco!';
+            }elseif(strlen($_POST['titulo']) < 10){
+                $erros[] = 'Titulo deve ter no minimo 10 caracteres!';
+            }else if(strlen($_POST['titulo']) > 60){
+                $erros[] = 'Título deve ter no maximo 60 caracteres!';
+            }else{
+                $titulo = filter_var($_POST['titulo'],FILTER_SANITIZE_SPECIAL_CHARS);
+            }
+
+            if(!isset($_POST['autor'])){
+                $erros[] = 'Campo Autor não selecionado!';
+            }elseif($_POST['autor'] == 0){
+                $erros[] = 'Selecione um autor!';
+            }else{
+                $autor = filter_var($_POST['autor'], FILTER_SANITIZE_NUMBER_INT);
+            }
+
+            if(!isset($_POST['campus'])){
+                $erros[] = 'Campo Campus não existe!';
+            }elseif($_POST['campus'] == ''){
+                $erros[] = 'Campo Campus em branco!';
+            }else{
+                $campus = filter_var($_POST['campus'], FILTER_SANITIZE_NUMBER_INT);
+            }
+
+            if(!isset($_POST['curso'])){
+                $erros[] = 'Campo Curso não existe!';
+            }elseif($_POST['curso'] == ''){
+                $erros[] = 'Campo Curso em branco!';
+            }else{
+                $curso = filter_var($_POST['curso'], FILTER_SANITIZE_NUMBER_INT);
+            }
+
+            if(!isset($_POST['descricao'])){
+                $erros[] = 'Campo Descrição não existe!';
+            }elseif($_POST['descricao'] == ""){
+                $erros[] = 'Campo Descrição em branco!';
+            }elseif(strlen($_POST['descricao']) < 10){
+                $erros[] = 'Descrição deve ter no minimo 10 caracteres!';
+            }elseif(strlen($_POST['descricao']) > 600){
+                $erros[] = 'Descrição deve ter no maximo 600 caracteres!';
+            }else{
+                $descricao = filter_var($_POST['descricao'],FILTER_SANITIZE_SPECIAL_CHARS);
+            }
+
+            if(!isset($_FILES['localPDF']['tmp_name'])){
+                $erros[] = 'Campo Local PDF não existe!';
+            }elseif(empty($_FILES['localPDF']['tmp_name'])){
+                $localPDF = null;
+            }elseif(!validacao::validarPDF($_FILES['localPDF']['tmp_name'])){
+                $erros[] = 'Arquivo não é um PDF!';
+            }else{
+                $localPDF = $_FILES['localPDF'];
+            }
+
+            if(!isset($_POST['categorias'])){
+                $erros[] = 'Campo Categorias não selecionado!';
+            }elseif($_POST['categorias'] == ""){
+                $erros[] = 'Nenhum categoria foi marcada!';
+            }else{
+                $categorias = array();
+                foreach($_POST['categorias'] as $categoria){
+                    $categorias[] = filter_var($categoria, FILTER_SANITIZE_NUMBER_INT);
+                }
+            }
+
+            if(!isset($_POST['orientador'])){
+                $erros[] = 'Campo Orientador não selecionado!';
+            }elseif($_POST['orientador'] == ""){
+                $erros[] = 'Campo Orientador em branco!';
+            }else{
+                $orientadores = array();
+                foreach($_POST['orientador'] as $orientador){
+                    $orientadores[] = filter_var($orientador, FILTER_SANITIZE_NUMBER_INT);
+                }
+            }
+
+            if(count($erros) == 0){
+                $tcc = new TCC();
+                $tcc->idTCC = $idTCC;
+                $tcc->titulo = Padronizacao::padronizarNome($titulo);
+                $tcc->descricao = $descricao;
+                $tcc->aluno = new Aluno();
+                $tcc->aluno->matricula = $autor;
+                $tcc->curso = new Curso();
+                $tcc->curso->idCurso = $curso;
+                $tcc->campus = new Campus();
+                $tcc->campus->idCampus = $campus;
+                $tcc->orientador = $orientadores;
+                $tcc->categorias = $categorias;
+                $tcc->localPDF = $localPDF;
+
+                $tccDAO = new TCCDAO();
+
+                if($tccDAO->alterarTCC($tcc) && alterarArquivo($localPDF,$tcc->idTCC,$localPDFOriginal)){
+                    $_SESSION['msg'] = 'TCC alterado com sucesso!';
+                    
+                }else{
+                    $erros[] = 'Erro ao alterar TCC!';
+                }
+                
+                if(isset($_SESSION['erros']) && count($erros) > 0){
+                    $erros = array_merge(unserialize($_SESSION['erros']), $erros);
+                    $erros[] = 'Erro ao alterar TCC!';
+                    $_SESSION['erros'] = serialize($erros);
+                }else if(count($erros) > 0){
+                    $_SESSION['erros'] = serialize($erros);
+
+                }
+
+            }else{
+                $_SESSION['erros'] = serialize($erros);
+            }
+
+            header('Location: ../visao/telaCadastroTCC.php');
+
             break;
         //Excluir TCC
         case 3:
+            if(isset($_GET['id'])){
+                $idTCC = filter_var($_GET['id'], FILTER_SANITIZE_NUMBER_INT);
+
+                $tccDAO = new TCCDAO();
+                if($tccDAO->deletarCategorias($idTCC) && $tccDAO->deletarOrientador($idTCC) && $tccDAO->deletarTCC($idTCC)){
+                    excluirDiretorio("../TCC/$idTCC");
+                    $_SESSION['msg'] = 'TCC excluído com sucesso!';
+                }else{
+                    $_SESSION['erro'] = 'Erro ao excluir TCC!';
+                }
+
+            }else{
+                $_SESSION['erro'] = 'Acesso Invalido';
+            }
+
+            header('Location: ../visao/telaCadastroTCC.php');
+
             break;
         // Baixar TCC
         case 4:

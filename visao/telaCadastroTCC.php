@@ -96,7 +96,7 @@ include_once '../Modelo/categoria.class.php';
           <select class="form-select" id="autor" name="autor" size="4">
             <?php
               $alunoDAO = new AlunoDAO();
-              $alunos = $alunoDAO->listarAlunos();
+              $alunos = $alunoDAO->listarAlunos(false);
               foreach ($alunos as $aluno) {
                 echo '<option value="' . $aluno->matricula . '">' . $aluno->nome . '</option>';
               }
@@ -123,7 +123,7 @@ include_once '../Modelo/categoria.class.php';
           <select class="form-select mt-2" id="listaOrientador" size="4">
               <?php
                 $professorDAO = new ProfessorDAO();
-                $professores = $professorDAO->listarProfessores();
+                $professores = $professorDAO->listarProfessores(false);
                 foreach ($professores as $professor) {
                   echo '<option value="' . $professor->matricula . '" onClick="listaOrientador(this)">' . $professor->nome . '</option>';
                 }

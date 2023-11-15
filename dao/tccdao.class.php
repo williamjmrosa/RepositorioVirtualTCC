@@ -56,6 +56,59 @@ class TCCDAO{
         }catch(PDOException $ex){
             $this->gerenciarErros($ex->getMessage());
             //$_SESSION['erro'] =  $ex->getMessage();
+            return false;
+        }
+    }
+
+    //Alterar TCC
+    public function alterarTCC(TCC $tcc){
+        try{
+            $sql = "update tcc set";
+            $parametros = array();
+            print_r($tcc->campus);
+            if($tcc->titulo != null && $tcc->titulo != ""){
+                $sql = $sql == "update tcc set" ? $sql . " titulo = :titulo" : $sql . ", titulo = :titulo";
+                $parametros[':titulo'] = $tcc->titulo;
+            }
+
+            if($tcc->descricao != null && $tcc->descricao != ""){
+                $sql = $sql == "update tcc set" ? $sql . " descricao = :descricao" : $sql . ", descricao = :descricao";
+                $parametros[':descricao'] = $tcc->descricao;
+            }
+
+            if($tcc->campus->idCampus != null && $tcc->campus->idCampus != ""){
+                $sql = $sql == "update tcc set" ? $sql . " idCampus = :idCampus" : $sql . ", idCampus = :idCampus";
+                $parametros[':idCampus'] = $tcc->campus->idCampus;
+            }
+
+            if($tcc->curso->idCurso != null && $tcc->curso->idCurso != ""){
+                $sql = $sql == "update tcc set" ? $sql . " idCurso = :idCurso" : $sql . ", idCurso = :idCurso";
+                $parametros[':idCurso'] = $tcc->curso->idCurso;
+            }
+
+            if($tcc->aluno->matricula != null && $tcc->aluno->matricula != ""){
+                $sql = $sql == "update tcc set" ? $sql . " matricula = :matricula" : $sql . ", matricula = :matricula";
+                $parametros[':matricula'] = $tcc->aluno->matricula;
+            }
+
+            if($sql == "update tcc set"){
+                return false;
+            }else{
+
+                $sql .= " where idTCC = :idTCC";
+
+                $parametros[':idTCC'] = $tcc->idTCC;
+
+                $stat = $this->conexao->prepare($sql);
+
+                $stat->execute($parametros);
+            }
+            return true;
+
+        }catch(PDOException $ex){
+            echo $ex->getMessage();
+            $this->gerenciarErros($ex->getMessage());
+            return false;
         }
     }
 
