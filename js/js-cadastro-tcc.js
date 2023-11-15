@@ -116,18 +116,16 @@ function preencherForm(option,event){
           lista.val(tcc.categorias[i].idCategoria).trigger("change");
         }
       })
-      
-
-      
      
       $("#limpar").remove();
       $(".cadastro form").attr("action", "../controle/tcc-controle.php?OP=2");
       $(".cadastro form button[type='submit']").text("Alterar TCC");
       $(".cadastro form button[type='submit']").parent().append('<a href="../visao/telaCadastroTCC.php" id="limpar" class="btn btn-danger"> Limpar </a>');
 
-      $(".cadastro form input[name='id']").remove();
-
-      $(".cadastro form").append('<input type="hidden" name="id" value="'+id+'">');
+      $(".cadastro form input[name='idTCC']").remove();
+      $(".cadastro from input[name='localPDFOriginal']").remove();
+      $(".cadastro form").append('<input type="hidden" name="idTCC" value="'+id+'">');
+      $(".cadastro form").append('<input type="hidden" name="localPDFOriginal" value="'+tcc.localPDF+'">');
 
 
 
