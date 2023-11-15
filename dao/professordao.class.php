@@ -58,9 +58,13 @@ class ProfessorDAO{
     }
 
     //Listar Professores
-    public function listarProfessores(){
+    public function listarProfessores($todos = true){
         try{
-            $stat = $this->conexao->prepare("Select * From professor order by nome");
+            if($todos){
+                $stat = $this->conexao->prepare("Select * from professor");
+            }else{
+                $stat = $this->conexao->prepare("Select * from professor where ativo is null");
+            }
             $stat->execute();
 
             $array = $stat->fetchAll(PDO::FETCH_CLASS, 'Professor');
@@ -73,9 +77,14 @@ class ProfessorDAO{
     }
 
     //Buscar Professor por nome
-    public function buscarProfessorPorNome($nome){
+    public function buscarProfessorPorNome($nome,$todos = true){
         try{
-            $stat = $this->conexao->prepare("Select * From professor where nome like ?");
+            if($todos){
+                $stat = $this->conexao->prepare("Select * from professor where nome like ?");
+            }else{
+                $stat = $this->conexao->prepare("Select * from professor where nome like ? and ativo is null");
+            }
+
             $stat->bindValue(1, $nome."%");
             $stat->execute();
 

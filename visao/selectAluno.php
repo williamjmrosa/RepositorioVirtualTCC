@@ -17,18 +17,18 @@ if(isset($_GET['BUSCA'])){
 
     $alunoDAO = new AlunoDAO();
     if($busca != ""){
-        $alunos = $alunoDAO->buscarAlunoPorNome($busca);
+        $alunos = $alunoDAO->buscarAlunoPorNome($busca,false);
 
         mostrarAlunos($alunos);
 
     }else{
-        $alunos = $alunoDAO->listarAlunos();
+        $alunos = $alunoDAO->listarAlunos(false);
         mostrarAlunos($alunos);
     }
 
 }else{
     $alunoDAO = new AlunoDAO();
-    $alunos = $alunoDAO->listarAlunos();
+    $alunos = $alunoDAO->listarAlunos(false);
     mostrarAlunos($alunos);
 }
 

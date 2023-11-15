@@ -31,7 +31,7 @@ if(isset($_GET['OP'])){
         //Listar alunos
         case 1:
             $alunoDAO = new AlunoDAO();
-            $alunos = $alunoDAO->listarAlunos();
+            $alunos = $alunoDAO->listarAlunos(true);
 
             montarListaAluno($alunos);
 

@@ -60,9 +60,14 @@ class AlunoDAO{
     }
 
     // Listar Alunos
-    public function listarAlunos(){
+    public function listarAlunos($todos = true){
         try{
-            $stat = $this->conexao->prepare("select * from aluno");
+            if($todos){
+                $stat = $this->conexao->prepare("select * from aluno");
+            }else{
+                $stat = $this->conexao->prepare("select * from aluno where ativo is null");
+            }
+
             $stat->execute();
 
             $array = $stat->fetchAll(PDO::FETCH_CLASS, 'Aluno');
@@ -75,9 +80,14 @@ class AlunoDAO{
     }
 
     // Buscar Aluno por nome
-    public function buscarAlunoPorNome($nome){
+    public function buscarAlunoPorNome($nome, $todos = true){
         try{
-            $stat = $this->conexao->prepare("select * from aluno where nome like ?");
+            if($todos){
+                $stat = $this->conexao->prepare("select * from aluno where nome like ?");
+            }else{
+                $stat = $this->conexao->prepare("select * from aluno where ativo is null and nome like ?");
+            }
+
             $stat->bindValue(1, $nome."%");
             $stat->execute();
 

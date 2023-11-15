@@ -19,17 +19,17 @@ if(isset($_GET['BUSCA'])){
     $professorDAO = new ProfessorDAO();
     
     if($busca != ""){
-        $professores = $professorDAO->buscarProfessorPorNome($busca);
+        $professores = $professorDAO->buscarProfessorPorNome($busca,false);
 
         mostrarProfessores($professores);
     }else{
-        $professores = $professorDAO->listarProfessores();
+        $professores = $professorDAO->listarProfessores(false);
         mostrarProfessores($professores);
     }
 
 }else{
     $professorDAO = new ProfessorDAO();
-    $professores = $professorDAO->listarProfessores();
+    $professores = $professorDAO->listarProfessores(false);
     mostrarProfessores($professores);
 }
 ?>
