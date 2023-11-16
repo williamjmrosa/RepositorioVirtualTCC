@@ -213,5 +213,25 @@ class AlunoDAO{
 
     }
 
+    //Fazer login
+    public function fazerLogin($usuario, $senha){
+        try{
+            $stat = $this->conexao->prepare("select * from aluno where (email = ? or matricula = ?) and senha = ?");
+            $stat->bindValue(1, $usuario);
+            $stat->bindValue(2, $usuario);
+            $stat->bindValue(3, $senha);
+            $stat->execute();
+
+            $aluno = $stat->fetchObject("Aluno");
+
+            return $aluno;
+
+        }catch(PDOException $ex){
+            echo $ex->getMessage();
+            return null;
+        }
+
+    }
+
 }
 ?>

@@ -197,5 +197,23 @@ class ProfessorDAO{
         }
     }
 
+    // Fazer login
+    public function fazerLogin($usuario, $senha){
+        try{
+            $stat = $this->conexao->prepare("select * from professor where (email = ? or matricula = ?) and senha = ?");
+            $stat->bindValue(1, $usuario);
+            $stat->bindValue(2, $usuario);
+            $stat->bindValue(3, $senha);
+            $stat->execute();
+
+            $professor = $stat->fetchObject('Professor');
+            
+            return $professor;
+        }catch(PDOException $ex){
+            echo $ex->getMessage();
+            return null;
+        }
+    }
+
 }
 ?>

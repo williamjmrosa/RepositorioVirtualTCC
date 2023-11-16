@@ -147,5 +147,22 @@ class AdmDAO{
         }
     }
 
+    // Fazer Login
+    function fazerLogin($email, $senha){
+        try{
+            $stat = $this->conexao->prepare("select * from adm where email = ? and senha = ?");
+
+            $stat->bindValue(1,$email);
+            $stat->bindValue(2,$senha);
+            $stat->execute();
+
+            $adm = $stat->fetchObject('Adm');
+
+            return $adm;
+        }catch(PDOException $ex){
+            echo $ex->getMessage();
+        }
+    }
+
 }
 ?>

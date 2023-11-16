@@ -147,6 +147,22 @@ class VisitanteDAO{
         }
     }
     
+    // Fazer login
+    public function fazerLogin($email, $senha){
+        try{
+            $stat = $this->conexao->prepare("select * from visitante where email = ? and senha = ?");
+            $stat->bindValue(1, $email);
+            $stat->bindValue(2, $senha);
+            $stat->execute();
+
+            $visitante = $stat->fetchObject('Visitante');
+
+            return $visitante;
+
+        }catch(PDOException $ex){
+            echo $ex->getMessage();
+        }
+    }
 
 }
 

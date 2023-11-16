@@ -143,4 +143,21 @@ class BibliotecarioDAO{
         }
     }
 
+    // Fazer Login
+    public function fazerLogin($email, $senha){
+        try{
+            $stat = $this->conexao->prepare("select * from bibliotecario where email = ? and senha = ?");
+            $stat->bindValue(1,$email);
+            $stat->bindValue(2,$senha);
+            $stat->execute();
+
+            $bibliotecario = $stat->fetchObject('Bibliotecario');
+
+            return $bibliotecario;
+
+        }catch(PDOException $ex){
+            echo $ex->getMessage();
+        }
+    }
+
 }
