@@ -18,15 +18,15 @@ session_start();
 <body class="container-fluid m-0 p-0 fundo-secundario">
   <div class="fundo-primario">
     <div class="mb-2">
-      <nav class="p-2" id="menu">
-        <div class="d-inline-block w-50">
+      <nav class="p-2 row" id="menu">
+        <div class="col-6">
           <h3 class="home">TCC AQUI</h3>
-          <a class="btn fundo-secundario fw-bold" href="index.html">Home</a>
-          <a class="btn fundo-secundario fw-bold" href="#">Contao</a>
+          <a class="btn fundo-secundario fw-bold" href="index.php">Home</a>
+          <a class="btn fundo-secundario fw-bold" href="#">Contatos</a>
           <a class="btn fundo-secundario fw-bold" href="#">TCC</a>
 
         </div>
-        <div class="div-login">
+        <div class="div-login col-6">
           <ul id="login">
             <!-- Menu de Login -->
             <!-- Carregado via js/jquery -->
@@ -41,22 +41,21 @@ session_start();
       <form class="row g-3" method="POST" action="../controle/adm-controle.php?OP=1">
         <!-- Mensagens de Alerta do retorno do Cadastro -->
         <?php
-        
-          if (isset($_SESSION['erros'])) {
-            $erros = unserialize($_SESSION['erros']);
-            unset($_SESSION['erros']);
-            $msg = "";
-            foreach ($erros as $erro) {
-              $msg = $msg . '<p class="m-0"> ' . $erro . '</p>';
-            }
-            $sucesso = false;
-          }elseif(isset($_SESSION['msg'])) {
-            $sucesso = true;
-            $msg = $_SESSION['msg'];
-            unset($_SESSION['msg']);
-            
+
+        if (isset($_SESSION['erros'])) {
+          $erros = unserialize($_SESSION['erros']);
+          unset($_SESSION['erros']);
+          $msg = "";
+          foreach ($erros as $erro) {
+            $msg = $msg . '<p class="m-0"> ' . $erro . '</p>';
           }
-          if(isset($sucesso)){
+          $sucesso = false;
+        } elseif (isset($_SESSION['msg'])) {
+          $sucesso = true;
+          $msg = $_SESSION['msg'];
+          unset($_SESSION['msg']);
+        }
+        if (isset($sucesso)) {
         ?>
           <div class="alert <?php if ($sucesso) {
                               echo 'alert-success';
@@ -72,7 +71,7 @@ session_start();
         ?>
         <!-- Fim da mensagens de Alerta do retorno do Cadastro -->
         <div class="col-12">
-            <h3>Cadastrar Administrador</h3>
+          <h3>Cadastrar Administrador</h3>
         </div>
         <div class="col-12">
           <label for="nome" class="form-label">Nome Completo</label>

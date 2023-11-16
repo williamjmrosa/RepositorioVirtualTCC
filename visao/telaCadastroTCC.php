@@ -20,6 +20,7 @@ include_once '../Modelo/categoria.class.php';
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
   <link rel="stylesheet" href="../Framework/css/bootstrap.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
   <link rel="stylesheet" href="../css/style.css">
   <link rel="icon" type="image/jpg" href="../img/icone.png" />
 
@@ -28,15 +29,15 @@ include_once '../Modelo/categoria.class.php';
 <body class="container-fluid m-0 p-0 fundo-secundario">
   <div class="fundo-primario">
     <div class="mb-2">
-      <nav class="p-2" id="menu">
-        <div class="d-inline-block w-50">
+      <nav class="p-2 row" id="menu">
+        <div class="col-6">
           <h3 class="home">TCC AQUI</h3>
           <a class="btn fundo-secundario fw-bold" href="index.php">Home</a>
-          <a class="btn fundo-secundario fw-bold" href="#">Contao</a>
+          <a class="btn fundo-secundario fw-bold" href="#">Contatos</a>
           <a class="btn fundo-secundario fw-bold" href="#">TCC</a>
 
         </div>
-        <div class="div-login">
+        <div class="div-login col-6">
           <ul id="login">
             <!-- Menu de Login -->
             <!-- Carregado via js/jquery -->
@@ -48,27 +49,27 @@ include_once '../Modelo/categoria.class.php';
   </div>
   <div class="corpo">
     <div class="cadastro w-auto">
-      <form class="row g-3" method="POST" action="../controle/tcc-controle.php?OP=1"  enctype="multipart/form-data">
+      <form class="row g-3" method="POST" action="../controle/tcc-controle.php?OP=1" enctype="multipart/form-data">
         <!-- Mensagens de Alerta do retorno do Cadastro -->
         <?php
-          if (isset($_SESSION['erros'])) {
-            $erros = unserialize($_SESSION['erros']);
-            unset($_SESSION['erros']);
-            $msg = "";
-            foreach ($erros as $erro) {
-              $msg = $msg . '<p class="m-0"> ' . $erro . '</p>';
-            }
-            $sucesso = false;
-          }elseif(isset($_SESSION['erro'])){
-            $sucesso = false;
-            $msg = $_SESSION['erro'];
-            unset($_SESSION['erro']);
-          }elseif(isset($_SESSION['msg'])) {
-            $sucesso = true;
-            $msg = $_SESSION['msg'];
-            unset($_SESSION['msg']); 
+        if (isset($_SESSION['erros'])) {
+          $erros = unserialize($_SESSION['erros']);
+          unset($_SESSION['erros']);
+          $msg = "";
+          foreach ($erros as $erro) {
+            $msg = $msg . '<p class="m-0"> ' . $erro . '</p>';
           }
-          if(isset($sucesso)){
+          $sucesso = false;
+        } elseif (isset($_SESSION['erro'])) {
+          $sucesso = false;
+          $msg = $_SESSION['erro'];
+          unset($_SESSION['erro']);
+        } elseif (isset($_SESSION['msg'])) {
+          $sucesso = true;
+          $msg = $_SESSION['msg'];
+          unset($_SESSION['msg']);
+        }
+        if (isset($sucesso)) {
         ?>
           <div class="alert <?php if ($sucesso) {
                               echo 'alert-success';
@@ -95,11 +96,11 @@ include_once '../Modelo/categoria.class.php';
           <input type="text" class="form-control mb-2" id="buscaAluno" placeholder="Busca Autor (Nome Aluno)">
           <select class="form-select" id="autor" name="autor" size="4">
             <?php
-              $alunoDAO = new AlunoDAO();
-              $alunos = $alunoDAO->listarAlunos(false);
-              foreach ($alunos as $aluno) {
-                echo '<option value="' . $aluno->matricula . '">' . $aluno->nome . '</option>';
-              }
+            $alunoDAO = new AlunoDAO();
+            $alunos = $alunoDAO->listarAlunos(false);
+            foreach ($alunos as $aluno) {
+              echo '<option value="' . $aluno->matricula . '">' . $aluno->nome . '</option>';
+            }
             ?>
           </select>
         </div>
@@ -121,13 +122,13 @@ include_once '../Modelo/categoria.class.php';
           <label for="listaOrientador" class="form-label">Orientador</label>
           <input type="text" class="form-control" id="buscaOrientador" placeholder="Busca Orientador (Nome Professor)">
           <select class="form-select mt-2" id="listaOrientador" size="4">
-              <?php
-                $professorDAO = new ProfessorDAO();
-                $professores = $professorDAO->listarProfessores(false);
-                foreach ($professores as $professor) {
-                  echo '<option value="' . $professor->matricula . '" onClick="listaOrientador(this)">' . $professor->nome . '</option>';
-                }
-              ?>
+            <?php
+            $professorDAO = new ProfessorDAO();
+            $professores = $professorDAO->listarProfessores(false);
+            foreach ($professores as $professor) {
+              echo '<option value="' . $professor->matricula . '" onClick="listaOrientador(this)">' . $professor->nome . '</option>';
+            }
+            ?>
           </select>
         </div>
         <div class="col-lg-6 mb-2" id="divOrientador">
@@ -140,11 +141,11 @@ include_once '../Modelo/categoria.class.php';
           <input type="text" class="form-control mb-2" id="buscaCategoriaPrincipal" placeholder="Busca Categoria (Nome)">
           <select class="form-select" id="categoriaPrincipal" size="6">
             <?php
-              $categoriaDAO = new CategoriaDAO();
-              $categorias = $categoriaDAO->listarCategoriaPrincipal();
-              foreach ($categorias as $categoria) {
-                echo '<option value="' . $categoria->idCategoria . '">' . $categoria->nome . '</option>';
-              }
+            $categoriaDAO = new CategoriaDAO();
+            $categorias = $categoriaDAO->listarCategoriaPrincipal();
+            foreach ($categorias as $categoria) {
+              echo '<option value="' . $categoria->idCategoria . '">' . $categoria->nome . '</option>';
+            }
             ?>
           </select>
         </div>
@@ -153,11 +154,11 @@ include_once '../Modelo/categoria.class.php';
           <input type="text" class="form-control mb-2" id="buscaCategoriaSecundaria" placeholder="Busca Categoria (Nome)">
           <select class="form-select" id="categoriaSecundaria" size="4">
             <?php
-              $categoriaDAO = new CategoriaDAO();
-              $categorias = $categoriaDAO->listarSubCategorias();
-              foreach ($categorias as $categoria) {
-                echo '<option value="' . $categoria->idCategoria . '">' . $categoria->nome . '</option>';
-              }
+            $categoriaDAO = new CategoriaDAO();
+            $categorias = $categoriaDAO->listarSubCategorias();
+            foreach ($categorias as $categoria) {
+              echo '<option value="' . $categoria->idCategoria . '">' . $categoria->nome . '</option>';
+            }
             ?>
           </select>
           <button type="button" class="btn btn-primary mt-2 w-100" onclick="limpar()" id="btnSalvar">Limpar</button>
@@ -209,15 +210,15 @@ include_once '../Modelo/categoria.class.php';
     </div>
   </div>
   <?php
-    
+
   ?>
   <script src="../Framework/js/jquery-3.6.4.js"></script>
   <script src="../Framework/js/popper.min.js"></script>
   <script src="../Framework/js/bootstrap.js"></script>
   <script src="../Framework/he/he.js"></script>
   <script src="../js/js-cadastro-tcc.js">
-      
-      
+
+
 
 
   </script>
