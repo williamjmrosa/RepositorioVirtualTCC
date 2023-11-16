@@ -36,27 +36,28 @@ function gerarImagem($caminho_pdf, $id)
     <link rel="stylesheet" href="../Framework/css/bootstrap.css">
     <link rel="stylesheet" href="../css/style.css">
     <link rel="icon" type="image/jpg" href="../img/icone.png" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
 
 </head>
 
 <body class="container-fluid m-0 p-0">
     <div class="fundo-primario">
         <div class="mb-2">
-            <nav class="p-2" id="menu">
-                <div class="d-inline-block w-50">
+            <nav class="p-2 row" id="menu">
+                <div class="col-6">
                     <h3 class="home">TCC AQUI</h3>
                     <a class="btn fundo-secundario fw-bold" href="index.php">Home</a>
                     <a class="btn fundo-secundario fw-bold" href="#">Contatos</a>
                     <a class="btn fundo-secundario fw-bold" href="#">TCC</a>
 
                 </div>
-                <div class="div-login">
+                <div class="div-login col-6">
                     <ul id="login">
                         <!-- Menu de Login -->
                         <!-- Carregado via js/jquery -->
                     </ul>
                 </div>
-                <div class="text-center">
+                <div class="text-center col-12">
                     <form id="formPesquisar" action="../controle/tcc-controle.php?OP=5" method="post">
                         <select class="form-select d-inline-block w-auto" name="tipo">
                             <option value="titulo">Titulo</option>
@@ -135,6 +136,11 @@ function gerarImagem($caminho_pdf, $id)
             } elseif (!isset($_SESSION['listaTCC']) || isset($_GET['pagina'])) {
                 $tccDAO = new TCCDAO();
                 $listaTCC = $tccDAO->listarTCC(isset($_GET['pagina']) ? $_GET['pagina'] : 1);
+            }
+
+            if(isset($_SESSION['msg'])){
+                echo "<div class='alert alert-success m-2' role='alert'>" . $_SESSION['msg'] . "</div>";
+                unset($_SESSION['msg']);
             }
 
             if (isset($_SESSION['erro'])) {
