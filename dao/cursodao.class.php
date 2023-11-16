@@ -63,7 +63,7 @@ class CursoDAO{
             $stat->bindValue(1, $idAluno);
             $stat->execute();
             
-            $array = $stat->fetchAll(PDO::FETCH_CLASS, 'Curso');
+            $array = $stat->fetchObject('Curso');
         
             return $array;
         }catch(PDOException $ex){

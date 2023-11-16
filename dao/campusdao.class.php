@@ -67,7 +67,7 @@ class CampusDAO{
             
             $stat->execute();
             
-            $array = $stat->fetchAll(PDO::FETCH_CLASS, 'Campus');
+            $array = $stat->fetchObject('Campus');
             
             return $array;
         } catch (PDOException $ex){

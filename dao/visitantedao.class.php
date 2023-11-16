@@ -132,13 +132,17 @@ class VisitanteDAO{
     }
 
     // Buscar Visitante por email
-    public function encontrarVisitantePorEmail($email){
+    public function encontrarVisitantePorEmail($email,$array = true){
         try{
             $stat = $this->conexao->prepare("select * from visitante where email = ?");
             $stat->bindValue(1,$email);
             $stat->execute();
 
-            $visitantes = $stat->fetch(PDO::FETCH_ASSOC);
+            if($array){
+                $visitantes = $stat->fetch(PDO::FETCH_ASSOC);
+            }else{
+                $visitantes = $stat->fetchObject('Visitante');
+            }
 
             return $visitantes;
 

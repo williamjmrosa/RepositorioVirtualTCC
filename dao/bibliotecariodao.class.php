@@ -83,15 +83,19 @@ class BibliotecarioDAO{
     }
 
     //Buscar Bibliotecarios por e-mail
-    public function encontrarBibliotecarioPorEmail($email){
+    public function encontrarBibliotecarioPorEmail($email,$array = true){
         try {
             $stat = $this->conexao->prepare("select * from bibliotecario where email = ?");
             $stat->bindValue(1, $email);
             $stat->execute();
 
-            $result = $stat->fetch(PDO::FETCH_ASSOC);
-
-            return $result;
+            if($array == true){
+                $bibliotecario = $stat->fetch(PDO::FETCH_ASSOC);
+            }else{
+                $bibliotecario = $stat->fetchObject('Bibliotecario');
+            }
+            
+            return $bibliotecario;
 
         } catch (PDOException $ex) {
             echo $ex->getMessage();

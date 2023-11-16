@@ -38,13 +38,17 @@ class EnderecoDAO{
     }
 
     // Buscar Endereço por ID
-    public function encontrarEnderecoPorId($id){
+    public function encontrarEnderecoPorId($id,$array = true){
         try{
             $stat = $this->conexao->prepare("select * from Endereco where idEndereco = ?");
             $stat->bindValue(1,$id);
             $stat->execute();
 
-            $endereco = $stat->fetch(PDO::FETCH_ASSOC);
+            if($array){
+                $endereco = $stat->fetch(PDO::FETCH_ASSOC);    
+            }else{
+                $endereco = $stat->fetchObject('Endereco');
+            }
 
             return $endereco;
 

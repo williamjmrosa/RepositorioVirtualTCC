@@ -102,13 +102,17 @@ class AdmDAO{
     }
 
     // Buscar Administrador por e-mail
-    public function encontrarAdmPorEmail($email){
+    public function encontrarAdmPorEmail($email, $array = true){
         try{
             $stat = $this->conexao->prepare("select * from adm where email = ?");
             $stat->bindValue(1,$email);
             $stat->execute();
 
-            $result = $stat->fetch(PDO::FETCH_ASSOC);
+            if($array){
+                $result = $stat->fetch(PDO::FETCH_ASSOC);
+            }else{
+                $result = $stat->fetchObject('Adm');
+            }
 
             return $result;
 

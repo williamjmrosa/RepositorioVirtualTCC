@@ -1,6 +1,8 @@
 <?php
 require_once '../persistencia/conexaobanco.class.php';
 include_once '../dao/enderecodao.class.php';
+include_once '../dao/campusdao.class.php';
+include_once '../dao/cursodao.class.php';
 
 class AlunoDAO{
 
@@ -118,16 +120,28 @@ class AlunoDAO{
     }
 
     // Buscar Aluno por matricula
-    public function buscarAlunoPorMatricula($id){
+    public function buscarAlunoPorMatricula($id, $array = true){
         try{
             $stat = $this->conexao->prepare("select * from aluno where matricula = ?");
             $stat->bindValue(1, $id);
             $stat->execute();
-
-            $aluno = $stat->fetch(PDO::FETCH_ASSOC);
-
+            
             $EndDAO = new EnderecoDAO();
-            $aluno['end'] = $EndDAO->encontrarEnderecoPorId($aluno['idEndereco']);
+
+            if($array == true){
+                $aluno = $stat->fetch(PDO::FETCH_ASSOC);
+                $aluno['end'] = $EndDAO->encontrarEnderecoPorId($aluno['idEndereco']);
+            }else{
+                $aluno = $stat->fetchObject('Aluno'); 
+                $aluno->end = $EndDAO->encontrarEnderecoPorId($aluno->idEndereco, false);
+                $campusDAO = new CampusDAO();
+                $aluno->campus = $campusDAO->buscarCampusAluno($aluno->matricula);
+                $cursoDAO = new CursoDAO();
+                $aluno->curso = $cursoDAO->buscarCursoAluno($aluno->matricula);
+            }
+
+            
+            
 
             return $aluno;
 

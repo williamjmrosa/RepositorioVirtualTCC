@@ -98,16 +98,20 @@ class ProfessorDAO{
     }
 
     //Buscar Professor por matricula
-    public function buscarProfessorPorMatricula($matricula){
+    public function buscarProfessorPorMatricula($matricula, $array = true){
         try{
             $stat = $this->conexao->prepare("Select * From professor where matricula = ?");
             $stat->bindValue(1, $matricula);
             $stat->execute();
-
-            $professor = $stat->fetch(PDO::FETCH_ASSOC);
-
             $endDAO = new EnderecoDAO();
-            $professor['end'] = $endDAO->encontrarEnderecoPorId($professor['idEndereco']);
+            if($array){
+                $professor = $stat->fetch(PDO::FETCH_ASSOC);
+                $professor['end'] = $endDAO->encontrarEnderecoPorId($professor['idEndereco']);
+            }else{
+                $professor = $stat->fetchObject('Professor');
+                $professor->end = $endDAO->encontrarEnderecoPorId($professor->idEndereco, false);
+            } 
+            
 
             return $professor;
 
@@ -207,7 +211,7 @@ class ProfessorDAO{
             $stat->execute();
 
             $professor = $stat->fetchObject('Professor');
-            
+
             return $professor;
         }catch(PDOException $ex){
             echo $ex->getMessage();
