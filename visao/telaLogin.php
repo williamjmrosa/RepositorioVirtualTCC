@@ -1,5 +1,9 @@
 <?php
 session_start();
+if(isset($_SESSION['usuario'])) {
+    $_SESSION['erro'] = "Você ja esta logado!";
+    header('Location: ../visao/index.php');
+}else{
 ?>
 <!DOCTYPE html>
 <html lang="pt-br">
@@ -137,3 +141,5 @@ session_start();
 </body>
 
 </html>
+<?php
+}?>
