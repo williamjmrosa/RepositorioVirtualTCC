@@ -74,7 +74,7 @@ class CursoDAO{
     // Buscar curso por nome
     public function buscarCursoPorNome($nome){
         try{
-            $stat = $this->conexao->prepare("Select * From Curso where nome like ?");
+            $stat = $this->conexao->prepare("Select * From curso where nome like ?");
             $stat->bindValue(1, $nome."%");
             $stat->execute();
             
@@ -89,7 +89,7 @@ class CursoDAO{
     // Buscar curso de um campus
     public function buscarCursoDeCampus($idCampus){
         try{
-            $stat = $this->conexao->prepare("Select c.idCurso, c.nome, c.ensino From Curso as c inner join campus_curso cc on c.idCurso = cc.idCurso where cc.idcampus = ?");
+            $stat = $this->conexao->prepare("Select c.idCurso, c.nome, c.ensino From curso as c inner join campus_curso cc on c.idCurso = cc.idCurso where cc.idcampus = ?");
             $stat->bindValue(1, $idCampus);
             $stat->execute();
             
@@ -104,7 +104,7 @@ class CursoDAO{
     // Buscar curso por nome nos curso de um campus
     public function buscarCursoPorNomeCampus($nome, $idCampus){
         try{
-            $stat = $this->conexao->prepare("Select c.idCurso, c.nome, c.ensino From Curso c inner join campus_curso cc on c.idCurso = cc.idCurso where cc.idCampus = ? and c.nome like ?");
+            $stat = $this->conexao->prepare("Select c.idCurso, c.nome, c.ensino From curso c inner join campus_curso cc on c.idCurso = cc.idCurso where cc.idCampus = ? and c.nome like ?");
             $stat->bindValue(1, $idCampus);
             $stat->bindValue(2, $nome."%");
             $stat->execute();
@@ -120,7 +120,7 @@ class CursoDAO{
     // Buscar Cursos por ID
     public function buscarCursosPorId($id){
         try{
-            $stat = $this->conexao->prepare("Select * From Curso where idCurso = ?");
+            $stat = $this->conexao->prepare("Select * From curso where idCurso = ?");
             $stat->bindValue(1, $id);
             $stat->execute();
             

@@ -1,6 +1,6 @@
 <?php
 require_once '../persistencia/conexaobanco.class.php';
-include_once '../Modelo/Aluno.class.php';
+include_once '../Modelo/aluno.class.php';
 include_once '../Modelo/campus.class.php';
 include_once '../Modelo/curso.class.php';
 
@@ -65,7 +65,7 @@ class TCCDAO{
         try{
             $sql = "update tcc set";
             $parametros = array();
-            print_r($tcc->campus);
+            
             if($tcc->titulo != null && $tcc->titulo != ""){
                 $sql = $sql == "update tcc set" ? $sql . " titulo = :titulo" : $sql . ", titulo = :titulo";
                 $parametros[':titulo'] = $tcc->titulo;

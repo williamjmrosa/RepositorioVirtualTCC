@@ -40,7 +40,7 @@ class EnderecoDAO{
     // Buscar Endereço por ID
     public function encontrarEnderecoPorId($id,$array = true){
         try{
-            $stat = $this->conexao->prepare("select * from Endereco where idEndereco = ?");
+            $stat = $this->conexao->prepare("select * from endereco where idEndereco = ?");
             $stat->bindValue(1,$id);
             $stat->execute();
 
@@ -53,7 +53,7 @@ class EnderecoDAO{
             return $endereco;
 
         }catch(PDOException $ex){
-            echo $ex->getMessage();
+            echo "Erros:id $id". $ex->getMessage();
         }
         
     }
@@ -62,7 +62,7 @@ class EnderecoDAO{
     public function alterarEndereco(Endereco $endereco){
         try{
             echo "entrou";
-            $stat = $this->conexao->prepare("update Endereco set cep = ?, logradouro = ?, bairro = ?, cidade = ?, uf = ?, complemento = ? where idEndereco = ?");
+            $stat = $this->conexao->prepare("update endereco set cep = ?, logradouro = ?, bairro = ?, cidade = ?, uf = ?, complemento = ? where idEndereco = ?");
 
             $stat->bindValue(1,$endereco->cep);
             $stat->bindValue(2,$endereco->logradouro);

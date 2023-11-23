@@ -115,7 +115,7 @@ class CampusDAO{
     // Buscar Curso por idCampus
     public function buscarCursoDeUmCampus($idCampus){
         try{
-            $stat = $this->conexao->prepare("Select c.idCurso, c.nome, c.ensino, c.ativo From Curso as c inner join campus_curso as cc on c.idCurso = cc.idCurso where cc.idcampus = ?");
+            $stat = $this->conexao->prepare("Select c.idCurso, c.nome, c.ensino, c.ativo From curso as c inner join campus_curso as cc on c.idCurso = cc.idCurso where cc.idcampus = ?");
             
             $stat->bindValue(1, $idCampus);
             

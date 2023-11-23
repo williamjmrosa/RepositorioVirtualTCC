@@ -158,14 +158,14 @@ function login() {
             break;
         default:
             $_SESSION['erro'] = "Opção de acesso inválida!";
-            //header('Location: ../visao/telaLogin.php');
+            header('Location: ../visao/telaLogin.php');
             break;
 
     }
 }
 
 if(isset($_GET['OP']) && $_GET['OP'] == 6){
-    echo "entrou";
+    //echo "entrou";
     $tipoAcesso = filter_var($_GET['OP'], FILTER_SANITIZE_NUMBER_INT);
     login();
 }elseif(isset($_POST['tipoAcesso']) && !empty($_POST['tipoAcesso'])) {
