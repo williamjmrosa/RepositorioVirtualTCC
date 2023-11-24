@@ -220,8 +220,7 @@ function gerarImagem($caminho_pdf, $id)
         <!-- Fim Conteudo -->
         <!-- Inicio Filtro Direito -->
         <div class="filtro-direito float-end">
-            <p class="clear">Filtro Direiro</p>
-            <div>
+            <div class="mt-4 ms-1 me-1">
                 <input type="text" id="buscarCurso" class="form-control mb-2" placeholder="Buscar Curso">
             </div>
             <details class="m-1" id="listaCursos">
