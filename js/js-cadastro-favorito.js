@@ -1,3 +1,4 @@
+//Função para adicionar tcc a lista de favoritos de um usuario
 function adicionarFavorito(btn,idTCC){
     //Prevenir o comportamento padrao
     //event.preventDefault();
@@ -36,7 +37,7 @@ function adicionarFavorito(btn,idTCC){
         }
     });
 }
-
+//Função para remover tcc da lista de favoritos de um usuario
 function removerFavorito(btn,idTCC){
     //Selecionar o elemento HTML
     var select = $(btn);
@@ -72,13 +73,77 @@ function removerFavorito(btn,idTCC){
     });
     
 }
+
+//Funcção para preencher o formulário com id do tcc
+function clicarIndicar(btn,idTCC){
+    var modal = $("#indicar");
+    modal.find("#tcc").val(idTCC);
+}
+
+function SalvarIndicar(){
+    $("#formIndicar").submit();
+}
+
+function carregarCursos(btn){
+    var option = $(btn);
+    $("#curso").load("../visao/selecteCurso.php?ID="+option.attr("value"));
+}
+
 $(document).ready(function(){
     $("#btn-indicar").click(function(){
         var modal = $("#indicar");
         
-        modal.find(".modal-body").append("Deseja indicar este TCC?");
+        //modal.find(".modal-body").append("Deseja indicar este TCC?");
         
     });
 
-    
+    $('#searchInputInstituicao').on('input', function() {
+      var searchText = $(this).val().toLowerCase();
+      $('#instituicao option').each(function() {
+        var optionText = $(this).text().toLowerCase();
+        $(this).toggle(optionText.indexOf(searchText) > -1);
+      });
+    });
+
+    $('#formIndicar').submit(function(event) {
+      event.preventDefault();
+      $.ajax({
+          type: 'POST',
+          url: '../controle/indicar-controle.php?OP=1',
+          data: $(this).serialize()
+      }).done(function(response) {
+        alert(response);
+        resposta = JSON.parse(response);
+        var erros = resposta.erros;
+        if(resposta.erros){
+            var alerta = $("#indicar").find(".modal-body");
+            if(!alerta.find("#div-alert-modal").length){
+                console.log("alerta nao existe");
+                
+                alerta.prepend("<div id='div-alert-modal' class='alert alert-danger' role='alert'><button type='button' class='btn-close float-end' data-bs-dismiss='alert' aria-label='Close'></button><p class='msg'></p></div>");
+
+                
+            }else{
+                console.log("alerta ja existe");
+            }
+            alerta.find("#div-alert-modal").find(".msg").empty();
+            $.each(erros, function(index, value) {
+                console.log(value);
+                alerta.find("#div-alert-modal").find(".msg").append(value+"<br>");
+            });
+        }else{
+            console.log(resposta);
+        }
+      }).fail(function(jqXHR, textStatus, errorThrown) {
+          console.log("Erro na requisição AJAX:");
+          console.log("Status: " + textStatus);
+          console.log("Erro: " + errorThrown);
+
+          if(jqXHR.responseText){
+              console.log("Erro customizado: " + jqXHR.responseText);
+          }
+      });
+      
+    });
+
 });
