@@ -1,14 +1,18 @@
 <?php
 session_start();
 include_once '../dao/favoritodao.class.php';
-include_once '../util/padronizacao.class.php';
-include_once '../util/seguranca.class.php';
-include_once '../util/validacao.class.php';
 include_once '../Modelo/visitante.class.php';
 include_once '../Modelo/aluno.class.php';
 include_once '../Modelo/professor.class.php';
 include_once '../Modelo/bibliotecario.class.php';
 include_once '../Modelo/adm.class.php';
+function verSeEAjax(){
+    if(isset($_SERVER['HTTP_X_REQUESTED_WITH']) && strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) == 'xmlhttprequest'){
+        return true;
+    }else{
+        return false;
+    }
+}
 
 if(isset($_GET['OP']) && isset($_SESSION['usuario'])){
 
@@ -63,17 +67,22 @@ if(isset($_GET['OP']) && isset($_SESSION['usuario'])){
                 echo json_encode("Erro ao desfavoritar");
             }
             break;
-        //Cadastrar 
-        case 3:
-            break;
         default:
-            header('location:../visao/index.php');
+            if(verSeEAjax()){
+                echo json_encode("Opeção inválida");
+            }else{
+                header('location:../visao/index.php');    
+            }
             break;
 
     }
 
 }else{
-    header('location:../visao/index.php');
+    if(verSeEAjax()){
+        echo json_encode("Deve Logar para favoritar");
+    }else{
+        header('location:../visao/index.php');
+    }
 }
 
 ?>
