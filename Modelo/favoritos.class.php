@@ -26,7 +26,7 @@ class Favoritos{
 
     //Método toString
     public function __toString(){
-        nl2br("ID Favorito: $this->idFavorito
+        return nl2br("ID Favorito: $this->idFavorito
                 ID TCC: $this->idTCC ");
     }
 
