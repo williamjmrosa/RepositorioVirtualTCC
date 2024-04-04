@@ -113,40 +113,44 @@ if (isset($_SESSION['usuario'])) {
 <body class="container-fluid m-0 p-0">
     <div class="fundo-primario">
         <div class="mb-1">
-            <nav class="p-2 row" id="menu">
-                <div class="col-6">
-                    <h3 class="home">TCC AQUI</h3>
-                    <a class="btn fundo-secundario fw-bold" href="index.php">Home</a>
-                    <a class="btn fundo-secundario fw-bold" href="#">Contatos</a>
-                    <a class="btn fundo-secundario fw-bold" href="#">TCC</a>
+        <nav class="p-2 d-flex flex-column align-items-start" id="menu">
+                <div class="row w-100">    
+                    <div class="col-6">
+                            <h3 class="home">TCC AQUI</h3>
+                            <a class="btn fundo-secundario fw-bold" href="index.php">Home</a>
+                            <a class="btn fundo-secundario fw-bold" href="#">Contatos</a>
+                            <a class="btn fundo-secundario fw-bold" href="#">TCC</a>
 
+                    </div>
+                    <div class="div-login col-5 align-items-end">
+                        <ul id="login">
+                            <!-- Menu de Login -->
+                            <!-- Carregado via js/jquery -->
+                        </ul>
+                    </div>
                 </div>
-                <div class="div-login col-6">
-                    <ul id="login">
-                        <!-- Menu de Login -->
-                        <!-- Carregado via js/jquery -->
-                    </ul>
-                </div>
-                <div class="text-center col-12">
-                    <form id="formPesquisar" action="../controle/tcc-controle.php?OP=5" method="post">
-                        <select class="form-select d-inline-block w-auto" name="tipo">
-                            <option value="titulo">Titulo</option>
-                            <option value="autor">Autor</option>
-                            <option value="orientador">Orientador</option>
-                        </select>
-                        <input class="form-control w-50 d-inline-block textoPesquisa" type="text" name="pesquisar" placeholder="Pesquise">
-                        <input class="pesquisar form-control d-inline-block w-auto" type="submit" value="&#128270;">
-                    </form>
+                <div class="row align-items-center w-100">
+                    <div class="text-center col-12">
+                        <form id="formPesquisar" action="../controle/tcc-controle.php?OP=5" method="post">
+                            <select class="form-select d-inline-block w-auto" name="tipo">
+                                <option value="titulo">Titulo</option>
+                                <option value="autor">Autor</option>
+                                <option value="orientador">Orientador</option>
+                            </select>
+                            <input class="form-control w-50 d-inline-block textoPesquisa" type="text" name="pesquisar" placeholder="Pesquise">
+                            <input class="pesquisar form-control d-inline-block w-auto" type="submit" value="&#128270;">
+                        </form>
+                    </div>
                 </div>
             </nav>
         </div>
 
     </div>
-    <div class="fundo-primario h-100">
+    <div class="fundo-primario">
         <!-- Inicio Conteudo -->
         
-            <div class="row">
-                <div class="col-md-6 offset-md-3 fundo-secundario mt-5 rounded-5 p-5">
+            <div class="d-flex flex-column align-items-center h-100">
+                <div class="col-6 fundo-secundario rounded-5 p-5 m-4">
                     <h2>Perfil <?php echo $tipo ?></h2>
 
                     <form class="row g-3" method="POST" action="../controle/perfil-controle.php">
