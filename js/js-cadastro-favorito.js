@@ -80,13 +80,18 @@ function clicarIndicar(btn,idTCC){
     modal.find("#tcc").val(idTCC);
 }
 
+//Função para salvar a indicação
 function SalvarIndicar(){
     $("#formIndicar").submit();
 }
 
+//Função para carregar os cursos de acordo a instituição para o select
 function carregarCursos(btn){
     var option = $(btn);
-    $("#curso").load("../visao/selecteCurso.php?ID="+option.attr("value"));
+    $("#curso").load("../visao/selecteCurso.php?ID="+option.attr("value"),function(){
+        $("#curso").prepend("<option selected selected>Selecione o curso</option>");
+    });
+    
 }
 
 $(document).ready(function(){
@@ -96,10 +101,20 @@ $(document).ready(function(){
         //modal.find(".modal-body").append("Deseja indicar este TCC?");
         
     });
-
+    
+    // Buscar instituição
     $('#searchInputInstituicao').on('input', function() {
       var searchText = $(this).val().toLowerCase();
       $('#instituicao option').each(function() {
+        var optionText = $(this).text().toLowerCase();
+        $(this).toggle(optionText.indexOf(searchText) > -1);
+      });
+    });
+
+    // Buscar curso
+    $("#searchInputCurso").on("input", function() {
+      var searchText = $(this).val().toLowerCase();
+      $("#curso option").each(function() {
         var optionText = $(this).text().toLowerCase();
         $(this).toggle(optionText.indexOf(searchText) > -1);
       });

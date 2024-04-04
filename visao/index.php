@@ -7,6 +7,8 @@ include_once '../Modelo/curso.class.php';
 include_once '../Modelo/campus.class.php';
 include_once '../Modelo/professor.class.php';
 include_once '../Modelo/categoria.class.php';
+include_once '../dao/favoritodao.class.php';
+include_once '../dao/campusdao.class.php';
 
 function gerarImagem($caminho_pdf, $id)
 {
@@ -21,7 +23,7 @@ function gerarImagem($caminho_pdf, $id)
     }
     // Obtém o caminho completo da imagem
     $caminho_imagem = '../TCC/' . $id . '/capa.jpg';
-    
+
     return $caminho_imagem;
 }
 
@@ -43,38 +45,42 @@ function gerarImagem($caminho_pdf, $id)
 <body class="container-fluid m-0 p-0">
     <div class="fundo-primario">
         <div class="mb-2">
-            <nav class="p-2 row" id="menu">
-                <div class="col-6">
-                    <h3 class="home">TCC AQUI</h3>
-                    <a class="btn fundo-secundario fw-bold" href="index.php">Home</a>
-                    <a class="btn fundo-secundario fw-bold" href="#">Contatos</a>
-                    <a class="btn fundo-secundario fw-bold" href="#">TCC</a>
+            <nav class="p-2 d-flex flex-column align-items-start" id="menu">
+                <div class="row w-100">
+                    <div class="col-6">
+                        <h3 class="home">TCC AQUI</h3>
+                        <a class="btn fundo-secundario fw-bold" href="index.php">Home</a>
+                        <a class="btn fundo-secundario fw-bold" href="#">Contatos</a>
+                        <a class="btn fundo-secundario fw-bold" href="../visao/tccMarcado.php">TCC</a>
 
+                    </div>
+                    <div class="div-login col-6">
+                        <ul id="login">
+                            <!-- Menu de Login -->
+                            <!-- Carregado via js/jquery -->
+                        </ul>
+                    </div>
                 </div>
-                <div class="div-login col-6">
-                    <ul id="login">
-                        <!-- Menu de Login -->
-                        <!-- Carregado via js/jquery -->
-                    </ul>
-                </div>
-                <div class="text-center col-12">
-                    <form id="formPesquisar" action="../controle/tcc-controle.php?OP=5" method="post">
-                        <select class="form-select d-inline-block w-auto" name="tipo">
-                            <option value="titulo">Titulo</option>
-                            <option value="autor">Autor</option>
-                            <option value="orientador">Orientador</option>
-                        </select>
-                        <input class="form-control w-50 d-inline-block textoPesquisa" type="text" name="pesquisar" placeholder="Pesquise">
-                        <input class="pesquisar form-control d-inline-block w-auto" type="submit" value="&#128270;">
-                    </form>
+                <div class="row align-items-center w-100">
+                    <div class="text-center col-12">
+                        <form id="formPesquisar" action="../controle/tcc-controle.php?OP=5" method="post">
+                            <select class="form-select d-inline-block w-auto" name="tipo">
+                                <option value="titulo">Titulo</option>
+                                <option value="autor">Autor</option>
+                                <option value="orientador">Orientador</option>
+                            </select>
+                            <input class="form-control w-50 d-inline-block textoPesquisa" type="text" name="pesquisar" placeholder="Pesquise">
+                            <input class="pesquisar form-control d-inline-block w-auto" type="submit" value="&#128270;">
+                        </form>
+                    </div>
                 </div>
             </nav>
         </div>
 
     </div>
-    <div class="corpo">
+    <div class="corpo d-flex">
         <!-- Inicio Filtro Esquerdo -->
-        <div class="filtro-esquerdo float-start p-1">
+        <div class="filtro-esquerdo p-1 col-3">
             <div id="filtrosSelecionados" class="mb-3">
                 <form id="formFiltrar" action="../controle/tcc-controle.php?OP=5" method="post">
                     <?php
@@ -125,7 +131,7 @@ function gerarImagem($caminho_pdf, $id)
         </div>
         <!-- Fim Filtro Esquerdo -->
         <!-- Inicio Conteudo -->
-        <div class="conteudo float-start ms-1 me-1">
+        <div class="conteudo ms-1 me-1 col-6">
             <?php
 
 
@@ -138,7 +144,7 @@ function gerarImagem($caminho_pdf, $id)
                 $listaTCC = $tccDAO->listarTCC(isset($_GET['pagina']) ? $_GET['pagina'] : 1);
             }
 
-            if(isset($_SESSION['msg'])){
+            if (isset($_SESSION['msg'])) {
                 echo "<div class='alert alert-success m-2' role='alert'>" . $_SESSION['msg'] . "</div>";
                 unset($_SESSION['msg']);
             }
@@ -146,8 +152,8 @@ function gerarImagem($caminho_pdf, $id)
             if (isset($_SESSION['erro'])) {
                 echo "<div class='alert alert-danger m-2' role='alert'>" . $_SESSION['erro'] . "</div>";
                 unset($_SESSION['erro']);
-            } 
-            
+            }
+
             if (isset($_SESSION['erros'])) {
                 foreach ($_SESSION['erros'] as $erro) {
                     echo "<div class='alert alert-danger m-2' role='alert'>" . $erro . "</div>";
@@ -176,6 +182,22 @@ function gerarImagem($caminho_pdf, $id)
                                     </div>
                                 </div>
                             </a>
+                            <div class='col-md-12'>
+                                <div class='card-footer'>";
+
+                    if (isset($_SESSION['usuario'])) {
+                        $fDAO = new FavoritoDAO();
+                        if ($fDAO->verificarFavorito($tcc->idTCC)) {
+                            echo "<button class='btn btn-light border me-2' id='favorito' type='button' onclick='removerFavorito(this," . $tcc->idTCC . ")'><i class='bi bi-star-fill me-1'></i>Favorito</button>";
+                        } else {
+                            echo "<button class='btn btn-light border me-2' id='favorito' type='button' onclick='adicionarFavorito(this," . $tcc->idTCC . ")'><i class='bi bi-star me-1'></i>Favorito</button>";
+                        }
+                    } else {
+                        echo "<button class='btn btn-light border me-2' id='favorito' type='button' onclick='adicionarFavorito(this," . $tcc->idTCC . ")'><i class='bi bi-star me-1'></i>Favorito</button>";
+                    }
+                    echo "<button class='btn btn-primary' type='button' data-bs-toggle='modal' data-bs-target='#indicar' id='btn-indicar' onclick='clicarIndicar(this," . $tcc->idTCC . ")'>Indicar</button>
+                                </div>
+                            </div>
                         </div>";
                 }
             } else {
@@ -219,7 +241,7 @@ function gerarImagem($caminho_pdf, $id)
 
         <!-- Fim Conteudo -->
         <!-- Inicio Filtro Direito -->
-        <div class="filtro-direito float-end">
+        <div class="filtro-direito ms-1 col-3">
             <div class="mt-4 ms-1 me-1">
                 <input type="text" id="buscarCurso" class="form-control mb-2" placeholder="Buscar Curso">
             </div>
@@ -239,13 +261,66 @@ function gerarImagem($caminho_pdf, $id)
             </div>
         </div>
         <!-- Fim Filtro Direito -->
+        <!-- MODAL -->
+        <div class="modal fade" id="indicar" tabindex="-1" aria-labelledby="modalTCCLabel" aria-hidden="true">
+            <div class="modal-dialog modal-lg">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="modalTCCLabel">Indicar TCC</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <form class="mb-3" id="formIndicar">
+                            <div class="row g-3">
+                                <div class="col-md-6">
+                                    <label for="instituicao" class="form-label">Instituuição</label>
+                                    <input class="form-control" type="text" id="searchInputInstituicao" placeholder="Buscar Instituição">
+                                    <select class="form-select" name="instituicao" id="instituicao" size="3">
+                                        <option selected>Selecione uma Instituuição</option>
+                                        <!-- Lista de Instituições -->
+                                        <?php
+                                        $campusDAO = new CampusDAO();
+                                        $campus = $campusDAO->listarCampus();
+                                        foreach ($campus as $c) {
+                                            echo "<option value='" . $c->idCampus . "' onclick='carregarCursos(this)'>" . $c->nome . "</option>";
+                                        }
+                                        ?>
+                                    </select>
+                                </div>
+                                <div class="col-md-6">
+                                    <label for="curso">Curso</label>
+                                    <input type="text" class="form-control" id="searchInputCurso" placeholder="Buscar Cursos">
+                                    <select class="form-select" name="curso" id="curso" size="3">
+                                        <option selected>Selecione um curso</option>
+                                        <!-- Lista de Cursos -->
+                                        <!-- Carregado ao carregar a tela via JS -->
+                                    </select>
+                                </div>
+                                <div class="col-md-6">
+                                    <label for="tcc" class="form-label">TCC</label>
+                                    <input type="text" class="form-control" id="tcc" name="idTCC">
+                                </div>
 
+
+                            </div>
+                        </form>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-primary" onclick="SalvarIndicar()">Salvar Indicação</button>
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fechar</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- FIM MODAL -->
 
     </div>
     <script src="../Framework/js/jquery-3.6.4.js"></script>
+    <script src="../Framework/js/pdf.min.js"></script>
     <script src="../Framework/js/popper.min.js"></script>
     <script src="../Framework/js/bootstrap.js"></script>
     <script src="../js/js-tela-principal.js"></script>
+    <script src="../js/js-cadastro-favorito.js"></script>
 </body>
 
 </html>
