@@ -57,12 +57,24 @@ if(isset($_GET['OP']) && isset($_SESSION['usuario'])){
                     echo json_encode("Erro ao Indicar");
                 }
             }else{
-                $resposta['erros'] = $erro;
-                echo json_encode($resposta);
+                if(verSeEAjax()){
+                    $resposta['erros'] = $erro;
+                    echo json_encode($resposta);
+                }else{
+                    $_SESSION['erros'] = $erro;
+                    header("location:../visao/index.php");
+                }
             }
     }
 }else{
-    echo json_encode("Erro ao Indicar");
+    if(verSeEAjax()){
+        echo json_encode("Erro ao Indicar");
+    }else{
+        $erros = array();
+        $erros[] = "Erro ao Indicar";
+        $_SESSION['erros'] = $erros;
+        header("location:../visao/index.php");
+    }
 }
 
 ?>
