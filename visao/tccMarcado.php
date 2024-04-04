@@ -88,11 +88,11 @@ function gerarImagem($caminho_pdf, $id)
         </div>
 
     </div>
-    <div class="corpo">
+    <div class="container-fluid corpo h-100">
         <div class="d-flex h-100">
-            <div class="col-3 fundo-secundario border-end rounded-start-5 border border-dark border-4">
+            <div class="col-3 h-100 fundo-secundario border-end rounded-start-5 border border-dark border-4">
                 <!-- Lista de TCC indicados -->
-                <div class="m-2 w-100 text-center fw-bold mt-3">
+                <div class="m-2 text-center fw-bold mt-3">
                     <div class="form-check form-check-inline">
                         <label class="form-check-label" for="checkFavorito">Favoritos</label>
                         <input class="form-check-input" type="radio" id="checkFavorito" name="checkTipo" value="favorito">
@@ -147,13 +147,17 @@ function gerarImagem($caminho_pdf, $id)
                 </div>
                 <!-- Fim da Lista de TCC indicados -->
             </div>
-            <div class="col-9" style="height: 100%; background-color: #cce5ff;">
+            <div class="col-9 h-100" style="background-color: #cce5ff;">
                 <!-- TCC Selecionado -->
                 <div class="m-2 w-100 text-center fw-bold mt-3">
                     <h1>Selecione um TCC</h1>
+                    <div>
+                        <button class="btn">Favoritos</button>
+                        <button class="btn">Indicados</button>
+                    </div>
                 </div>
-                <div id="tccSelecionado">
-                    <embed src="" type="">
+                <div class="m-2 w-100" id="tccSelecionado" style="height: 82%;">
+                    <embed src="" type="application/pdf" width="99%" height="100%">
                 </div>
                 <!-- Fim TCC Selecionado -->
             </div>
@@ -164,7 +168,7 @@ function gerarImagem($caminho_pdf, $id)
     <script src="../Framework/js/popper.min.js"></script>
     <script src="../Framework/js/bootstrap.js"></script>
     <script src="../js/js-tela-principal.js"></script>
-    <script src="../js/js-tccMarcado.js"></script>
+    <script src="../js/js-tcc-marcado.js"></script>
 </body>
 
 </html>
