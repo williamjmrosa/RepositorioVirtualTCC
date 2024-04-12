@@ -78,9 +78,7 @@ if (!isset($_GET['TCC'])) {
     <script src="../Framework/js/jquery-3.6.4.js"></script>
     <script src="../Framework/js/popper.min.js"></script>
     <script src="../Framework/js/bootstrap.js"></script>
-    <script src="../Framework/PDF/build/pdf.js"></script>
     <script src="../js/js-tela-principal.js"></script>
-    <link rel="stylesheet" href="../Framework/PDF/web/viewer.css">
 </body>
 
 </html>
