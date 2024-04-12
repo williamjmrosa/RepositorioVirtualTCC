@@ -16,6 +16,11 @@ function verTCC(idTCC) {
                 tcc = response.sucesso;
 
                 $("#tccSelecionado").find('embed').attr('src', tcc.localPDF);
+                $("#favoritos").attr("onclick","removerFavorito(this,"+tcc.idTCC+")");
+                $("#btn-indicar").attr("onclick","clicarIndicar(this,"+tcc.idTCC+")");
+                $("#titulo-tcc").html(tcc.titulo);
+                $("#btns-tcc").removeClass("d-none");
+                $("#btns-tcc").addClass("row container");
 
             }else{
                 alert(response.erro);
@@ -38,7 +43,7 @@ function verTCC(idTCC) {
 $(document).ready(function () {
 
     // carregar TCC selecionado
-    $("#tcc").on("click", function () {
+    $("#tcclista").on("click", function () {
         var selected = $(this).find("option:selected").val();
         console.log(selected);
         verTCC(selected);
