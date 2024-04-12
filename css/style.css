@@ -73,14 +73,14 @@ body, html{
 
 
 
-nav .btn{
+nav .btn, .btn-padrao{
 	color:black;
 	border-width: 6px !important;
 	border-color: #274A5C;
 	border-style: double;
 }
 
-nav .btn:hover{
+nav .btn:hover, .btn-padrao:hover{
 	border: 6px solid #274A5C;
 	color: #1ba1e2;
 }
