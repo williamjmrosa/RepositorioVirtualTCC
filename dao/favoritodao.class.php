@@ -118,6 +118,26 @@ class FavoritoDAO{
         }
     }
 
+    //Listar Favoritos do Aluno
+    public function listarFavoritosAluno($id){
+        try{
+            $stat = $this->conexao->prepare("SELECT * FROM tcc WHERE idTCC in (SELECT f.idTCC FROM favoritos as f INNER JOIN favorito_aluno as fa ON f.idFavorito = fa.idFavorito WHERE fa.matricula = ?)");
+            
+            $stat->bindValue(1,$id);
+            
+            $stat->execute();
+            
+            $array = $stat->fetchAll(PDO::FETCH_CLASS, 'TCC');
+            
+            return $array;
+
+        }catch(PDOException $ex){
+            echo $ex->getMessage();
+            return false;
+        }
+
+    }
+
     //Verificar se o favorito existe
     public function verificarFavorito($idTcc){
         try{
