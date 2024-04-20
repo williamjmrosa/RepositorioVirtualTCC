@@ -31,7 +31,141 @@ class IndicacaoDAO{
 
                 return true;
             }
-        }catch(Exception $ex){
+        }catch(PDOException $ex){
+            echo $ex->getMessage();
+            return false;
+        }
+    }
+
+    // Listar Todos as Indicações
+    public function listarIndicacoes($idInstituicao = null, $idCurso = null,$matricula = null){
+        try{
+
+            $sql = "select * from tcc where idTCC in (select idTCC from indicacao where 1=1";
+
+            $busca = array();
+
+            if($idInstituicao != null){
+                $sql = $sql . " and idInstituicao = :instituicao";
+                $busca[":instituicao"] = $idInstituicao;
+            }
+
+            if($idCurso != null){
+                $sql = $sql . " and idCurso = :curso";
+                $busca[":curso"] = $idCurso;
+            }
+
+            if($matricula != null){
+                $sql = $sql . " and matricula = :matricula";
+                $busca[":matricula"] = $matricula;
+            }
+
+            $sql = $sql . ")";
+
+            $stat = $this->conexao->prepare($sql);
+
+            $stat->execute($busca);
+
+            $array = $stat->fetchAll(PDO::FETCH_CLASS, 'TCC');
+
+            return $array;
+        }catch(PDOException $ex){
+            echo $ex->getMessage();
+            return false;
+        }
+    }
+
+    // Lista professores que indicaram o TCC
+    public function listarProfessores($curso = null, $instituicao = null){
+        try{
+            $stat = $this->conexao->prepare("select * from professor where matricula in (select matricula from indicacao group by matricula)");
+
+            $stat->execute();
+
+            $array = $stat->fetchAll(PDO::FETCH_CLASS, 'Professor');
+
+            return $array;
+        }catch(PDOException $ex){
+            echo $ex->getMessage();
+            return false;
+        }
+    }
+
+    // Lista de Campus que tiveram indicações
+    public function listarCampus(){
+        try{
+            $stat = $this->conexao->prepare("select * from campus where idCampus in (select idInstituicao from indicacao)");
+
+            $stat->execute();
+
+            $array = $stat->fetchAll(PDO::FETCH_CLASS, 'Campus');
+
+            return $array;
+        }catch(PDOException $ex){
+            echo $ex->getMessage();
+            return false;
+        }
+    }
+
+    // Lista de Cursos que tiveram indicações
+    public function listarCursos($idInstituicao = null, $idCampus = null){
+        try{
+
+            $sql = "select * from curso where idCurso in (select idCurso from indicacao where 1=1";
+
+            $busca = array();
+
+            if($idInstituicao != null){
+                $sql = $sql . " and idInstituicao = :instituicao";
+                $busca[":instituicao"] = $idInstituicao;
+            }
+
+            if($idCampus != null){
+                $sql = $sql . " and idCampus = :campus";
+                $busca[":campus"] = $idCampus;
+            }
+
+            $sql = $sql . ")";
+
+            $stat = $this->conexao->prepare($sql);
+
+            $stat->execute($busca);
+
+            $array = $stat->fetchAll(PDO::FETCH_CLASS, 'Curso');
+
+            return $array;
+        }catch(PDOException $ex){
+            echo $ex->getMessage();
+            return false;
+        }
+    }
+
+    // Listar Professores do Campus e Cursos do Aluno que indicaram o TCC
+    public function listarProfessoresAluno($curso = null, $instituicao = null){
+        try{
+            $sql = "select * from professor where matricula in (select matricula from indicacao where 1=1";
+
+            $busca = array();
+
+            if($instituicao != null){
+                $sql = $sql . " and idInstituicao = :instituicao";
+                $busca[":instituicao"] = $instituicao;
+            }
+
+            if($curso != null){
+                $sql = $sql . " and idCurso = :curso ";
+                $busca[":curso"] = $curso;
+            }
+
+            $sql = $sql . ")";
+            $stat = $this->conexao->prepare($sql);
+            $stat->execute($busca);
+
+            $array = $stat->fetchAll(PDO::FETCH_CLASS, 'Professor');
+
+            return $array;
+
+        }catch(PDOException $ex){
             echo $ex->getMessage();
             return false;
         }
@@ -56,7 +190,7 @@ class IndicacaoDAO{
             }else{
                 return false;
             }
-        }catch(Exception $ex){
+        }catch(PDOException $ex){
             echo $ex->getMessage();
             return false;
         }

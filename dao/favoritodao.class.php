@@ -138,6 +138,61 @@ class FavoritoDAO{
 
     }
 
+    //Listar Favoritos do Professor
+    public function listarFavoritosProfessor($id){
+        try{
+            $stat = $this->conexao->prepare("SELECT * FROM tcc WHERE idTCC in (SELECT f.idTCC FROM favoritos as f INNER JOIN favorito_professor as fp ON f.idFavorito = fp.idFavorito WHERE fp.matricula = ?)");
+            
+            $stat->bindValue(1,$id);
+            
+            $stat->execute();
+            
+            $array = $stat->fetchAll(PDO::FETCH_CLASS, 'TCC');
+            
+            return $array;
+
+        }catch(PDOException $ex){
+            echo $ex->getMessage();
+            return false;
+        }
+    }
+
+    //Listar Favoritos do Visitante
+    public function listarFavoritosVisitante($id){
+        try{
+            $stat = $this->conexao->prepare("SELECT * FROM tcc WHERE idTCC in (SELECT f.idTCC FROM favoritos as f INNER JOIN favorito_visitante as fv ON f.idFavorito = fv.idFavorito WHERE fv.email = ?)");
+            
+            $stat->bindValue(1,$id);
+            
+            $stat->execute();
+            
+            $array = $stat->fetchAll(PDO::FETCH_CLASS, 'TCC');
+            
+            return $array;
+
+        }catch(PDOException $ex){
+            echo $ex->getMessage();
+            return false;
+        }
+    }
+
+    //Listar Todos os Favoritos
+    public function listarFavoritos(){
+        try{
+            $stat = $this->conexao->prepare("SELECT * FROM tcc WHERE idTCC in (SELECT f.idTCC FROM favoritos as f)");
+            
+            $stat->execute();
+            
+            $array = $stat->fetchAll(PDO::FETCH_CLASS, 'TCC');
+            
+            return $array;
+
+        }catch(PDOException $ex){
+            echo $ex->getMessage();
+            return false;
+        }
+    }
+
     //Verificar se o favorito existe
     public function verificarFavorito($idTcc){
         try{

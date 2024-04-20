@@ -93,56 +93,27 @@ function gerarImagem($caminho_pdf, $id)
             <div class="col-3 h-100 fundo-secundario border-end rounded-start-5 border border-dark border-4">
                 <!-- Lista de TCC indicados -->
                 <div class="m-2 text-center fw-bold mt-3">
-                    <div class="form-check form-check-inline">
-                        <label class="form-check-label" for="checkFavorito">Favoritos</label>
-                        <input class="form-check-input" type="radio" id="checkFavorito" name="checkTipo" value="favorito">
+                    <div id="divTipo">
+                        <div class="form-check form-check-inline">
+                            <label class="form-check-label" for="checkFavorito">Favoritos</label>
+                            <input class="form-check-input" type="radio" id="checkFavorito" name="checkTipo" value="favorito">
+                        </div>
+                        <div class="form-check form-check-inline">
+                            <label class="form-check-label" for="checkIndicado">Indicados</label>
+                            <input class="form-check-input" type="radio" id="checkIndicado" name="checkTipo" value="indicado">
+                        </div>
                     </div>
-                    <div class="form-check form-check-inline">
-                        <label class="form-check-label" for="checkIndicado">Indicados</label>
-                        <input class="form-check-input" type="radio" id="checkIndicado" name="checkTipo" value="indicado">
+                    <div class="mb-3 pe-3 text-start" id="divCampus">
+                        
                     </div>
-                    <div class="mb-3 pe-3 text-start">
-                        <label class="form-label-inline" for="inst">Instituição</label>
-                        <select class="form-select" name="inst" id="inst">
-                            <option selected>Selecione uma instituição</option>
-                            <?php
-                            $campusDAO = new CampusDAO();
-                            $instituicoes = $campusDAO->listarCampus();
-                            foreach ($instituicoes as $instituicao) {
-                                echo "<option value='$instituicao->idCampus'>$instituicao->nome</option>";
-                            }
-                            ?>
-                        </select>
+                    <div class="mb-3 pe-3 text-start" id="divCurso">
+                        
                     </div>
-                    <div class="mb-3 pe-3 text-start">
-                        <label class="form-label-inline" for="cur">Curso</label>
-                        <select class="form-select" name="cur" id="cur">
-                            <option selected>Selecione um curso</option>
-                            <?php
-                            $cursoDAO = new CursoDAO();
-                            $cursos = $cursoDAO->listarCursos();
-                            foreach ($cursos as $curso) {
-                                echo "<option value='$curso->idCurso'>$curso->nome</option>";
-                            }
-                            ?>
-                        </select>
-                    </div>
-                    <div class="mb-3 pe-3 text-start">
+                    <div class="row g-3 align-items-center" id="divProfessor"></div>
+                    <div class="mb-3 pe-3 text-start" id="divTCC">
                         <label class="form-label-inline" for="tcclista">TCC</label>
                         <select class="form-select" name="tcclista" id="tcclista" size="10">
-                            <option selected>Selecione um tcc</option>
-                            <?php
-                            if($tipo == 'Aluno'){
-                                $fDAO = new FavoritoDAO();
-                                $tccs = $fDAO->listarFavoritosAluno($user->matricula);
-                            }else{
-                                $tccDAO = new TccDAO();
-                                $tccs = $tccDAO->listarTodosTCC();
-                            }
-                            foreach ($tccs as $tcc) {
-                                echo "<option value='$tcc->idTCC'>$tcc->titulo</option>";
-                            }
-                            ?>
+                            
                         </select>
                     </div>
                 </div>
@@ -158,8 +129,12 @@ function gerarImagem($caminho_pdf, $id)
                     <h1 class="text-center" id="titulo-tcc">Selecione um TCC</h1>
                     <div class="d-none" id="btns-tcc">
                         <div class="col-6">
+                            <?php if($tipo == 'Aluno' || $tipo == 'Visitante' || $tipo == 'Professor') {?>
                             <button class="btn btn-light btn-padrao fw-bold" id="favoritos" type="button" onclick=""><i class="bi bi-star-fill me-1"></i> Favoritos</button>
+                            <?php }
+                            if($tipo == 'Professor') {?>
                             <button class="btn btn-primary" type="button" data-bs-toggle="modal" data-bs-target="#indicar" id="btn-indicar" onclick="">Indicar</button>
+                            <?php }?>
                         </div>
                         <div class="col-6 text-end">
                             <form action="../controle/tcc-controle.php?OP=4" method="post">
