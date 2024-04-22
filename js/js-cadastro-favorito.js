@@ -127,7 +127,7 @@ $(document).ready(function(){
           url: '../controle/indicar-controle.php?OP=1',
           data: $(this).serialize()
       }).done(function(response) {
-        alert(response);
+        
         resposta = JSON.parse(response);
         var erros = resposta.erros;
         if(resposta.erros){
@@ -147,6 +147,7 @@ $(document).ready(function(){
                 alerta.find("#div-alert-modal").find(".msg").append(value+"<br>");
             });
         }else{
+            alert(resposta);
             console.log(resposta);
         }
       }).fail(function(jqXHR, textStatus, errorThrown) {
