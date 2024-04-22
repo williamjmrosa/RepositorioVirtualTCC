@@ -73,23 +73,23 @@ class FavoritoDAO{
                 switch($tipo){
                     case 'Aluno':
                         $tabela = 'favorito_aluno';
-
+                        $coluna = 'matricula';
                     break;
                     case 'Professor':
                         $tabela = 'favorito_professor';
-
+                        $coluna = 'matricula';
                     break;
 
                     case 'Visitante':
                         $tabela = 'favorito_visitante';
-
+                        $coluna = 'email';
                     break;
 
                     default:
                         return false;
                 }
 
-                $stat = $this->conexao->prepare("SELECT f.idFavorito FROM $tabela as ft inner join favoritos as f on f.idFavorito = ft.idFavorito where ft.matricula = ? and f.idTCC = ?");
+                $stat = $this->conexao->prepare("SELECT f.idFavorito FROM $tabela as ft inner join favoritos as f on f.idFavorito = ft.idFavorito where ft.$coluna = ? and f.idTCC = ?");
 
                 $stat->bindValue(1,$idUsuario);
                 $stat->bindValue(2,$idTcc);
