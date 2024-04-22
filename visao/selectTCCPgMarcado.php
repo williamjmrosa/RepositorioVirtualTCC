@@ -1,4 +1,5 @@
-<?php
+<?php 
+session_start();
 include_once '../dao/favoritodao.class.php';
 include_once '../dao/indicacaodao.class.php';
 include_once '../dao/campusdao.class.php';
@@ -12,97 +13,116 @@ include_once '../Modelo/professor.class.php';
 include_once '../Modelo/visitante.class.php';
 include_once '../Modelo/bibliotecario.class.php';
 include_once '../Modelo/adm.class.php';
-session_start();
-if (isset($_SESSION['usuario']) && isset($_GET['tipoCheck']) && !isset($_GET['div'])) {
+
+if (isset($_SESSION['usuario']) && isset($_GET['tipoCheck'])) {
     $user = unserialize($_SESSION['usuario']);
     $tipo = get_class($user);
-    
+
     $tipoCheck = filter_var($_GET['tipoCheck'], FILTER_SANITIZE_FULL_SPECIAL_CHARS);
-
-    $tipoCheck == 'favorito' ? $fDAO = new FavoritoDAO() : $iDAO = new IndicacaoDAO();
-    if ($tipo == 'Aluno' && $tipoCheck == 'favorito') {
-        $tccs = $fDAO->listarFavoritosAluno($user->matricula);
-    } elseif ($tipo == 'Professor' && $tipoCheck == 'favorito') {
-        $tccs = $fDAO->listarFavoritosProfessor($user->matricula);
-    } elseif ($tipo == 'Visitante' && $tipoCheck == 'favorito') {
-        $tccs = $fDAO->listarFavoritosVisitante($user->email);
-    } else if ($tipo == 'Bibliotecario' || $tipo == 'Adm' && $tipoCheck == 'favorito') {
-        $tccs = $fDAO->listarFavoritos();
-    } else {
-        $tccs = $iDAO->listarIndicacoes();
-    }
-
-    divTCCs($tccs);
-
-} elseif (isset($_SESSION['usuario']) && isset($_GET['div'])) {
-    $user = unserialize($_SESSION['usuario']);
-    $tipo = get_class($user);
-    $div = filter_var($_GET['div'], FILTER_SANITIZE_FULL_SPECIAL_CHARS);
     
-    $iDAO = new IndicacaoDAO();
+    $idInstituicao = isset($_GET['idInstituicao']) ? filter_var($_GET['idInstituicao'], FILTER_SANITIZE_NUMBER_INT) : null;
+    $idCurso = isset($_GET['idCurso']) ? filter_var($_GET['idCurso'], FILTER_SANITIZE_NUMBER_INT) : null;
+    $idProfessor = isset($_GET['matricula']) ? filter_var($_GET['matricula'], FILTER_SANITIZE_NUMBER_INT) : null;
 
-    if ($tipo == 'Bibliotecario' || $tipo == 'Adm' && $div == 'divCampus') {
-        
-        if(isset($_GET['tipoCheck'])){
-            $tipoCheck = filter_var($_GET['tipoCheck'], FILTER_SANITIZE_FULL_SPECIAL_CHARS);
-            if($tipoCheck == 'indicado'){
-                $instituicoes = $iDAO->listarCampus();
-            }else{
-                $campusDAO = new CampusDAO();
-                $instituicoes = $campusDAO->listarCampus();
-            }
-            
-        }else{
-            $campusDAO = new CampusDAO();
-            $instituicoes = $campusDAO->listarCampus();
+    $div = isset($_GET['div']) ? filter_var($_GET['div'], FILTER_SANITIZE_FULL_SPECIAL_CHARS) : null;
+
+    if($tipoCheck == 'favorito'){
+        $fDAO = new FavoritoDAO();
+     
+        switch ($tipo) {
+            case 'Aluno':
+                
+               if($div == 'divTCC'){
+                    $tccs = $fDAO->listarFavoritosAluno($user->matricula);
+                    divTCCs($tccs);
+                }
+
+                break;
+            case 'Professor':
+                if($div == 'divTCC'){
+                    $tccs = $fDAO->listarFavoritosProfessor($user->matricula);
+                    divTCCs($tccs);
+                }
+
+                break;
+            case 'Visitante':
+                if($div == 'divTCC'){
+                    $tccs = $fDAO->listarFavoritosVisitante($user->email);
+                    divTCCs($tccs);
+                }
+                break;
+            case 'Bibliotecario':
+            case 'Adm':
+
+                if($div == 'divTCC'){
+                    $tccs = $fDAO->listarFavoritos();
+                    divTCCs($tccs);
+                }
+
+                break;
         }
         
-        divCampus($instituicoes);
-    } elseif ($tipo == 'Bibliotecario' || $tipo == 'Adm' && $div == 'divCurso') {
-        
-        if(isset($_GET['tipoCheck'])){
-            $tipoCheck = filter_var($_GET['tipoCheck'], FILTER_SANITIZE_FULL_SPECIAL_CHARS);
-            if($tipoCheck == 'indicado' && isset($_GET['idInstituicao']) && isset($_GET['idCurso'])){
-                $idInstituicao = $_GET['idInstituicao'] != null ? filter_var($_GET['idInstituicao'], FILTER_SANITIZE_NUMBER_INT) : null;
-                $idCurso = $_GET['idCurso'] != null ? filter_var($_GET['idCurso'], FILTER_SANITIZE_NUMBER_INT) : null;
-                $cursos = $iDAO->listarCursos($idInstituicao, $idCurso);
-            }else{
-                $cursoDAO = new CursoDAO();
-                $cursos = $cursoDAO->listarCursos();
-            }
-        }else{
-            $cursoDAO = new CursoDAO();
-            $cursos = $cursoDAO->listarCursos();
+    }else if($tipoCheck == 'indicado'){
+        $iDAO = new IndicacaoDAO();
+
+        switch ($tipo) {
+            case 'Aluno':
+
+                if($div == 'divProfessor'){
+                    $professores = $iDAO->listarProfessores($user->campus, $user->curso);
+                    divProfessores($professores);
+                }elseif ($div == 'divTCC'){
+                    $tccs = $iDAO->listarIndicacoes($idInstituicao, $idCurso, $idProfessor);
+                    divTCCs($tccs);
+                }
+
+                break;
+            case 'Professor':
+                if($div == 'divTCC'){
+                    $tccs = $iDAO->listarIndicacoes($idInstituicao, $idCurso, $user->matricula);
+                    divTCCs($tccs);
+                }elseif($div == 'divCurso'){
+                    $cursos = $iDAO->listarCursos($idInstituicao, $idCurso, $user->matricula);
+                    divCursos($cursos);
+                }elseif($div == 'divCampus'){
+                    $instituicoes = $iDAO->listarCampus($idInstituicao, $idCurso, $user->matricula);
+                    divCampus($instituicoes);
+                }
+                break;
+            case 'Visitante':
+                echo "<div class='alert alert-warning m-2' role='alert'>Visitante não pode ver as indicações</div>";
+                break;
+            case 'Bibliotecario':
+            case 'Adm':
+                if($div == 'divProfessor'){
+                    $professores = $iDAO->listarProfessores($idCurso, $idInstituicao);
+                    divProfessores($professores);
+                }elseif($div == 'divCurso'){
+                    $cursos = $iDAO->listarCursos($idInstituicao, $idCurso);
+                    divCursos($cursos);
+                }elseif($div == 'divCampus'){
+                    $instituicoes = $iDAO->listarCampus();
+                    divCampus($instituicoes);
+                }elseif($div == 'divTCC'){
+                    $tccs = $iDAO->listarIndicacoes($idInstituicao, $idCurso, $idProfessor);
+                    divTCCs($tccs);
+                }
+                break;
         }
-
-        divCursos($cursos);
-    }elseif($div == 'divProfessor'){
-
-        if($tipo == 'Aluno'){
-            $curso = $user->curso;
-            $instituicao = $user->campus;
-        }elseif(isset($_GET['idInstituicao']) && isset($_GET['idCurso'])){
-            $instituicao = $_GET['idInstituicao'] != null ? filter_var($_GET['idInstituicao'], FILTER_SANITIZE_NUMBER_INT) : null;
-            $curso = $_GET['idCurso'] != null ? filter_var($_GET['idCurso'], FILTER_SANITIZE_NUMBER_INT) : null;    
-        }else{
-            $instituicao = null;
-            $curso = null;
-        }
-        $professores = $iDAO->listarProfessoresAluno($curso, $instituicao);
-
-        divProfessores($professores); 
-    }elseif($div == 'divTCC' && isset($_GET['tipoCheck']) && isset($_GET['idInstituicao']) && isset($_GET['idCurso'])){
-        $idProfessor = isset($_GET['matricula']) && $_GET['matricula'] != null ? filter_var($_GET['matricula'], FILTER_SANITIZE_NUMBER_INT) : null;
-        $tipoCheck = filter_var($_GET['tipoCheck'], FILTER_SANITIZE_FULL_SPECIAL_CHARS);
-        $idInstituicao = $_GET['idInstituicao'] != null ? filter_var($_GET['idInstituicao'], FILTER_SANITIZE_NUMBER_INT) : null;
-        $idCurso = $_GET['idCurso'] != null ? filter_var($_GET['idCurso'], FILTER_SANITIZE_NUMBER_INT) : null;
-        
-        $tccs = $iDAO->listarIndicacoes($idInstituicao, $idCurso,$idProfessor);
-        divTCCs($tccs);
+    }else{
+        $erros[] = "Voce precisa estar logado para acessar favoritos/indicados";
+        $_SESSION['erros'] = $erros;
+        header('location:../index.php');
     }
-
+    
 } else {
-    echo "<option value=''>Nenhum favorito encontrado</option>";
+    if(!isset($_SESSION['usuario'])) {
+    $erros[] = "Voce precisa estar logado para acessar favoritos/indicados";
+    $_SESSION['erros'] = $erros;
+    header('location:../index.php');
+    }else{
+        echo '<div class="alert alert-warning m-2" role="alert">Acesso negado</div>';
+    }
 }
 
 function divProfessores($professores)
