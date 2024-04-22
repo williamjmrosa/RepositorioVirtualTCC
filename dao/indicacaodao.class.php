@@ -78,9 +78,25 @@ class IndicacaoDAO{
     // Lista professores que indicaram o TCC
     public function listarProfessores($curso = null, $instituicao = null){
         try{
-            $stat = $this->conexao->prepare("select * from professor where matricula in (select matricula from indicacao group by matricula)");
+            $sql = "select * from professor where matricula in (select matricula from indicacao where 1=1";
+            
+            $busca = array();
 
-            $stat->execute();
+            if($instituicao != null){
+                $sql = $sql . " and idInstituicao = :instituicao";
+                $busca[":instituicao"] = $instituicao;
+            }
+            if($curso != null){
+                $sql = $sql . " and idCurso = :curso";
+                $busca[":curso"] = $curso;
+            }
+
+            $sql = $sql . ")";
+            $sql = $sql . " order by nome";
+
+            $stat = $this->conexao->prepare($sql);
+            
+            $stat->execute($busca);
 
             $array = $stat->fetchAll(PDO::FETCH_CLASS, 'Professor');
 
@@ -92,11 +108,32 @@ class IndicacaoDAO{
     }
 
     // Lista de Campus que tiveram indicações
-    public function listarCampus(){
+    public function listarCampus($idInstituicao = null, $idCurso = null, $matricula = null){
         try{
-            $stat = $this->conexao->prepare("select * from campus where idCampus in (select idInstituicao from indicacao)");
+            $sql = "select * from campus where idCampus in (select idInstituicao from indicacao where 1=1";
 
-            $stat->execute();
+            $busca = array();
+
+            if($idInstituicao != null){
+                $sql = $sql . " and idInstituicao = :instituicao";
+                $busca[":instituicao"] = $idInstituicao;
+            }
+
+            if($idCurso != null){
+                $sql = $sql . " and idCurso = :curso";
+                $busca[":curso"] = $idCurso;
+            }
+
+            if($matricula != null){
+                $sql = $sql . " and matricula = :matricula";
+                $busca[":matricula"] = $matricula;
+            }
+
+            $sql = $sql . ")";
+
+            $stat = $this->conexao->prepare($sql);
+
+            $stat->execute($busca);
 
             $array = $stat->fetchAll(PDO::FETCH_CLASS, 'Campus');
 
@@ -108,7 +145,7 @@ class IndicacaoDAO{
     }
 
     // Lista de Cursos que tiveram indicações
-    public function listarCursos($idInstituicao = null, $idCampus = null){
+    public function listarCursos($idInstituicao = null, $idCampus = null, $idProfessor = null){
         try{
 
             $sql = "select * from curso where idCurso in (select idCurso from indicacao where 1=1";
@@ -123,6 +160,11 @@ class IndicacaoDAO{
             if($idCampus != null){
                 $sql = $sql . " and idCampus = :campus";
                 $busca[":campus"] = $idCampus;
+            }
+
+            if($idProfessor != null){
+                $sql = $sql . " and matricula = :professor";
+                $busca[":professor"] = $idProfessor;
             }
 
             $sql = $sql . ")";
