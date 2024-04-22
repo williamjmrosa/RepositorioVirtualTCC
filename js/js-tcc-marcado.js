@@ -1,8 +1,8 @@
 // Função para carregar o menu de login
 $("#login").load("../menuLogin/menuLogin.php");
 
-$("#divCampus").load("../visao/selectTCCPgMarcado.php?div=divCampus");
-$("#divCurso").load("../visao/selectTCCPgMarcado.php?div=divCurso");
+//$("#divCampus").load("../visao/selectTCCPgMarcado.php?div=divCampus&tipoCheck=favorito");
+//$("#divCurso").load("../visao/selectTCCPgMarcado.php?div=divCurso&tipoCheck=favorito");
 
 
 var idInstituicao = null;
@@ -55,14 +55,14 @@ function verificarOpcaoSelecionada() {
 
     var radioMarcado = $("input[name='checkTipo']:checked").val();
     if (radioMarcado == "indicado") {
-        $("#divTCC").load("../visao/selectTCCPgMarcado.php?tipoCheck=" + radioMarcado);
+        $("#divTCC").load("../visao/selectTCCPgMarcado.php?tipoCheck=" + radioMarcado + "&div=divTCC");
         $("#divCampus").load("../visao/selectTCCPgMarcado.php?div=divCampus&tipoCheck=" + radioMarcado);
         $("#divCurso").load("../visao/selectTCCPgMarcado.php?div=divCurso&tipoCheck=" + radioMarcado);
-        $("#divProfessor").load("../visao/selectTCCPgMarcado.php?div=divProfessor");
+        $("#divProfessor").load("../visao/selectTCCPgMarcado.php?div=divProfessor&tipoCheck=" + radioMarcado);
         $("#favoritos").addClass("d-none");
         $("#btn-indicar").addClass("d-none");
     } else if (radioMarcado == "favorito") {
-        $("#divTCC").load("../visao/selectTCCPgMarcado.php?tipoCheck=" + radioMarcado);
+        $("#divTCC").load("../visao/selectTCCPgMarcado.php?tipoCheck=" + radioMarcado + "&div=divTCC");
         $("#divCampus").load("../visao/selectTCCPgMarcado.php?div=divCampus&tipoCheck=" + radioMarcado);
         $("#divCurso").load("../visao/selectTCCPgMarcado.php?div=divCurso&tipoCheck=" + radioMarcado);
         $("#divProfessor").empty();
