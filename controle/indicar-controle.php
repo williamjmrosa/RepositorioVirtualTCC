@@ -54,7 +54,7 @@ if(isset($_GET['OP']) && isset($_SESSION['usuario'])){
                 if($iDAO->cadastrarIndicacao($idTCC, $idUsuario, $instituicao, $curso)){
                     echo json_encode("Indicado com sucesso!");
                 }else{
-                    echo json_encode("Erro ao Indicar");
+                    echo json_encode("Erro ao cadastrar indicação!!");
                 }
             }else{
                 if(verSeEAjax()){
@@ -65,13 +65,48 @@ if(isset($_GET['OP']) && isset($_SESSION['usuario'])){
                     header("location:../visao/index.php");
                 }
             }
+
+            break;
+        //Remover Indicação
+        case 2:
+            break;
+        //Listar Aluno para ser indicado o TCC
+        case 3:
+            if(isset($_GET['campus']) && !empty($_GET['campus']) && isset($_GET['curso']) && !empty($_GET['curso'])){
+                $campus = filter_var($_GET['campus'], FILTER_SANITIZE_NUMBER_INT);
+                $curso = filter_var($_GET['curso'], FILTER_SANITIZE_NUMBER_INT);
+                $iDAO = new IndicacaoDAO();
+                $alunos = $iDAO->alunosParaIndicar($campus, $curso);
+                if($alunos){
+                    echo '<option selected>Selecione o Aluno</option>';
+                    foreach ($alunos as $aluno) {
+                        echo '<option value="' . $aluno->matricula . '">' . $aluno->nome . '</option>';
+                    }
+                }else{
+                    echo '<option selected>Nenhum Aluno encontrado</option>';
+                }
+            }else{
+                $erro[] = "Erro campus em branco!";
+            }
+            break;
+            
+        default:
+            if(verSeEAjax()){
+                echo json_encode("Obrigatório selecionar uma opção");
+            }else{
+                $erros = array();
+                $erros[] = "Obrigatório selecionar uma opção";
+                $_SESSION['erros'] = $erros;
+                header("location:../visao/index.php");
+            }
+            break;
     }
 }else{
     if(verSeEAjax()){
-        echo json_encode("Erro ao Indicar");
+        echo json_encode("Acesso negado");
     }else{
         $erros = array();
-        $erros[] = "Erro ao Indicar";
+        $erros[] = "Acesso negado";
         $_SESSION['erros'] = $erros;
         header("location:../visao/index.php");
     }

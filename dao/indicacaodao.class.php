@@ -213,6 +213,22 @@ class IndicacaoDAO{
         }
     }
 
+    // Listar Alunos para serem indicados ao TCC
+    public function alunosParaIndicar($campus, $curso){
+        try{
+            $stat = $this->conexao->prepare("select * from aluno where campus = ? and curso = ? and ativo is null");
+            $stat->bindValue(1,$campus);
+            $stat->bindValue(2,$curso);
+            $stat->execute();
+            $array = $stat->fetchAll(PDO::FETCH_CLASS, 'Aluno');
+            return $array;
+        }catch(PDOException $ex){
+            echo $ex->getMessage();
+            return false;
+        }
+    }
+
+
     // Foi Indicado
     public function foiIndicado($idTCC, $idUsuario, $instituicao, $curso){
         try{

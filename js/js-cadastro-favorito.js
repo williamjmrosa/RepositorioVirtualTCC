@@ -1,3 +1,5 @@
+var idInstituicao = null;
+var idCurso = null;
 //Função para adicionar tcc a lista de favoritos de um usuario
 function adicionarFavorito(btn,idTCC){
     //Prevenir o comportamento padrao
@@ -91,7 +93,15 @@ function carregarCursos(btn){
     $("#curso").load("../visao/selecteCurso.php?ID="+option.attr("value"),function(){
         $("#curso").prepend("<option selected selected>Selecione o curso</option>");
     });
+    idInstituicao = option.attr("value");
+    idCurso = null;
     
+}
+
+//Função para remover o aluno selecionado
+function removerAluno(btn){
+    var option = $(btn);
+    option.parent().remove();
 }
 
 $(document).ready(function(){
@@ -100,6 +110,22 @@ $(document).ready(function(){
         
         //modal.find(".modal-body").append("Deseja indicar este TCC?");
         
+    });
+
+    $("#curso").change(function(){
+        idCurso = $(this).val();
+        if(idInstituicao != null && idCurso != null){
+            $("#aluno").load("../controle/indicar-controle.php?OP=3&campus="+idInstituicao+"&curso="+idCurso);
+        }
+    });
+
+    $("#aluno").change(function(){
+        var idAluno = $(this).val();
+        var nome = $(this).find("option:selected").text();
+        if($("#"+idAluno).length == 0){
+            var addAluno = '<div class="form-check"><input class="form-check-input" id="'+idAluno+'" type="checkbox" value="'+idAluno+'" name="aluno[]" checked onChange="removerAluno(this)"/><label class="form-check-label" for="'+idAluno+'">'+nome+'</label></div>';
+            $("#alunoSelecionado").append(addAluno);
+        }
     });
     
     // Buscar instituição

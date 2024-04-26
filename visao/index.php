@@ -9,7 +9,13 @@ include_once '../Modelo/professor.class.php';
 include_once '../Modelo/categoria.class.php';
 include_once '../dao/favoritodao.class.php';
 include_once '../dao/campusdao.class.php';
+if(isset($_SESSION['usuario'])){
+    $user = unserialize($_SESSION['usuario']);
+    $tipo = get_class($user);
 
+}else{
+    $tipo = 'Null';
+}
 function gerarImagem($caminho_pdf, $id)
 {
 
@@ -195,10 +201,15 @@ function gerarImagem($caminho_pdf, $id)
                     } else {
                         echo "<button class='btn btn-light border me-2' id='favorito' type='button' onclick='adicionarFavorito(this," . $tcc->idTCC . ")'><i class='bi bi-star me-1'></i>Favorito</button>";
                     }
-                    echo "<button class='btn btn-primary' type='button' data-bs-toggle='modal' data-bs-target='#indicar' id='btn-indicar' onclick='clicarIndicar(this," . $tcc->idTCC . ")'>Indicar</button>
-                                </div>
+                    if($tipo == 'Professor'){
+                        echo "<button class='btn btn-primary' type='button' data-bs-toggle='modal' data-bs-target='#indicar' id='btn-indicar' onclick='clicarIndicar(this," . $tcc->idTCC . ")'>Indicar</button>
+                            ";
+                    }
+
+                    echo "      </div>
                             </div>
                         </div>";
+
                 }
             } else {
                 echo "<div class='alert alert-warning m-2' role='alert'>Nenhum TCC encontrado</div>";
@@ -262,6 +273,9 @@ function gerarImagem($caminho_pdf, $id)
         </div>
         <!-- Fim Filtro Direito -->
         <!-- MODAL -->
+        <?php 
+            if($tipo == 'Professor'){
+        ?>
         <div class="modal fade" id="indicar" tabindex="-1" aria-labelledby="modalTCCLabel" aria-hidden="true">
             <div class="modal-dialog modal-lg">
                 <div class="modal-content">
@@ -297,6 +311,21 @@ function gerarImagem($caminho_pdf, $id)
                                     </select>
                                 </div>
                                 <div class="col-md-6">
+                                    <label for="aluno" class="form-label">Indicar para Aluno</label>
+                                    <input type="text" class="form-control" id="searchInputAluno" placeholder="Buscar Alunos">
+                                    <select class="form-select" name="aluno" id="aluno" size="3">
+                                        <option selected>Selecione um Aluno</option>
+                                        <!-- Lista de Alunos -->
+                                        <!-- Carregado ao carregar a tela via JS -->
+                                    </select>
+                                </div>
+                                <div class="col-md-6">
+                                    <label class="form-label">Alunos Selecionados</label>
+                                    <div id="alunoSelecionado">
+
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
                                     <label for="tcc" class="form-label">TCC</label>
                                     <input type="text" class="form-control" id="tcc" name="idTCC">
                                 </div>
@@ -312,6 +341,9 @@ function gerarImagem($caminho_pdf, $id)
                 </div>
             </div>
         </div>
+        <?php
+            }
+        ?>
         <!-- FIM MODAL -->
 
     </div>
