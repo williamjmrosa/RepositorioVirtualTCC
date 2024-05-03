@@ -15,10 +15,23 @@ class IndicacaoDAO{
     }
 
     // Cadastrar Indicação
-    public function cadastrarIndicacao($idTCC, $idUsuario, $instituicao, $curso){
+    public function cadastrarIndicacao($idTCC, $idUsuario, $instituicao, $curso, $idAlunos = null){
         try{
             if($this->foiIndicado($idTCC, $idUsuario, $instituicao, $curso)){
-                return false;
+                if($idAlunos != null && is_array($idAlunos) && count($idAlunos) > 0){
+                    
+                    $idIndicacao = $this->idIndicacao($idTCC, $idUsuario, $instituicao, $curso);
+
+                    if($this->cadastrarIndicacaoAluno($idIndicacao, $idAlunos)){
+                        return true;
+                    }else{
+                        return false;
+                    }
+
+                }else{
+                    return false;
+                }
+
             }else{
                 $stat = $this->conexao->prepare("insert into indicacao(idIndicacao,idTCC,matricula,idInstituicao,idCurso) values(null,?,?,?,?)");
 
@@ -29,10 +42,37 @@ class IndicacaoDAO{
 
                 $stat->execute();
 
+                $idIndicacao = $this->conexao->lastInsertId();
+
+                if($idAlunos != null && is_array($idAlunos) && count($idAlunos) > 0){
+                    $this->cadastrarIndicacaoAluno($idIndicacao, $idAlunos);
+                }
+
                 return true;
             }
         }catch(PDOException $ex){
-            echo $ex->getMessage();
+            //echo $ex->getMessage();
+            return false;
+        }
+    }
+
+    // Cadastrar Indicação para um Aluno
+    public function cadastrarIndicacaoAluno($idIndicacao, $idAlunos){
+        try{
+            foreach ($idAlunos as $aluno) {
+                
+                if(!$this->foiIndicadoAluno($idIndicacao, $aluno)){
+                    $stat = $this->conexao->prepare("insert into indica_para_aluno(idIndicaAluno,idIndicacao,matricula) values(null,?,?)");
+                    
+                    $stat->bindValue(1,$idIndicacao);
+                    $stat->bindValue(2,$aluno);
+                    $stat->execute();
+                }
+            }
+
+            return true;
+        }catch(PDOException $ex){
+            //echo $ex->getMessage();
             return false;
         }
     }
@@ -255,6 +295,43 @@ class IndicacaoDAO{
         
     }
 
+    // Foi Indicado para Aluno
+    public function foiIndicadoAluno($idIndicacao, $matricula){
+        try{
+            $stat = $this->conexao->prepare("select count(*) from indica_para_aluno where idIndicacao = ? and matricula = ?");
+            $stat->bindValue(1,$idIndicacao);
+            $stat->bindValue(2,$matricula);
+            $stat->execute();
+            $res = $stat->fetch();
+            if($res[0] > 0){
+                return true;
+            }else{
+                return false;
+            }
+        }catch(PDOException $ex){
+            //echo $ex->getMessage();
+            return false;
+        }
+    }
+
+    // Descobrir o idIndicacao
+    public function idIndicacao($idTCC, $idUsuario, $instituicao, $curso){
+        try{
+            $stat = $this->conexao->prepare("select idIndicacao from indicacao where idTCC = ? and matricula = ? and idInstituicao = ? and idCurso = ?");
+            $stat->bindValue(1,$idTCC);
+            $stat->bindValue(2,$idUsuario);
+            $stat->bindValue(3,$instituicao);
+            $stat->bindValue(4,$curso);
+            $stat->execute();
+            $idIndicacao = $stat->fetch(PDO::FETCH_ASSOC);
+            $idIndicacao = $idIndicacao['idIndicacao'];
+            return $idIndicacao;
+
+        }catch(PDOException $ex){
+            //echo $ex->getMessage();
+            return false;
+        }
+    }
 }
 
 ?>
