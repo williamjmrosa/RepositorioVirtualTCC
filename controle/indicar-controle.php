@@ -49,9 +49,18 @@ if(isset($_GET['OP']) && isset($_SESSION['usuario'])){
                 $erro[] = "Erro cargo em branco!";
             }
 
+            if(isset($_POST['aluno'])){
+                $alunos = array();
+                foreach ($_POST['aluno'] as $aluno) {
+                    $alunos[] = filter_var($aluno, FILTER_SANITIZE_SPECIAL_CHARS);
+                }
+            }else{
+                $alunos = null;
+            }
+
             if(count($erro) == 0){
                 $iDAO = new IndicacaoDAO();
-                if($iDAO->cadastrarIndicacao($idTCC, $idUsuario, $instituicao, $curso)){
+                if($iDAO->cadastrarIndicacao($idTCC, $idUsuario, $instituicao, $curso, $alunos)){
                     echo json_encode("Indicado com sucesso!");
                 }else{
                     echo json_encode("Erro ao cadastrar indicação!!");
