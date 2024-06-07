@@ -115,11 +115,11 @@ $(document).ready(function(){
     $("#curso").change(function(){
         idCurso = $(this).val();
         if(idInstituicao != null && idCurso != null){
-            $("#aluno").load("../controle/indicar-controle.php?OP=3&campus="+idInstituicao+"&curso="+idCurso);
+            $("#alunos").load("../controle/indicar-controle.php?OP=3&campus="+idInstituicao+"&curso="+idCurso);
         }
     });
 
-    $("#aluno").change(function(){
+    $("#alunos").change(function(){
         var idAluno = $(this).val();
         var nome = $(this).find("option:selected").text();
         if($("#"+idAluno).length == 0){
@@ -146,6 +146,15 @@ $(document).ready(function(){
       });
     });
 
+    // Buscar alunos
+    $("#searchInputAluno").on("input", function() {
+        var searchText = $(this).val().toLowerCase();
+        $("#alunos option").each(function() {
+          var optionText = $(this).text().toLowerCase();
+          $(this).toggle(optionText.indexOf(searchText) > -1);
+        });
+      });
+
     $('#formIndicar').submit(function(event) {
       event.preventDefault();
       $.ajax({
@@ -153,27 +162,30 @@ $(document).ready(function(){
           url: '../controle/indicar-controle.php?OP=1',
           data: $(this).serialize()
       }).done(function(response) {
-        
         resposta = JSON.parse(response);
         var erros = resposta.erros;
-        if(resposta.erros){
-            var alerta = $("#indicar").find(".modal-body");
-            if(!alerta.find("#div-alert-modal").length){
-                console.log("alerta nao existe");
+        var alerta = $("#indicar").find(".modal-body");
+        if(!alerta.find("#div-alert-modal").length){
+            console.log("alerta nao existe");
+            
+            alerta.prepend("<div id='div-alert-modal' class='alert alert-danger' role='alert'><button type='button' class='btn-close float-end' data-bs-dismiss='alert' aria-label='Close'></button><p class='msg'></p></div>");
                 
-                alerta.prepend("<div id='div-alert-modal' class='alert alert-danger' role='alert'><button type='button' class='btn-close float-end' data-bs-dismiss='alert' aria-label='Close'></button><p class='msg'></p></div>");
+        }else{
+            console.log("alerta ja existe");
+        }
 
-                
-            }else{
-                console.log("alerta ja existe");
-            }
+        if(resposta.erros){
+            alerta.find("#div-alert-modal").attr("class", "alert alert-danger");
             alerta.find("#div-alert-modal").find(".msg").empty();
             $.each(erros, function(index, value) {
                 console.log(value);
                 alerta.find("#div-alert-modal").find(".msg").append(value+"<br>");
             });
         }else{
-            alert(resposta);
+            alerta.find("#div-alert-modal").attr("class","alert alert-success");
+            alerta.find("#div-alert-modal").find(".msg").empty();
+            alerta.find("#div-alert-modal").find(".msg").append(resposta);
+            //alert(resposta);
             console.log(resposta);
         }
       }).fail(function(jqXHR, textStatus, errorThrown) {

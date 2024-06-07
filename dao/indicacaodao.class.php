@@ -23,12 +23,21 @@ class IndicacaoDAO{
                     $idIndicacao = $this->idIndicacao($idTCC, $idUsuario, $instituicao, $curso);
 
                     if($this->cadastrarIndicacaoAluno($idIndicacao, $idAlunos)){
+                        echo json_encode("Indicação já estavá cadastrada!!\nAluno(s) indicado(s) com sucesso!!");
                         return true;
                     }else{
+                        $erros = array();
+                        $erros[] = "Erro ao cadastrar Indicação para Aluno(s)!!";
+                        $resposta['erros'] = $erros;
+                        echo json_encode($resposta);
                         return false;
                     }
 
                 }else{
+                    $erros = array();
+                    $erros[] = "Erro Indicação já foi cadastrada!!";
+                    $resposta['erros'] = $erros;
+                    echo json_encode($resposta);
                     return false;
                 }
 
@@ -45,13 +54,20 @@ class IndicacaoDAO{
                 $idIndicacao = $this->conexao->lastInsertId();
 
                 if($idAlunos != null && is_array($idAlunos) && count($idAlunos) > 0){
+                    echo json_encode("Indicação cadastrada com sucesso!\n Aluno(s) indicado(s) com sucesso!!");
                     $this->cadastrarIndicacaoAluno($idIndicacao, $idAlunos);
+                }else{
+                    echo json_encode("Indicação cadastrada com sucesso!");
                 }
 
                 return true;
             }
         }catch(PDOException $ex){
             //echo $ex->getMessage();
+            $erros = array();
+            $erros[] = "Erro ao cadastrar Indicação!!";
+            $resposta['erros'] = $erros;
+            echo json_encode($resposta);
             return false;
         }
     }

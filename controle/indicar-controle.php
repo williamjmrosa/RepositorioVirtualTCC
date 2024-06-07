@@ -60,11 +60,7 @@ if(isset($_GET['OP']) && isset($_SESSION['usuario'])){
 
             if(count($erro) == 0){
                 $iDAO = new IndicacaoDAO();
-                if($iDAO->cadastrarIndicacao($idTCC, $idUsuario, $instituicao, $curso, $alunos)){
-                    echo json_encode("Indicado com sucesso!");
-                }else{
-                    echo json_encode("Erro ao cadastrar indicação!!");
-                }
+                $iDAO->cadastrarIndicacao($idTCC, $idUsuario, $instituicao, $curso, $alunos);
             }else{
                 if(verSeEAjax()){
                     $resposta['erros'] = $erro;
