@@ -131,6 +131,50 @@ class IndicacaoDAO{
         }
     }
 
+    // Listar Alunos que recebeu Indicação de um Professor
+    public function listarAlunosIndicados($matricula){
+    
+        try{
+            $sql = "SELECT * FROM aluno WHERE matricula in (select ia.matricula from indicacao as i INNER JOIN indica_para_aluno as ia ON i.idIndicacao = ia.idIndicacao WHERE i.matricula = ?)";
+
+            $stat = $this->conexao->prepare($sql);
+
+            $stat->bindValue(1,$matricula);
+            
+            $stat->execute();
+
+            $array = $stat->fetchAll(PDO::FETCH_CLASS, 'Aluno');
+
+            return $array;
+
+        }catch(PDOException $ex){
+            echo $ex->getMessage();
+            return false;
+        }
+
+    }
+
+    public function listarTCCsIndicadosParaAluno($matricula){
+        try{
+            $sql = "SELECT t.idTCC, t.titulo, i.idIndicacao FROM tcc as t INNER JOIN indicacao as i ON i.idTCC = t.idTCC WHERE i.idIndicacao in (SELECT idIndicacao FROM indica_para_aluno WHERE matricula = ?)";
+
+            $stat = $this->conexao->prepare($sql);
+
+            $stat->bindValue(1,$matricula);
+            
+            $stat->execute();
+
+            $array = $stat->fetchAll(PDO::FETCH_ASSOC);
+
+            return $array;
+
+        }catch(PDOException $ex){
+            echo $ex->getMessage();
+            return false;
+        }
+    }
+
+
     // Lista professores que indicaram o TCC
     public function listarProfessores($curso = null, $instituicao = null){
         try{
