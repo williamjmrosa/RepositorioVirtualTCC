@@ -22,7 +22,7 @@ if (isset($_SESSION['usuario']) && isset($_GET['tipoCheck'])) {
     
     $idInstituicao = isset($_GET['idInstituicao']) ? filter_var($_GET['idInstituicao'], FILTER_SANITIZE_NUMBER_INT) : null;
     $idCurso = isset($_GET['idCurso']) ? filter_var($_GET['idCurso'], FILTER_SANITIZE_NUMBER_INT) : null;
-    $idProfessor = isset($_GET['matricula']) ? filter_var($_GET['matricula'], FILTER_SANITIZE_NUMBER_INT) : null;
+    $idProfessor = $matricula = isset($_GET['matricula']) ? filter_var($_GET['matricula'], FILTER_SANITIZE_NUMBER_INT) : null;
 
     $div = isset($_GET['div']) ? filter_var($_GET['div'], FILTER_SANITIZE_FULL_SPECIAL_CHARS) : null;
 
@@ -74,6 +74,8 @@ if (isset($_SESSION['usuario']) && isset($_GET['tipoCheck'])) {
                 }elseif ($div == 'divTCC'){
                     $tccs = $iDAO->listarIndicacoes($idInstituicao, $idCurso, $idProfessor);
                     divTCCs($tccs);
+                }elseif($div == 'divIndicadoParaAluno'){
+                    //$alunos = $iDAO->listar
                 }
 
                 break;
@@ -87,6 +89,12 @@ if (isset($_SESSION['usuario']) && isset($_GET['tipoCheck'])) {
                 }elseif($div == 'divCampus'){
                     $instituicoes = $iDAO->listarCampus($idInstituicao, $idCurso, $user->matricula);
                     divCampus($instituicoes);
+                }elseif($div == 'divTCCIndicadoParaAluno'){
+                    $tccs = $iDAO->listarTCCsIndicadosParaAluno($matricula);
+                    divIndicadoParaAlunos($tccs, $tipo);  
+                }elseif($div == 'divListarAlunoIndicado'){
+                    $alunos = $iDAO->listarAlunosIndicados($user->matricula);
+                    divListarAlunoIndicados($alunos);
                 }
                 break;
             case 'Visitante':
@@ -171,7 +179,7 @@ function divCursos($cursos)
 } 
 function divTCCs($tccs){?>
     <label class="form-label-inline" for="tcc">TCC</label>
-    <select class="form-select" name="tcc" id="tcc" size="10">
+    <select class="form-select" name="tcc" id="tcc" size="8">
         <option selected>Selecione um TCC</option>
         <?php
         foreach ($tccs as $tcc) {
@@ -179,4 +187,38 @@ function divTCCs($tccs){?>
         }
         ?>
     </select>
-<?php }?>
+<?php }
+
+function divIndicadoParaAlunos($tccs, $tipo = null){
+    if($tipo == 'Aluno'){?>
+        <label class="form-label-inline" for="tccIndicadoMim">TCC(s) Indicados para mim por um professor</label>
+<?php }else{?>
+        <label class="form-label-inline" for="tccIndicadoAluno">TCC(s) Indicados para alunos</label>
+<?php } ?>
+        <select class="form-select" name="tccIndicadoMim" id="tccIndicadoMim" size="3">
+            <option selected>Selecione um TCC</option>
+            <?php
+            foreach ($tccs as $tcc) {
+                $titulo = $tcc['titulo'];
+                $idIndicacao = $tcc['idIndicacao'];
+                $idTCC = $tcc['idTCC'];
+                echo "<option value='$idIndicacao' onclick='verTCC(this, $idTCC)'>$titulo</option>";
+            }
+            ?>
+    </select>
+<?php }
+
+function divListarAlunoIndicados($alunos){
+    ?>
+    <label for="tccIndicadoAluno">TCC(s) Alunos que recebeu indicação</label>
+    <select class="form-select" name="tccIndicadoAluno" id="tccIndicadoAluno" onchange="atualizarDivTCCIndicadoParaAluno(this)">
+        <option selected>Selecione um Aluno</option>
+        <?php
+        foreach ($alunos as $aluno) {
+            echo "<option value='$aluno->matricula'>$aluno->nome</option>";
+        }
+        ?>
+    </select>
+<?php }
+
+?>

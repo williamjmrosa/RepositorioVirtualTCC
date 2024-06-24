@@ -9,11 +9,13 @@ var idInstituicao = null;
 var idCurso = null;
 
 // Ver TCC Favorito selecionado
-function verTCC(option) {
+function verTCC(option, idTCC = null) {
 
+    if (idTCC == null) {
+        var idTCC = $(option).val();
+    }
 
-
-    var parametros = { idTCC: $(option).val() };
+    var parametros = { idTCC: idTCC };
 
     $.ajax({
         url: '../visao/lerMarcado.php',
@@ -59,6 +61,7 @@ function verificarOpcaoSelecionada() {
         $("#divCampus").load("../visao/selectTCCPgMarcado.php?div=divCampus&tipoCheck=" + radioMarcado);
         $("#divCurso").load("../visao/selectTCCPgMarcado.php?div=divCurso&tipoCheck=" + radioMarcado);
         $("#divProfessor").load("../visao/selectTCCPgMarcado.php?div=divProfessor&tipoCheck=" + radioMarcado);
+        $("#divListarAlunoIndicados").load("../visao/selectTCCPgMarcado.php?div=divListarAlunoIndicado&tipoCheck=" + radioMarcado);
         $("#favoritos").addClass("d-none");
         $("#btn-indicar").addClass("d-none");
     } else if (radioMarcado == "favorito") {
@@ -66,6 +69,8 @@ function verificarOpcaoSelecionada() {
         $("#divCampus").load("../visao/selectTCCPgMarcado.php?div=divCampus&tipoCheck=" + radioMarcado);
         $("#divCurso").load("../visao/selectTCCPgMarcado.php?div=divCurso&tipoCheck=" + radioMarcado);
         $("#divProfessor").empty();
+        $("#divListarAlunoIndicados").empty();
+        $("#divTCCIndicadoParaAluno").empty();
         $("#favoritos").removeClass("d-none");
         $("#btn-indicar").removeClass("d-none");
         $("#btns-tcc").addClass("d-none");
@@ -170,6 +175,20 @@ function atualizarDivProfessor(div) {
     });
 
     $("#divTCC").load("../visao/selectTCCPgMarcado.php?" + parametros);
+
+}
+
+function atualizarDivTCCIndicadoParaAluno(div) {
+    var matricula = $(div).val();
+    var radioMarcado = $("input[name='checkTipo']:checked").val();
+
+    var parametros = $.param({ 
+        tipoCheck: radioMarcado, 
+        matricula: matricula,
+        div: "divTCCIndicadoParaAluno"
+    });
+
+    $("#divTCCIndicadoParaAluno").load("../visao/selectTCCPgMarcado.php?" + parametros);
 
 }
 

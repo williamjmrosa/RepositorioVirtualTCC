@@ -112,14 +112,16 @@ function gerarImagem($caminho_pdf, $id)
                     <div class="row g-3 align-items-center" id="divProfessor"></div>
                     <div class="mb-3 pe-3 text-start" id="divTCC">
                         <label class="form-label-inline" for="tcclista">TCC</label>
-                        <select class="form-select" name="tcclista" id="tcclista" size="10">
+                        <select class="form-select" name="tcclista" id="tcclista" size="8">
                             
                         </select>
                     </div>
                 </div>
 
-                <div class="m-2 listarTCC">
+                <div id="divListarAlunoIndicados" class="m-2 g-3 pe-3 text-start fw-bold"></div>
 
+                <div id="divTCCIndicadoParaAluno" class="m-2 g-3 pe-3 text-start fw-bold">
+                    
                 </div>
                 <!-- Fim da Lista de TCC indicados -->
             </div>
