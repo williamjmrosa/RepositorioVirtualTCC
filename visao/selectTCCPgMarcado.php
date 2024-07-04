@@ -195,17 +195,19 @@ function divIndicadoParaAlunos($tccs, $tipo = null){
 <?php }else{?>
         <label class="form-label-inline" for="tccIndicadoAluno">TCC(s) Indicados para alunos</label>
 <?php } ?>
-        <select class="form-select" name="tccIndicadoMim" id="tccIndicadoMim" size="3">
+        <select class="form-select" name="tccIndicadoMim" id="tccIndicadoMim" size="3" onchange="gerarIdIndicaAluno(this)">
             <option selected>Selecione um TCC</option>
             <?php
             foreach ($tccs as $tcc) {
                 $titulo = $tcc['titulo'];
-                $idIndicacao = $tcc['idIndicacao'];
+                $idIndicaAluno = $tcc['idIndicaAluno'];
                 $idTCC = $tcc['idTCC'];
-                echo "<option value='$idIndicacao' onclick='verTCC(this, $idTCC)'>$titulo</option>";
+                echo "<option value='$idIndicaAluno' onclick='verTCC(this, $idTCC)'>$titulo</option>";
             }
             ?>
     </select>
+    <button disabled="disabled" class="btn btn-primary mt-1" id="excluirIndicacaoAluno" value="" onclick="excluirIndicacaoAluno(this)">Excluir Indicação Aluno</button>
+  
 <?php }
 
 function divListarAlunoIndicados($alunos){

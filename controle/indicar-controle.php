@@ -94,7 +94,30 @@ if(isset($_GET['OP']) && isset($_SESSION['usuario'])){
                 $erro[] = "Erro campus em branco!";
             }
             break;
-            
+        //Excluir Indicação Aluno
+        case 4:
+            $msg = array();
+            if(isset($_POST['idIndicacaoAluno']) && !empty($_POST['idIndicacaoAluno'])){
+                $idIndicaAluno = filter_var($_POST['idIndicacaoAluno'], FILTER_SANITIZE_NUMBER_INT);
+
+                $iDAO = new IndicacaoDAO();
+                if($iDAO->excluirIndicacaoAluno($idIndicaAluno)){
+                    $msg['sucesso'] = "Indicação excluída com sucesso!";
+                }else{
+                    $msg['erro'] = "Erro ao excluir Indicação!";
+                }
+            }else{
+                $msg['erro'] = "Erro nenhuma Indicação selecionada!";
+            }
+
+            if(verSeEAjax()){
+                echo json_encode($msg);
+            }else{
+                $_SESSION['msg'] = $msg;
+                header("location:../visao/index.php");
+            }
+
+            break;
         default:
             if(verSeEAjax()){
                 echo json_encode("Obrigatório selecionar uma opção");
@@ -107,10 +130,12 @@ if(isset($_GET['OP']) && isset($_SESSION['usuario'])){
             break;
     }
 }else{
+    $erros = array();
     if(verSeEAjax()){
-        echo json_encode("Acesso negado");
+        $erros['erro'] = "Acesso negado";
+        echo json_encode($erros);
     }else{
-        $erros = array();
+        
         $erros[] = "Acesso negado";
         $_SESSION['erros'] = $erros;
         header("location:../visao/index.php");

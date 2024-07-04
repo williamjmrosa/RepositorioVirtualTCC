@@ -192,6 +192,56 @@ function atualizarDivTCCIndicadoParaAluno(div) {
 
 }
 
+function gerarIdIndicaAluno(div) {
+
+    var idIndicaAluno = $(div).val();
+
+    var botao = $("#excluirIndicacaoAluno");
+    botao.val(idIndicaAluno);
+    botao.removeAttr("disabled");
+
+    console.log(idIndicaAluno);
+
+
+
+}
+
+function excluirIndicacaoAluno(div) {
+    var idIndicaAluno = $(div).val();
+
+    $.ajax({
+        url: '../controle/indicar-controle.php?OP=4',
+        type: 'POST',
+        data: {
+            OP: 4,
+            idIndicacaoAluno: idIndicaAluno
+        },
+        success: function(response) {
+            var resposta = JSON.parse(response);
+            // Verificar se a resposta do servidor é do formato esperado
+            if (resposta && resposta.sucesso) {
+                //console.log(resposta.sucesso);
+                alert(resposta.sucesso);
+                
+            } else {
+                alert(resposta.erro);
+                //console.log(resposta.erro);
+            }
+        },
+        error: function (jqXHR, textStatus, errorThrown) {
+            // Acessar informações sobre o erro
+            console.log("Erro na requisição AJAX: " + textStatus);
+
+            // Verificar se o erro é um erro customizado
+            if (jqXHR.responseText) {
+                console.log("Erro customizado: " + jqXHR.responseText);
+            }
+        }
+    });
+
+    $(div).attr("disabled", true);
+}
+
 $(document).ready(function () {
 
     // carregar TCC selecionado

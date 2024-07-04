@@ -93,6 +93,19 @@ class IndicacaoDAO{
         }
     }
 
+    // Excluir Indicação para um Aluno
+    public function excluirIndicacaoAluno($idIndicaAluno){
+        try{
+            $stat = $this->conexao->prepare("delete from indica_para_aluno where idIndicaAluno = ?");
+            $stat->bindValue(1,$idIndicaAluno);
+            $stat->execute();
+            return true;
+        }catch(PDOException $ex){
+            //echo $ex->getMessage();
+            return false;
+        }
+    }
+
     // Listar Todos as Indicações
     public function listarIndicacoes($idInstituicao = null, $idCurso = null,$matricula = null){
         try{
@@ -156,7 +169,9 @@ class IndicacaoDAO{
 
     public function listarTCCsIndicadosParaAluno($matricula){
         try{
-            $sql = "SELECT t.idTCC, t.titulo, i.idIndicacao FROM tcc as t INNER JOIN indicacao as i ON i.idTCC = t.idTCC WHERE i.idIndicacao in (SELECT idIndicacao FROM indica_para_aluno WHERE matricula = ?)";
+            //$sql = "SELECT t.idTCC, t.titulo, i.idIndicacao FROM tcc as t INNER JOIN indicacao as i ON i.idTCC = t.idTCC WHERE i.idIndicacao in (SELECT idIndicacao FROM indica_para_aluno WHERE matricula = ?)";
+
+            $sql = "SELECT t.idTCC, t.titulo, ia.idIndicaAluno FROM tcc as t INNER JOIN indicacao as i ON i.idTCC = t.idTCC INNER JOIN indica_para_aluno as ia ON i.idIndicacao = ia.idIndicacao WHERE ia.matricula = ?";
 
             $stat = $this->conexao->prepare($sql);
 
