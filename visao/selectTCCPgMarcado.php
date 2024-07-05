@@ -74,8 +74,9 @@ if (isset($_SESSION['usuario']) && isset($_GET['tipoCheck'])) {
                 }elseif ($div == 'divTCC'){
                     $tccs = $iDAO->listarIndicacoes($idInstituicao, $idCurso, $idProfessor);
                     divTCCs($tccs);
-                }elseif($div == 'divIndicadoParaAluno'){
-                    //$alunos = $iDAO->listar
+                }elseif($div == 'divTCCIndicadoParaAluno'){
+                    $tccs = $iDAO->listarTCCsIndicadosParaAluno($user->matricula);
+                    divIndicadoParaAlunos($tccs, $tipo);
                 }
 
                 break;
@@ -89,7 +90,7 @@ if (isset($_SESSION['usuario']) && isset($_GET['tipoCheck'])) {
                 }elseif($div == 'divCampus'){
                     $instituicoes = $iDAO->listarCampus($idInstituicao, $idCurso, $user->matricula);
                     divCampus($instituicoes);
-                }elseif($div == 'divTCCIndicadoParaAluno'){
+                }elseif($div == 'divTCCIndicadoParaAluno' && $matricula != null){
                     $tccs = $iDAO->listarTCCsIndicadosParaAluno($matricula);
                     divIndicadoParaAlunos($tccs, $tipo);  
                 }elseif($div == 'divListarAlunoIndicado'){
@@ -206,9 +207,13 @@ function divIndicadoParaAlunos($tccs, $tipo = null){
             }
             ?>
     </select>
+    <?php
+    if($tipo != 'Aluno'){
+    ?>
     <button disabled="disabled" class="btn btn-primary mt-1" id="excluirIndicacaoAluno" value="" onclick="excluirIndicacaoAluno(this)">Excluir Indicação Aluno</button>
-  
+        
 <?php }
+ }
 
 function divListarAlunoIndicados($alunos){
     ?>

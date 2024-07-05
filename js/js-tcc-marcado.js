@@ -62,6 +62,7 @@ function verificarOpcaoSelecionada() {
         $("#divCurso").load("../visao/selectTCCPgMarcado.php?div=divCurso&tipoCheck=" + radioMarcado);
         $("#divProfessor").load("../visao/selectTCCPgMarcado.php?div=divProfessor&tipoCheck=" + radioMarcado);
         $("#divListarAlunoIndicados").load("../visao/selectTCCPgMarcado.php?div=divListarAlunoIndicado&tipoCheck=" + radioMarcado);
+        $("#divTCCIndicadoParaAluno").load("../visao/selectTCCPgMarcado.php?div=divTCCIndicadoParaAluno&tipoCheck=" + radioMarcado);
         $("#favoritos").addClass("d-none");
         $("#btn-indicar").addClass("d-none");
     } else if (radioMarcado == "favorito") {
@@ -209,6 +210,8 @@ function gerarIdIndicaAluno(div) {
 function excluirIndicacaoAluno(div) {
     var idIndicaAluno = $(div).val();
 
+    var radioMarcado = $("input[name='checkTipo']:checked").val();
+
     $.ajax({
         url: '../controle/indicar-controle.php?OP=4',
         type: 'POST',
@@ -222,7 +225,27 @@ function excluirIndicacaoAluno(div) {
             if (resposta && resposta.sucesso) {
                 //console.log(resposta.sucesso);
                 alert(resposta.sucesso);
-                
+                var matricula = $("#tccIndicadoAluno").val();
+
+                $("#divListarAlunoIndicados").load("../visao/selectTCCPgMarcado.php?div=divListarAlunoIndicado&tipoCheck=" + radioMarcado, function () {
+                    //var select = $("#tccIndicadoAluno");
+                    //select.val(matricula);
+
+                    //select.trigger("change");
+                    // Obter a opção pelo seu ID ou seletor
+                    var option = $("#tccIndicadoAluno option[value='" + matricula + "']");
+                    
+                    // Verificar se a opção existe
+                    if (option.length > 0) {
+                        // Se a opção existir, selecioná-la
+                        option.prop("selected", true);
+                    
+                        // Disparar o evento 'change'
+                        option.trigger("change");
+                    }else{
+                        $("#divTCCIndicadoParaAluno").empty();
+                    }
+                });
             } else {
                 alert(resposta.erro);
                 //console.log(resposta.erro);
