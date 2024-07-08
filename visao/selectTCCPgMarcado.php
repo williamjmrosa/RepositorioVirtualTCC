@@ -83,7 +83,7 @@ if (isset($_SESSION['usuario']) && isset($_GET['tipoCheck'])) {
             case 'Professor':
                 if($div == 'divTCC'){
                     $tccs = $iDAO->listarIndicacoes($idInstituicao, $idCurso, $user->matricula);
-                    divTCCs($tccs);
+                    divTCCs($tccs, $tipo);
                 }elseif($div == 'divCurso'){
                     $cursos = $iDAO->listarCursos($idInstituicao, $idCurso, $user->matricula);
                     divCursos($cursos);
@@ -156,7 +156,7 @@ function divCampus($instituicoes)
 { ?>
     <label class="form-label-inline" for="inst">Instituição</label>
     <select class="form-select" name="inst" id="inst" onchange="atualizarDivInstituicao(this)">
-        <option selected>Selecione uma instituição</option>
+        <option value="null" selected>Selecione uma instituição</option>
         <?php
         foreach ($instituicoes as $instituicao) {
             echo "<option value='$instituicao->idCampus'>$instituicao->nome</option>";
@@ -169,7 +169,7 @@ function divCursos($cursos)
 { ?>
     <label class="form-label-inline" for="cur">Curso</label>
     <select class="form-select" name="cur" id="cur" onchange="atualizarDivCurso(this)">
-        <option selected>Selecione um curso</option>
+        <option value="null" selected>Selecione um curso</option>
         <?php
         foreach ($cursos as $curso) {
             echo "<option value='$curso->idCurso'>$curso->nome</option>";
@@ -178,9 +178,9 @@ function divCursos($cursos)
     </select>
 <?php
 } 
-function divTCCs($tccs){?>
+function divTCCs($tccs, $tipo = null){?>
     <label class="form-label-inline" for="tcc">TCC</label>
-    <select class="form-select" name="tcc" id="tcc" size="8">
+    <select class="form-select" name="tcc" id="tcc" size="4">
         <option selected>Selecione um TCC</option>
         <?php
         foreach ($tccs as $tcc) {
@@ -188,7 +188,11 @@ function divTCCs($tccs){?>
         }
         ?>
     </select>
-<?php }
+    <?php if($tipo == 'Professor'){?>
+    <button disabled="disabled" class="btn btn-primary mt-1" id="excluirIndicacaoTCC" value="" onclick="excluirIndicacaoTCC(this)">Excluir Indicação</button>
+<?php
+        }
+    }
 
 function divIndicadoParaAlunos($tccs, $tipo = null){
     if($tipo == 'Aluno'){?>

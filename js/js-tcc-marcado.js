@@ -33,6 +33,16 @@ function verTCC(option, idTCC = null) {
                 $("#titulo-tcc").html(tcc.titulo);
                 $("#btns-tcc").removeClass("d-none");
                 $("#btns-tcc").addClass("row container");
+                
+                if(idInstituicao != null && idCurso != null) {
+                    var botao = $("#excluirIndicacaoTCC");
+                    botao.val(idTCC+" "+idInstituicao+" "+idCurso);
+                    botao.removeAttr("disabled");
+                }else{
+                    var botao = $("#excluirIndicacaoTCC");
+                    botao.val("");
+                    botao.attr("disabled", "disabled");
+                }
 
             } else {
                 alert(response.erro);
@@ -86,10 +96,10 @@ function verificarOpcaoSelecionada() {
 verificarOpcaoSelecionada();
 
 function atualizarDivInstituicao(div) {
-    console.log($(div).val());
+    //console.log($(div).val());
     var radioMarcado = $("input[name='checkTipo']:checked").val();
 
-    if ($(div).val() != "") {
+    if ($(div).val() != null) {
         idInstituicao = $(div).val();
         idCurso = null;
     } else {
@@ -126,15 +136,19 @@ function atualizarDivInstituicao(div) {
 
     $("#divProfessor").load("../visao/selectTCCPgMarcado.php?" + parametros);
 
+    var botao = $("#excluirIndicacaoTCC");
+    botao.val("");
+    botao.attr("disabled", "disabled");
+
 }
 
 function atualizarDivCurso(div) {
 
     idCurso = $(div).val();
-
+    //console.log(idCurso, idInstituicao);
     var radioMarcado = $("input[name='checkTipo']:checked").val();
 
-    if ($(div).val() != "") {
+    if ($(div).val() != null) {
         idCurso = $(div).val();
     } else {
         idCurso = null;
@@ -159,6 +173,10 @@ function atualizarDivCurso(div) {
 
     $("#divProfessor").load("../visao/selectTCCPgMarcado.php?" + parametros);
 
+    var botao = $("#excluirIndicacaoTCC");
+    botao.val("");
+    botao.attr("disabled", "disabled");
+
 }
 
 function atualizarDivProfessor(div) {
@@ -176,6 +194,11 @@ function atualizarDivProfessor(div) {
     });
 
     $("#divTCC").load("../visao/selectTCCPgMarcado.php?" + parametros);
+
+
+    var botao = $("#excluirIndicacaoTCC");
+    botao.val("");
+    botao.attr("disabled", "disabled");
 
 }
 
@@ -205,6 +228,52 @@ function gerarIdIndicaAluno(div) {
 
 
 
+}
+function excluirIndicacaoTCC(div) {
+    var ids = $(div).val();
+    var radioMarcado = $("input[name='checkTipo']:checked").val();
+
+    ids = ids.split(" ");
+
+    $.ajax({
+        url: '../controle/indicar-controle.php?OP=2',
+        type: 'POST',
+        data: {
+            idTCC: ids[0],
+            idInstituicao: ids[1],
+            idCurso: ids[2]
+        },
+        success: function(response) {
+            var resposta = JSON.parse(response);
+            // Verificar se a resposta do servidor é do formato esperado
+            if (resposta && resposta.sucesso) {
+                //console.log(resposta.sucesso);
+                alert(resposta.sucesso);
+                
+                var parametros = $.param({
+                    idTCC: ids[0],
+                    idInstituicao: ids[1],
+                    idCurso: ids[2],
+                    tipoCheck: radioMarcado,
+                    div: "divTCC"
+                });
+            
+                $("#divTCC").load("../visao/selectTCCPgMarcado.php?" + parametros);
+                
+            }else{
+                alert(resposta.erro);
+            }
+        },
+        error: function(jqXHR, textStatus, errorThrown) {
+            // Acessar informações sobre o erro
+            console.log("Erro na requisição AJAX: " + textStatus);
+
+            // Verificar se o erro é um erro customizado
+            if (jqXHR.responseText) {
+                console.log("Erro customizado: " + jqXHR.responseText);
+            }
+        }
+    });
 }
 
 function excluirIndicacaoAluno(div) {

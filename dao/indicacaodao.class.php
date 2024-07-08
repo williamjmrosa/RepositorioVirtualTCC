@@ -93,6 +93,31 @@ class IndicacaoDAO{
         }
     }
 
+    //Excluir Indicação
+    public function excluirIndicacao($idTCC,$idCurso,$idInstituicao,$matricula){
+        try{
+
+            $idIndicacao = $this->idIndicacao($idTCC, $matricula, $idInstituicao, $idCurso);
+
+            $stat = $this->conexao->prepare("delete from indica_para_aluno where idIndicacao = ?");
+            $stat->bindValue(1,$idIndicacao);
+
+            $stat->execute();
+
+            $stat = $this->conexao->prepare("delete from indicacao where idIndicacao = ?");
+            $stat->bindValue(1,$idIndicacao);
+
+            $stat->execute();
+            
+            return true;
+        }catch(PDOException $ex){
+            //echo $ex->getMessage();
+            //$erro['erro'] = $ex->getMessage();
+            //echo json_encode($erro);
+            return false;
+        }
+    }
+
     // Excluir Indicação para um Aluno
     public function excluirIndicacaoAluno($idIndicaAluno){
         try{

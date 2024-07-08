@@ -74,6 +74,31 @@ if(isset($_GET['OP']) && isset($_SESSION['usuario'])){
             break;
         //Remover Indicação
         case 2:
+            $msg = array();
+            if(isset($_POST['idInstituicao']) && !empty($_POST['idInstituicao']) && isset($_POST['idTCC']) && !empty($_POST['idTCC']) && isset($_POST['idCurso']) && !empty($_POST['idCurso']) && $tipo == 'Professor'){
+                
+                $idInstituicao = filter_var($_POST['idInstituicao'], FILTER_SANITIZE_NUMBER_INT);
+                $idTCC = filter_var($_POST['idTCC'], FILTER_SANITIZE_NUMBER_INT);
+                $idCurso = filter_var($_POST['idCurso'], FILTER_SANITIZE_NUMBER_INT);
+
+                $iDAO = new IndicacaoDAO();
+                
+                if($iDAO->excluirIndicacao($idTCC, $idCurso, $idInstituicao, $user->matricula)){
+                    $msg['sucesso'] = "Indicação removida com sucesso!";   
+                }else{
+                    $msg['erro'] = "Erro ao remover Indicação!";
+                }
+
+
+
+            }else if($tipo != 'Professor'){
+                $msg['erro'] = "Erro $tipo não pode remover indicação!";
+            }else{
+                $msg['erro'] = "Erro dados em branco!";
+            }
+
+            echo json_encode($msg);
+
             break;
         //Listar Aluno para ser indicado o TCC
         case 3:
