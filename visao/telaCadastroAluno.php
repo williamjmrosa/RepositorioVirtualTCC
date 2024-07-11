@@ -20,13 +20,12 @@ include_once '../Modelo/campus.class.php';
 <body class="container-fluid m-0 p-0 fundo-secundario">
   <div class="fundo-primario">
     <div class="mb-2">
-    <nav class="p-2 row" id="menu">
+      <nav class="p-2 row" id="menu">
         <div class="col-6">
           <h3 class="home">TCC AQUI</h3>
           <a class="btn fundo-secundario fw-bold" href="index.php">Home</a>
-          <a class="btn fundo-secundario fw-bold" href="#">Contatos</a>
-          <a class="btn fundo-secundario fw-bold" href="#">TCC</a>
-
+          <a class="btn fundo-secundario fw-bold" href="../visao/contatos.php">Contatos</a>
+          <a class="btn fundo-secundario fw-bold" href="../visao/tccMarcado.php">TCC</a>
         </div>
         <div class="div-login col-6">
           <ul id="login">
