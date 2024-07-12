@@ -166,6 +166,7 @@ $(document).ready(function(){
 
     });
 
+    // Busca orientadores que correspondem ao nome digitado
     $('#buscaOrientador').on('input', function() {
       
       var textoDigitado = $(this).val();
@@ -208,7 +209,7 @@ $(document).ready(function(){
 
         });
 
-        console.log('ID: '+IDS);
+        //console.log('ID: '+IDS);
 
         var IDString = IDS.join(',');
 

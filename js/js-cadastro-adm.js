@@ -52,7 +52,7 @@ function preencherForm(option, event) {
 }
 
 $(document).ready(function () {
-   
+    //Função para buscar administrador pelo tipo e o texto digitado
     $("#buscarNome").on("input", function () {
 
         var busca = $(this).val();

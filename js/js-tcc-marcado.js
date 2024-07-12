@@ -93,8 +93,10 @@ function verificarOpcaoSelecionada() {
 
 }
 
+//verificar Qual lista de tcc foi selecionado Favoritos ou Indicados ao carregar a pagina
 verificarOpcaoSelecionada();
 
+//Gerar as opções de curso, professor e tccs para instituicao escolhida
 function atualizarDivInstituicao(div) {
     //console.log($(div).val());
     var radioMarcado = $("input[name='checkTipo']:checked").val();
@@ -105,7 +107,7 @@ function atualizarDivInstituicao(div) {
     } else {
         idInstituicao = null;
     }
-
+    //Valores para serem passados como parametros
     var parametros = $.param({
         idInstituicao: idInstituicao,
         idCurso: idCurso,
@@ -114,9 +116,10 @@ function atualizarDivInstituicao(div) {
     });
 
 
-
+    //Carregar as opções de Cursos da instituicao escolhida
     $("#divCurso").load("../visao/selectTCCPgMarcado.php?" + parametros);
 
+    //Valores para serem passados como parametro
     var parametros = $.param({
         idInstituicao: idInstituicao,
         idCurso: idCurso,
@@ -124,9 +127,10 @@ function atualizarDivInstituicao(div) {
         div: "divTCC"
     });
 
-
+    //Carregar as opções de TCCs da instituicao escolhida
     $("#divTCC").load("../visao/selectTCCPgMarcado.php?" + parametros);
 
+    //Valores para serem passados como parametro
     var parametros = $.param({
         idInstituicao: idInstituicao,
         idCurso: idCurso,
@@ -134,14 +138,17 @@ function atualizarDivInstituicao(div) {
         div: "divProfessor"
     });
 
+    //Carregar as opções de Professores da instituicao escolhida
     $("#divProfessor").load("../visao/selectTCCPgMarcado.php?" + parametros);
 
+    //Inativar o botão de excluir indicação
     var botao = $("#excluirIndicacaoTCC");
     botao.val("");
     botao.attr("disabled", "disabled");
 
 }
 
+//Gerar as opções de curso, professor e tccs para o curso escolhido
 function atualizarDivCurso(div) {
 
     idCurso = $(div).val();
@@ -154,6 +161,7 @@ function atualizarDivCurso(div) {
         idCurso = null;
     }
 
+    //Valores para serem passados como parametro
     var parametros = $.param({
         idInstituicao: idInstituicao,
         idCurso: idCurso,
@@ -161,9 +169,10 @@ function atualizarDivCurso(div) {
         div: "divTCC"
     });
 
-
+    //Carregar as opções de TCCs do curso escolhido
     $("#divTCC").load("../visao/selectTCCPgMarcado.php?" + parametros);
 
+    //Valores para serem passados como parametro
     var parametros = $.param({
         idInstituicao: idInstituicao,
         idCurso: idCurso,
@@ -171,20 +180,25 @@ function atualizarDivCurso(div) {
         div: "divProfessor"
     });
 
+    //Carregar as opções de Professores do curso escolhido
     $("#divProfessor").load("../visao/selectTCCPgMarcado.php?" + parametros);
 
+    //Inativar o botão de excluir indicação
     var botao = $("#excluirIndicacaoTCC");
     botao.val("");
     botao.attr("disabled", "disabled");
 
 }
 
+//Gerar as opções de professor e tccs para o professor escolhido
 function atualizarDivProfessor(div) {
 
+    //Matricula do professor selecionado
     var matricula = $(div).val();
 
     var radioMarcado = $("input[name='checkTipo']:checked").val();
 
+    //Valores para serem passados como parametro
     var parametros = $.param({
         idInstituicao: idInstituicao,
         idCurso: idCurso,
@@ -193,42 +207,50 @@ function atualizarDivProfessor(div) {
         div: "divTCC"
     });
 
+    //Carregar as opções de TCCs do professor escolhido
     $("#divTCC").load("../visao/selectTCCPgMarcado.php?" + parametros);
 
-
+    //Inativar o botão de excluir indicação
     var botao = $("#excluirIndicacaoTCC");
     botao.val("");
     botao.attr("disabled", "disabled");
 
 }
 
+//Gerar as opções de tccs para o aluno escolhido
 function atualizarDivTCCIndicadoParaAluno(div) {
+    //Matricula do Aluno selecionado
     var matricula = $(div).val();
     var radioMarcado = $("input[name='checkTipo']:checked").val();
 
+    //Valores para serem passados como parametro
     var parametros = $.param({ 
         tipoCheck: radioMarcado, 
         matricula: matricula,
         div: "divTCCIndicadoParaAluno"
     });
 
+    //Carregar as opções de TCCs do Aluno escolhido
     $("#divTCCIndicadoParaAluno").load("../visao/selectTCCPgMarcado.php?" + parametros);
 
 }
 
+//Gerar o idIndicaAluno do TCC selecionado e ativar o botão para excluir
 function gerarIdIndicaAluno(div) {
 
+    //idIndicaAluno
     var idIndicaAluno = $(div).val();
 
+    //Ativar o botão para excluir indicação aluno
     var botao = $("#excluirIndicacaoAluno");
     botao.val(idIndicaAluno);
     botao.removeAttr("disabled");
 
     console.log(idIndicaAluno);
 
-
-
 }
+
+//Excluir a indicação do TCC selecionado
 function excluirIndicacaoTCC(div) {
     var ids = $(div).val();
     var radioMarcado = $("input[name='checkTipo']:checked").val();
@@ -276,6 +298,7 @@ function excluirIndicacaoTCC(div) {
     });
 }
 
+//Excluir a indicação do Aluno selecionado
 function excluirIndicacaoAluno(div) {
     var idIndicaAluno = $(div).val();
 
@@ -330,7 +353,7 @@ function excluirIndicacaoAluno(div) {
             }
         }
     });
-
+    //Desativar o botão para excluir indicação aluno do tcc
     $(div).attr("disabled", true);
 }
 
@@ -341,7 +364,7 @@ $(document).ready(function () {
        
 
     });
-
+    //Carregas as opções dos selects de acordo com o tipo selecionado 
     $("input[name='checkTipo']").on("change", function () {
         verificarOpcaoSelecionada();
     });

@@ -111,7 +111,7 @@ $(document).ready(function(){
         //modal.find(".modal-body").append("Deseja indicar este TCC?");
         
     });
-
+    // Buscar Alunos de ums instituição e curso
     $("#curso").change(function(){
         idCurso = $(this).val();
         if(idInstituicao != null && idCurso != null){
@@ -119,6 +119,7 @@ $(document).ready(function(){
         }
     });
 
+    // Adicionar Aluno selecionado a lista de alunos para indicar
     $("#alunos").change(function(){
         var idAluno = $(this).val();
         var nome = $(this).find("option:selected").text();
@@ -155,6 +156,7 @@ $(document).ready(function(){
         });
       });
 
+    // Função para salvar a indicação
     $('#formIndicar').submit(function(event) {
       event.preventDefault();
       $.ajax({
@@ -189,9 +191,10 @@ $(document).ready(function(){
             console.log(resposta);
         }
       }).fail(function(jqXHR, textStatus, errorThrown) {
-          console.log("Erro na requisição AJAX:");
-          console.log("Status: " + textStatus);
-          console.log("Erro: " + errorThrown);
+        
+            console.log("Erro na requisição AJAX:");
+            console.log("Status: " + textStatus);
+            console.log("Erro: " + errorThrown);
 
           if(jqXHR.responseText){
               console.log("Erro customizado: " + jqXHR.responseText);

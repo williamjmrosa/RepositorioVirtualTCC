@@ -52,7 +52,7 @@ function preencherForm(option, event) {
 		if(response.error){
 			alert(response.error);
 		}else{
-
+			// Receber os dados do campus e preencher o formulário com os dados do campus
 			$('#nome').val(campus.nome);
 			$("#cursosCadastrados").empty();
 			campus.cursos.forEach(curso => {
