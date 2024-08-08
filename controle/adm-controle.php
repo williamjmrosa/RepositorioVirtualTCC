@@ -54,10 +54,7 @@ if(isset($_GET['OP'])){
             }else{
                 $senha = filter_var($_POST['senha'],FILTER_SANITIZE_SPECIAL_CHARS);
                 if(!Validacao::validarSenha($senha)){
-                    $erros[] = 'Senha inválida!';
-                }
-                if(!Validacao::validarTamanho($senha,20)){
-                    $erros[] = 'Senha muito extensa! (max. 20 caracteres)';
+                    $erros[] = 'Senha inválida! (6 a 20 caracteres)';
                 }
             }
 
@@ -130,10 +127,7 @@ if(isset($_GET['OP'])){
             }else{
                 $senha = filter_var($_POST['senha'],FILTER_SANITIZE_SPECIAL_CHARS);
                 if(!Validacao::validarSenha($senha) && $senha != ""){
-                    $erros[] = 'Senha inválida!';
-                }
-                if(!Validacao::validarTamanho($senha,32)){
-                    $erros[] = 'Senha muito extensa! (max. 32 caracteres)';
+                    $erros[] = 'Senha inválida! (6 a 20 caracteres)';
                 }
             }
 

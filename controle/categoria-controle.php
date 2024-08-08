@@ -20,6 +20,9 @@ if (isset($_GET['OP'])) {
                 $erros[] = 'Campo nome em branco';
             }else{
                 $nome = filter_var($_POST['nomeCategoria'], FILTER_SANITIZE_SPECIAL_CHARS);
+                if(!Validacao::validarTamanho($nome,60)){
+                    $erros[] = 'Nome categoria muito grande (max. 60 caracteres)';
+                }
             }
 
             if(isset($_POST['nomeAlternativo'])){
@@ -95,6 +98,9 @@ if (isset($_GET['OP'])) {
                 $erros[] = 'Campo nome em branco';
             }else{
                 $nome = filter_var($_POST['nomeCategoria'], FILTER_SANITIZE_SPECIAL_CHARS);
+                if(!Validacao::validarTamanho($nome,60)){
+                    $erros[] = 'Nome categoria muito grande (max. 60 caracteres)';
+                }
             }
 
             if(isset($_POST['nomeAlternativo'])){
@@ -168,6 +174,9 @@ if (isset($_GET['OP'])) {
                 $erros[] = 'Campo nomeAlternativo em branco';
             }else{
                 $nomeAlternativo = filter_var($_POST['nomeAlternativo'], FILTER_SANITIZE_SPECIAL_CHARS);
+                if(!Validacao::validarTamanho($nomeAlternativo,60)){
+                    $erros[] = 'Nome alternativo muito grande (max. 60 caracteres)';
+                }
                 
             }
             if(count($erros) == 0){

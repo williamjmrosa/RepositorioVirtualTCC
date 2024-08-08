@@ -20,6 +20,9 @@ if(isset($_GET['OP'])){
                 $erros[] = 'Campo Nome Completo em branco!';
             }else{
                 $nome = filter_var($_POST['nome'],FILTER_SANITIZE_SPECIAL_CHARS);
+                if(!Validacao::validarTamanho($nome, 60)){
+                    $erros[] = 'Nome muito grande! (max. 60 caracteres)';
+                }
             }
 
             if(!isset($_POST['email'])){
@@ -28,6 +31,15 @@ if(isset($_GET['OP'])){
                 $erros[] = 'Campo E-mail em branco!';
             }else{
                 $email = filter_var($_POST['email'],FILTER_SANITIZE_EMAIL);
+                if(!Validacao::validarEmail($email)){
+                    $erros[] = 'E-mail inválido!';
+                }
+                if(ProfessorDAO::verificarEmail($email)){
+                    $erros[] = 'E-mail já existe!';
+                }
+                if(!Validacao::validarTamanho($email,60)){
+                    $erros[] = 'E-mail muito grande! (max. 60 caracteres)';
+                }
             }
 
             if(!isset($_POST['senha'])){
@@ -184,6 +196,9 @@ if(isset($_GET['OP'])){
                 $erros[] = 'Nome inválido!';
             }else{
                 $nome = filter_var($_POST['nome'],FILTER_SANITIZE_SPECIAL_CHARS);
+                if(!Validacao::validarTamanho($nome,60)){
+                    $erros[] = 'Nome muito extenso! (max. 60 caracteres)';
+                }
             }
 
             if(!isset($_POST['email'])){
@@ -194,6 +209,16 @@ if(isset($_GET['OP'])){
                 $erros[] = 'E-mail inválido!';
             }else{
                 $email = filter_var($_POST['email'],FILTER_SANITIZE_EMAIL);
+                if(!Validacao::validarTamanho($email,60)){
+                    $erros[] = 'E-mail muito extenso! (max. 60 caracteres)';
+                }
+                $pDAO = new ProfessorDao();
+                if($pDAO->buscarProfessorPorMatricula($matricula)->email != $email){
+                    if(ProfessorDAO::verificarEmail($email)){
+                        $erros[] = 'E-mail já existe!';
+                    }
+                }
+
             }
 
             if(!isset($_POST['senha'])){

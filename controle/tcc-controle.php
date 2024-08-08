@@ -100,6 +100,9 @@ if(isset($_GET['OP'])){
                 $erros[] = 'Título deve ter no maximo 60 caracteres!';
             }else{
                 $titulo = filter_var($_POST['titulo'],FILTER_SANITIZE_SPECIAL_CHARS);
+                if(!Validacao::validarTamanho($titulo,60)){
+                    $erros[] = 'Título deve ter no maximo 60 caracteres!';
+                }
             }
 
             if(!isset($_POST['autor'])){
@@ -136,6 +139,9 @@ if(isset($_GET['OP'])){
                 $erros[] = 'Descrição deve ter no maximo 600 caracteres!';
             }else{
                 $descricao = filter_var($_POST['descricao'],FILTER_SANITIZE_SPECIAL_CHARS);
+                if(!Validacao::validarTamanho($descricao,600)){
+                    $erros[] = 'Descrição deve ter no maximo 600 caracteres!';
+                }
             }
 
             if(!isset($_FILES['localPDF']['tmp_name'])){
@@ -243,6 +249,9 @@ if(isset($_GET['OP'])){
                 $erros[] = 'Título deve ter no maximo 60 caracteres!';
             }else{
                 $titulo = filter_var($_POST['titulo'],FILTER_SANITIZE_SPECIAL_CHARS);
+                if(!Validacao::validarTamanho($titulo,60)){
+                    $erros[] = 'Título deve ter no maximo 60 caracteres!';
+                }
             }
 
             if(!isset($_POST['autor'])){

@@ -26,6 +26,10 @@ if(isset($_GET['OP'])){
                 $erro[] = "Nome para Curso invalido!";
             }
 
+            if(!Validacao::validarTamanho($nome,60)){
+                $erro[] = "Nome muito grande (max. 60 caracteres)";
+            }
+
             if(!isset($_POST['ensino'])){
                 $erro[] = "Ensino para Curso invalido!";
             }else{
@@ -79,6 +83,9 @@ if(isset($_GET['OP'])){
                 $erro[] = "Nome para Curso invalido!";
             }else{
                 $nome = filter_var($_POST['nome'],FILTER_SANITIZE_SPECIAL_CHARS);
+                if(!Validacao::validarTamanho($nome,60)){
+                    $erro[] = "Tamanho do nome invalido! (max 60 caracteres)";
+                }
             }            
 
             if(!isset($_POST['ensino'])){

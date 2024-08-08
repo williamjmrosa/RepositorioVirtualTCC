@@ -19,6 +19,9 @@ if (isset($_GET['OP'])) {
                 $erros[] = "Campo nome em branco";
             } else {
                 $nome = filter_var($_POST['nome'], FILTER_SANITIZE_SPECIAL_CHARS);
+                if(!Validacao::validarTamanho($nome,60)){
+                    $erros[] = "Tamanho do nome invalido! (max 60 caracteres)";
+                }
             }
 
             if (!isset($_POST["cursos"])) {
@@ -73,6 +76,9 @@ if (isset($_GET['OP'])) {
                 $erros[] = "Campo nome em branco";
             } else {
                 $nome = filter_var($_POST['nome'], FILTER_SANITIZE_SPECIAL_CHARS);
+                if(!Validacao::validarTamanho($nome,60)){
+                    $erros[] = "Tamanho do nome invalido! (max 60 caracteres)";
+                }
             }
 
             if (isset($_POST["cursos"])) {

@@ -26,6 +26,9 @@ if(isset($_GET['OP'])){
                 if(!Validacao::validarNome($nome)){
                     $erros[] = 'Nome inválido!';
                 }
+                if(!Validacao::validarTamanho($nome,60)){
+                    $erros[] = 'Nome muito extenso! (max. 60 caracteres)';
+                }
             }
 
             if(!isset($_POST['email'])){
@@ -37,6 +40,12 @@ if(isset($_GET['OP'])){
                 if(!Validacao::validarEmail($email)){
                     $erros[] = 'E-mail inválido!';
                 }
+                if(AlunoDAO::verificarEmail($email)){
+                    $erros[] = 'E-mail ja existe!';
+                }
+                if(!Validacao::validarTamanho($email,60)){
+                    $erros[] = 'E-mail muito extenso! (max. 60 caracteres)';
+                }
             }
 
             if(!isset($_POST['senha'])){
@@ -46,7 +55,7 @@ if(isset($_GET['OP'])){
             }else{
                 $senha = filter_var($_POST['senha'],FILTER_SANITIZE_SPECIAL_CHARS);
                 if(!Validacao::validarSenha($senha)){
-                    $erros[] = 'Senha inválida!';
+                    $erros[] = 'Senha inválida! (6 a 20 caracteres)';
                 }
             }
 
@@ -90,6 +99,9 @@ if(isset($_GET['OP'])){
                 $erros[] = 'Campo Bairro em branco!';
             } else {
                 $bairro = filter_var($_POST['bairro'], FILTER_SANITIZE_SPECIAL_CHARS);
+                if(!Validacao::validarTamanho($bairro,20)){
+                    $erros[] = 'Bairro muito extenso! (max. 20 caracteres)';
+                }
             }
 
             if(!isset($_POST['cidade'])) {
@@ -98,6 +110,9 @@ if(isset($_GET['OP'])){
                 $erros[] = 'Campo Cidade em branco!';
             } else {
                 $cidade = filter_var($_POST['cidade'], FILTER_SANITIZE_SPECIAL_CHARS);
+                if(!Validacao::validarTamanho($cidade,20)){
+                    $erros[] = 'Cidade muito extenso! (max. 20 caracteres)';
+                }
             }
 
             if(!isset($_POST['uf'])) {
@@ -106,6 +121,9 @@ if(isset($_GET['OP'])){
                 $erros[] = 'Campo UF em branco!';
             } else {
                 $uf = filter_var($_POST['uf'], FILTER_SANITIZE_SPECIAL_CHARS);
+                if(!Validacao::validarTamanho($uf,20)){
+                    $erros[] = 'UF muito extenso! (max. 20 caracteres)';
+                }
             }
 
             if(!isset($_POST['rua'])) {
@@ -114,6 +132,9 @@ if(isset($_GET['OP'])){
                 $erros[] = 'Campo rua em branco!';
             } else {
                 $rua = filter_var($_POST['rua'], FILTER_SANITIZE_SPECIAL_CHARS);
+                if(!Validacao::validarTamanho($rua,50)){
+                    $erros[] = 'Campo Rua muito extenso! (max. 50 caracteres)';
+                }
             }
 
             if(!isset($_POST['cep'])) {
@@ -128,6 +149,9 @@ if(isset($_GET['OP'])){
                 $erros[] = 'Campo Complemento não existe!';
             } else {
                 $complemento = filter_var($_POST['complemento'], FILTER_SANITIZE_SPECIAL_CHARS);
+                if(!Validacao::validarTamanho($complemento,60)){
+                    $erros[] = 'Complemento muito extenso! (max. 60 caracteres)';
+                }
             }
 
             if(!isset($_POST['numero'])) {
@@ -223,6 +247,12 @@ if(isset($_GET['OP'])){
                 if(!Validacao::validarEmail($email)){
                     $erros[] = 'E-mail inválido!';
                 }
+                $aDAO = new AlunoDAO();
+                if($aDAO->buscarAlunoPorMatricula($matricula)->email != $email){
+                    if(AlunoDAO::verificarEmail($email)){
+                        $erros[] = 'E-mail ja cadastrado!';
+                    }
+                }
             }
 
             if(!isset($_POST['senha'])){
@@ -230,7 +260,7 @@ if(isset($_GET['OP'])){
             }else{
                 $senha = filter_var($_POST['senha'],FILTER_SANITIZE_SPECIAL_CHARS);
                 if(!Validacao::validarSenha($senha) && $senha != ""){
-                    $erros[] = 'Senha inválida!';
+                    $erros[] = 'Senha inválida! (6 a 20 caracteres)';
                 }
             }
 

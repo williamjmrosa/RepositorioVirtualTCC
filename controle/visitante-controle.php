@@ -22,6 +22,9 @@ if(isset($_GET['OP'])){
                 if(!Validacao::validarNome($nome)){
                     $erros[] = 'Nome inválido!';
                 }
+                if(!Validacao::validarTamanho($nome,60)){
+                    $erros[] = 'Nome muito grande! (max. 60 caracteres)';
+                }
             }
 
             if(!isset($_POST['email'])){
@@ -34,6 +37,9 @@ if(isset($_GET['OP'])){
                     $erros[] = 'E-mail inválido!';
                 }elseif(VisitanteDAO::verificarEmail($email)){
                     $erros[] = 'E-mail já cadastrado!';
+                }
+                if(!Validacao::validarTamanho($email,60)){
+                    $erros[] = 'E-mail muito grande! (max. 60 caracteres)';
                 }
             }
 
@@ -89,6 +95,9 @@ if(isset($_GET['OP'])){
                     }elseif(VisitanteDAO::verificarEmail($email) && $email != $id){
                         $erros[] = 'E-mail já cadastrado!';
                     }
+                    if(!Validacao::validarTamanho($email,60)){
+                        $erros[] = 'E-mail muito grande! (max. 60 caracteres)';
+                    }
                 }
             }
 
@@ -100,6 +109,9 @@ if(isset($_GET['OP'])){
                 $nome = filter_var($_POST['nome'],FILTER_SANITIZE_SPECIAL_CHARS);
                 if(!Validacao::validarNome($nome)){
                     $erros[] = 'Nome inválido!';
+                }
+                if(!Validacao::validarTamanho($nome,60)){
+                    $erros[] = 'Nome muito grande! (max. 60 caracteres)';
                 }
             }
 
