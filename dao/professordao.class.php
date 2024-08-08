@@ -201,6 +201,25 @@ class ProfessorDAO{
         }
     }
 
+    // Verificar se e-mail existe
+    public static function verificarEmail($email){
+        try{
+            $stat = ConexaoBanco::getInstancia()->prepare("select * from professor where email = ?");
+            $stat->bindValue(1, $email);
+            $stat->execute();
+            $result = $stat->fetch();
+            
+            if($result){
+                return true;
+            }else{
+                return false;
+            }
+
+        }catch(PDOException $ex){
+            echo $ex->getMessage();
+        }
+    }
+
     // Fazer login
     public function fazerLogin($usuario, $senha){
         try{

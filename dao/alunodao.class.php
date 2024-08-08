@@ -227,6 +227,27 @@ class AlunoDAO{
 
     }
 
+    // Verificar se email ja existe
+    public static function verificarEmail($email){
+        try{
+            $stat = ConexaoBanco::getInstancia()->prepare("select * from aluno where email = ?");
+            $stat->bindValue(1, $email);
+            $stat->execute();
+            $result = $stat->fetch();
+
+            if($result){
+                return true;
+            }else{
+                return false;
+            }
+
+        }catch(PDOException $ex){
+            echo $ex->getMessage();
+            return null;
+        }
+
+    }
+
     //Fazer login
     public function fazerLogin($usuario, $senha){
         try{
