@@ -1,11 +1,15 @@
 <?php
+include_once '../Modelo/adm.class.php';
+include_once '../Modelo/aluno.class.php';
+include_once '../Modelo/professor.class.php';
+include_once '../Modelo/bibliotecario.class.php';
+include_once '../Modelo/visitante.class.php';
 session_start();
 if(isset($_SESSION['usuario'])) {
   $user = unserialize($_SESSION['usuario']);
   $tipo = get_class($user);
-
+  
   if($tipo != 'Adm'){
-    header('location:../index.php');
     $erros[] = "Efetue o login como Adm para acessar tela de Cadastro Adm!";
     $_SESSION['erros'] = $erros;
     header('location:../index.php');
