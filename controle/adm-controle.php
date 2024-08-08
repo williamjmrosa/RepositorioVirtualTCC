@@ -24,7 +24,12 @@ if(isset($_GET['OP'])){
                 if(!Validacao::validarNome($nome)){
                     $erros[] = 'Nome inválido!';
                 }
+                if(!Validacao::validarTamanho($nome,60)){
+                    $erros[] = 'Nome muito extenso! (max. 60 caracteres)';
+                }
             }
+
+            
 
             if(!isset($_POST['email'])){
                 $erros[] = 'Campo E-mail não existe!';
@@ -37,6 +42,9 @@ if(isset($_GET['OP'])){
                 }elseif(AdmDAO::verificarEmail($email)){
                     $erros[] = 'E-mail já existe!';
                 }
+                if(!Validacao::validarTamanho($email,60)){
+                    $erros[] = 'E-mail muito extenso! (max. 60 caracteres)';
+                }
             }
 
             if(!isset($_POST['senha'])){
@@ -47,6 +55,9 @@ if(isset($_GET['OP'])){
                 $senha = filter_var($_POST['senha'],FILTER_SANITIZE_SPECIAL_CHARS);
                 if(!Validacao::validarSenha($senha)){
                     $erros[] = 'Senha inválida!';
+                }
+                if(!Validacao::validarTamanho($senha,32)){
+                    $erros[] = 'Senha muito extensa! (max. 32 caracteres)';
                 }
             }
 
@@ -94,6 +105,9 @@ if(isset($_GET['OP'])){
                     }elseif(admDAO::verificarEmail($email) && $email != $id){
                         $erros[] = 'E-mail já cadastrado!';
                     }
+                    if(!Validacao::validarTamanho($email,60)){
+                        $erros[] = 'E-mail muito extenso! (max. 60 caracteres)';
+                    }
                 }
             }
 
@@ -106,6 +120,9 @@ if(isset($_GET['OP'])){
                 if(!Validacao::validarNome($nome)){
                     $erros[] = 'Nome inválido!';
                 }
+                if(!Validacao::validarTamanho($nome,60)){
+                    $erros[] = 'Nome muito extenso! (max. 60 caracteres)';
+                }
             }
 
             if(!isset($_POST['senha'])){
@@ -114,6 +131,9 @@ if(isset($_GET['OP'])){
                 $senha = filter_var($_POST['senha'],FILTER_SANITIZE_SPECIAL_CHARS);
                 if(!Validacao::validarSenha($senha) && $senha != ""){
                     $erros[] = 'Senha inválida!';
+                }
+                if(!Validacao::validarTamanho($senha,32)){
+                    $erros[] = 'Senha muito extensa! (max. 32 caracteres)';
                 }
             }
 
