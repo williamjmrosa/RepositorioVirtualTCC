@@ -11,7 +11,7 @@ Class Validacao{
 
     //Função que valida numero de caracteres
     public static function validarTamanho($v, $t){
-        return strlen($v) == $t;
+        return strlen($v) <= $t;
     }
 
     //Função que valida o nome
