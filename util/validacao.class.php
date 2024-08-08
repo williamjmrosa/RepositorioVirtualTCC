@@ -9,6 +9,11 @@ Class Validacao{
     private const PESO_10 = 10;
     private const PESO_11 = 11;
 
+    //Função que valida numero de caracteres
+    public static function validarTamanho($v, $t){
+        return strlen($v) == $t;
+    }
+
     //Função que valida o nome
     public static function validarNome($v){
         $exp = '/^[A-záéíóúÁÉÍÓÚãõüÃÕÇçôÔêÊ]{2,20}([ ]?[A-záéíóúÁÉÍÓÚãõüÃÕÇçôÔÊê]{1,20}){1,8}$/';
