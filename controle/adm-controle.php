@@ -56,8 +56,8 @@ if(isset($_GET['OP'])){
                 if(!Validacao::validarSenha($senha)){
                     $erros[] = 'Senha inválida!';
                 }
-                if(!Validacao::validarTamanho($senha,32)){
-                    $erros[] = 'Senha muito extensa! (max. 32 caracteres)';
+                if(!Validacao::validarTamanho($senha,20)){
+                    $erros[] = 'Senha muito extensa! (max. 20 caracteres)';
                 }
             }
 
