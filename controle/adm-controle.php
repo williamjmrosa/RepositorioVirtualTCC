@@ -6,7 +6,15 @@ include_once '../util/padronizacao.class.php';
 include_once '../util/seguranca.class.php';
 include_once '../util/validacao.class.php';
 
-if(isset($_GET['OP'])){
+if(isset($_GET['OP']) && isset($_SESSION['usuario'])){
+
+    $user = unserialize($_SESSION['usuario']);
+    $tipo = get_class($user);
+
+    if($tipo != 'Adm'){
+        $_SESSION['erro'] = "Efetue o login como Adm para acessar o sistema!";
+        header('location:../index.php');
+    }
 
     $OP = filter_var($_GET['OP'], FILTER_SANITIZE_NUMBER_INT);
 
