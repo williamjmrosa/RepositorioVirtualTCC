@@ -1,5 +1,24 @@
 <?php
 session_start();
+include_once '../Modelo/visitante.class.php';
+include_once '../Modelo/adm.class.php';
+include_once '../Modelo/aluno.class.php';
+include_once '../Modelo/professor.class.php';
+include_once '../Modelo/bibliotecario.class.php';
+if(isset($_SESSION['usuario'])) {
+  $user = unserialize($_SESSION['usuario']);
+  $tipo = get_class($user);
+  if($tipo != 'Adm' && $tipo != 'Bibliotecario'){
+    $erros[] = "Efetue o login como Adm ou Bibliotecário para acessar tela de Cadastro Professor!";
+    $_SESSION['erros'] = $erros;
+    header('location:../index.php');
+  }
+
+}else{
+  $erros[] = "Efetue o login para acessar o sistema!";
+  $_SESSION['erros'] = $erros;
+  header('location:../index.php');
+}
 ?>
 <!DOCTYPE html>
 <html lang="pt-br">
@@ -23,7 +42,7 @@ session_start();
           <h3 class="home">TCC AQUI</h3>
           <a class="btn fundo-secundario fw-bold" href="index.php">Home</a>
           <a class="btn fundo-secundario fw-bold" href="../visao/contatos.php">Contatos</a>
-          <a class="btn fundo-secundario fw-bold" href="../visao/tccMarcado.php">TCC</a>
+          <a class="btn fundo-secundario fw-bold" href="../visao/tccMarcado.php">Marcados</a>
         </div>
         <div class="div-login col-6">
           <ul id="login">
