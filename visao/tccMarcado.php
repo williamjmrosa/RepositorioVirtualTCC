@@ -61,8 +61,8 @@ function gerarImagem($caminho_pdf, $id)
                         <h3 class="home">TCC AQUI</h3>
                         <a class="btn fundo-secundario fw-bold" href="index.php">Home</a>
                         <a class="btn fundo-secundario fw-bold" href="../visao/contatos.php">Contatos</a>
-                        <a class="btn fundo-secundario fw-bold" href="../visao/tccMarcado.php">TCC</a>
-                    </>
+                        <a class="btn fundo-secundario fw-bold" href="../visao/tccMarcado.php">Marcados</a>
+                    </div>
                     <div class="div-login col-6">
                         <ul id="login">
                             <!-- Menu de Login -->

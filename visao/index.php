@@ -57,7 +57,7 @@ function gerarImagem($caminho_pdf, $id)
                         <h3 class="home">TCC AQUI</h3>
                         <a class="btn fundo-secundario fw-bold" href="index.php">Home</a>
                         <a class="btn fundo-secundario fw-bold" href="../visao/contatos.php">Contatos</a>
-                        <a class="btn fundo-secundario fw-bold" href="../visao/tccMarcado.php">TCC</a>
+                        <a class="btn fundo-secundario fw-bold" href="../visao/tccMarcado.php">Marcados</a>
                     </div>
                     <div class="div-login col-6">
                         <ul id="login">
@@ -173,7 +173,7 @@ function gerarImagem($caminho_pdf, $id)
                             <a href='../visao/lerTCC.php?TCC=" . $tcc->idTCC . "''>
                                 <div class='row g-0'>
                                     <div class='col-md-2'>
-                                        <img src='" . gerarImagem($tcc->localPDF, $tcc->idTCC) . "' class='img-fluid rounded-start' alt='...'>
+                                        <img class='w-100 mt-5' src='../img/PDF1.png" . /* gerarImagem($tcc->localPDF, $tcc->idTCC) .*/ "' class='img-fluid rounded-start' alt='...'>
                                     </div>
                                     <div class='col-md-10'>
                                         <div class='card-body'>

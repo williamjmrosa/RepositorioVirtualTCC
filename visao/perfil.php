@@ -119,7 +119,7 @@ if (isset($_SESSION['usuario'])) {
                         <h3 class="home">TCC AQUI</h3>
                         <a class="btn fundo-secundario fw-bold" href="index.php">Home</a>
                         <a class="btn fundo-secundario fw-bold" href="../visao/contatos.php">Contatos</a>
-                        <a class="btn fundo-secundario fw-bold" href="../visao/tccMarcado.php">TCC</a>
+                        <a class="btn fundo-secundario fw-bold" href="../visao/tccMarcado.php">Marcados</a>
                     </div>
                     <div class="div-login col-5 align-items-end">
                         <ul id="login">
@@ -145,7 +145,7 @@ if (isset($_SESSION['usuario'])) {
         </div>
 
     </div>
-    <div class="fundo-primario">
+    <div class="fundo-primario h-100">
         <!-- Inicio Conteudo -->
         
             <div class="d-flex flex-column align-items-center h-100">
@@ -188,6 +188,16 @@ if (isset($_SESSION['usuario'])) {
                             <label for="nome" class="form-label">Nome Completo</label>
                             <input type="text" class="form-control" id="nome" name="nome" placeholder="Nome" value="<?php echo $user->nome;?>">
                         </div>
+                        <?php
+                        if($tipo == "Aluno" || $tipo == "Professor"){
+                        ?>
+                        <div class="col-12">
+                            <label for="cpf" class="form-label">Matricula</label>
+                            <input type="text" disabled class="form-control w-50" id="matricula" name="matricula" placeholder="Matricula" value="<?php echo $user->matricula;?>">
+                        </div>
+                        <?php
+                        }
+                        ?>
                         <div class="col-lg-6">
                             <label for="email" class="form-label">Email</label>
                             <input type="email" class="form-control" id="email" name="email" placeholder="E-mail" value="<?php echo $user->email;?>">
