@@ -1,5 +1,22 @@
 <?php
 session_start();
+include_once '../Modelo/visitante.class.php';
+include_once '../Modelo/adm.class.php';
+include_once '../Modelo/aluno.class.php';
+include_once '../Modelo/professor.class.php';
+include_once '../Modelo/bibliotecario.class.php';
+
+if(isset($_SESSION['usuario'])) {
+  $user = unserialize($_SESSION['usuario']);
+  $tipo = get_class($user);
+
+  if($tipo != 'Adm'){
+    header('location:../visao/perfil.php');
+  }
+
+}else{
+}
+
 ?>
 <!DOCTYPE html>
 <html lang="pt-br">
@@ -23,7 +40,7 @@ session_start();
           <h3 class="home">TCC AQUI</h3>
           <a class="btn fundo-secundario fw-bold" href="index.php">Home</a>
           <a class="btn fundo-secundario fw-bold" href="../visao/contatos.php">Contatos</a>
-          <a class="btn fundo-secundario fw-bold" href="../visao/tccMarcado.php">TCC</a>
+          <a class="btn fundo-secundario fw-bold" href="../visao/tccMarcado.php">Marcados</a>
         </div>
         <div class="div-login col-6">
           <ul id="login">
@@ -90,6 +107,9 @@ session_start();
         </div>
       </form>
     </div>
+   <?php
+   
+   ?>
     <div class="row g-3 m-4 cadastro w-auto">
       <div class="col-12">
         <h3>Visitantes Cadastrados</h3>
