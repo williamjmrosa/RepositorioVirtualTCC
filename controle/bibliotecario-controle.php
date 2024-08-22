@@ -5,6 +5,10 @@ include_once '../Modelo/bibliotecario.class.php';
 include_once '../util/padronizacao.class.php';
 include_once '../util/seguranca.class.php';
 include_once '../util/validacao.class.php';
+include_once '../Modelo/adm.class.php';
+include_once '../Modelo/aluno.class.php';
+include_once '../Modelo/professor.class.php';
+include_once '../Modelo/visitante.class.php';
 
 if(isset($_GET['OP']) && isset($_SESSION['usuario'])){
     $OP = filter_var($_GET['OP'], FILTER_SANITIZE_NUMBER_INT);
