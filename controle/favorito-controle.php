@@ -24,6 +24,11 @@ if(isset($_GET['OP']) && isset($_SESSION['usuario'])){
     switch($OP){
         //Cadastrar Favorito Aluno
         case 1:
+            if($tipo != 'Aluno' && $tipo != 'Professor'){
+                echo json_encode("Efetue o login como Aluno ou Professor para favoritar!");
+                break;    
+            }
+
             if(isset($_POST['idTCC'])){
                 $idTCC = filter_var($_POST['idTCC'], FILTER_SANITIZE_NUMBER_INT);
                      
