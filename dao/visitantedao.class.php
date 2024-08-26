@@ -80,7 +80,7 @@ class VisitanteDAO{
             return true;
 
         }catch(PDOException $ex){
-            $stat->debugDumpParams();
+            //$stat->debugDumpParams();
             echo $ex->getMessage();
         }
     }
@@ -104,7 +104,28 @@ class VisitanteDAO{
     // Excluir Visitante
     public function excluirVisitante($email){
         try{
-            $stat = $this->conexao->prepare("delete from visitante where email = ?");
+            if($this->excluirTodosFavoritosVisitante($email)){    
+                
+                $stat = $this->conexao->prepare("delete from visitante where email = ?");
+                $stat->bindValue(1,$email);
+                $stat->execute();
+
+                return true;
+
+            }else{
+                return false;
+            }
+
+        }catch(PDOException $ex){
+            echo $ex->getMessage();
+            return false;
+        }
+    }
+
+    // Excluir Todos os Favoritos de um Visitante
+    public function excluirTodosFavoritosVisitante($email){
+        try{
+            $stat = $this->conexao->prepare("delete from favorito_visitante where email = ?");
             $stat->bindValue(1,$email);
             $stat->execute();
 
@@ -112,7 +133,9 @@ class VisitanteDAO{
 
         }catch(PDOException $ex){
             echo $ex->getMessage();
+            return false;
         }
+
     }
 
     // Buscar Visitante por tipo
