@@ -11,7 +11,7 @@ function montarListaCategoria($categorias){
                         <td>' . $eSub . '</td>
                         <td>' . $c->categoriaPrincipal . '</td>
                         <td><a href="' . $c->idCategoria . '" class="btn btn-primary alterarCategoria" onclick="preencherForm(this,event)">Alterar</a></td>
-                        <td><a href="../controle/categoria-controle.php?OP=3&id=' . $c->idCategoria . '" class="btn btn-danger excluir">Excluir</a></td>
+                        <td><a href="../controle/categoria-controle.php?OP=4&id=' . $c->idCategoria . '" class="btn btn-danger excluir">Excluir</a></td>
                 </tr>';
         }
     }
