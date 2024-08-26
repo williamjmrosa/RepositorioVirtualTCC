@@ -6,13 +6,27 @@ include_once '../util/padronizacao.class.php';
 include_once '../util/seguranca.class.php';
 include_once '../util/validacao.class.php';
 include_once '../dao/enderecodao.class.php';
+include_once '../Modelo/adm.class.php';
+include_once '../Modelo/bibliotecario.class.php';
+include_once '../Modelo/visitante.class.php';
+include_once '../Modelo/aluno.class.php';
 
-if(isset($_GET['OP'])){
+if(isset($_GET['OP']) && isset($_SESSION['usuario'])) {
+    $user = unserialize($_SESSION['usuario']);
+    $tipo = get_class($user);
+
     $OP = filter_var($_GET['OP'], FILTER_SANITIZE_NUMBER_INT);
     switch($OP){
         //Cadastrar Professor
         case 1:
             $erros = array();
+
+            if($tipo != 'Adm' && $tipo != 'Bibliotecário'){
+                $erros[] = 'Efetue o Login como Adm ou Bibliotecário para realizar esta operação no sistema!';
+                $_SESSION['erros'] = serialize($erros);
+                header('Location: ../index.php');
+                break;
+            }
 
             if(!isset($_POST['nome'])){
                 $erros[] = 'Campo Nome Completo não existe!';
@@ -171,6 +185,13 @@ if(isset($_GET['OP'])){
         //Alterar Professor
         case 2:
             $erros = array();
+
+            if($tipo != 'Adm' && $tipo != 'Bibliotecario'){
+                $erros[] = 'Efetue o login como Adm ou Bibliotecário para alterar!';
+                $_SESSION['erros'] = serialize($erros);
+                header('Location: ../index.php');
+                break;
+            }
 
             if(!isset($_POST['matricula'])){
                 $erros[] = 'Campo Matricula não existe!';
@@ -356,6 +377,13 @@ if(isset($_GET['OP'])){
             
             $erros = array();
 
+            if($tipo != 'Adm' && $tipo != 'Bibliotecario'){
+                $erros[] = "Efetue o login como Adm ou Bibliotecário para alterar o Status do Professor.";
+                $_SESSION['erros'] = $erros;
+                header('Location: ../index.php');
+                break;
+            }
+
             if(isset($_GET['id'])){
                 $matricula = filter_var($_GET['id'], FILTER_SANITIZE_NUMBER_INT);
 
@@ -382,6 +410,9 @@ if(isset($_GET['OP'])){
         break;
     }
 }else{
+    $erros = array();
+    $erros[] = "Acesso negado.";
+    $_SESSION['erros'] = serialize($erros);
     header('Location: ../visao/telaCadastroProfessor.php');
 }
 
