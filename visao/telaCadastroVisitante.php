@@ -10,7 +10,9 @@ if(isset($_SESSION['usuario'])) {
   $user = unserialize($_SESSION['usuario']);
   $tipo = get_class($user);
 
-  if($tipo != 'Adm'){
+  if($tipo != 'Adm' && $tipo != 'Bibliotecario'){
+    $erros[] = "Efetue o login como Adm ou Bibliotecário para acessar tela de Cadastro Visitante!";
+    $_SESSION['erros'] = $erros;
     header('location:../visao/perfil.php');
   }
 
