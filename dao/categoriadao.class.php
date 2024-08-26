@@ -30,6 +30,83 @@ class CategoriaDAO{
             $_SESSION['erros'] =  $ex->getMessage();
         }
     }
+    // Exlcuir Nome Alternativo
+    public function excluirNomeAlternativo($id){
+        try{
+            $stat = $this->conexao->prepare("Delete from nomealternativo where idNomeAlternativo = ?");
+            
+            $stat->bindValue(1,$id);
+            
+            $stat->execute();
+            
+            return true;
+            
+        }catch(PDOException $ex){
+            //echo $ex->getMessage();
+            return false;
+        }
+    }
+    
+    // Excluir Categoria
+    public function excluirCategoria($id){
+        try{
+            
+            if($this->excluirCategorias($id)){
+
+                if($this->alterarCategoriaPrincipalParaNull($id)){
+                    $stat = $this->conexao->prepare("Delete from categoria where idCategoria = ?");
+                
+                    $stat->bindValue(1,$id);
+                
+                    $stat->execute();
+
+                    return true;
+                }else{
+                    return false;
+                }
+            }else{
+                return false;
+            }
+            
+        }catch(PDOException $ex){
+            //echo $ex->getMessage();
+            return false;
+        }
+    }
+
+    // Excluir Categorias
+    public function excluirCategorias($id){
+        try{
+            $stat = $this->conexao->prepare("Delete from categorias where idCategoria = ?");
+            
+            $stat->bindValue(1,$id);
+            
+            $stat->execute();
+
+            return true;
+            
+        }catch(PDOException $ex){
+            //echo $ex->getMessage();
+            return false;
+        }
+    }
+
+    // Alterar Categoria Principal para null ao deletar
+    public function alterarCategoriaPrincipalParaNull($id){
+        try{
+            $stat = $this->conexao->prepare("Update categoria set categoriaPrincipal = null, eSub = 0 where categoriaPrincipal = ?");
+            
+            $stat->bindValue(1,$id);
+            
+            $stat->execute();
+
+            return true;
+
+        }catch(PDOException $ex){
+            echo $ex->getMessage();
+            return false;
+        }
+    }
 
     // Listar Categorias
     public function listarCategoria(){
@@ -212,6 +289,7 @@ class CategoriaDAO{
 
         }catch(PDOException $ex){
             echo $ex->getMessage();
+            return null;
         }
     }
 
