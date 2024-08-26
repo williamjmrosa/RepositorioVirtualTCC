@@ -25,6 +25,14 @@ if(isset($_GET['OP']) && isset($_SESSION['usuario'])){
         //Cadastrar Indicação
         case 1:
             $erro = array();
+
+            if($tipo != 'Professor'){
+                $erro[] = "Efetue o login como Professor para indicar!";
+                $_SESSION['erro'] = $erro;
+                header('Location: ../index.php');
+                break;
+            }
+
             if(isset($_POST['idTCC']) && !empty($_POST['idTCC'])){
                 $idTCC = filter_var($_POST['idTCC'], FILTER_SANITIZE_NUMBER_INT);
             }else{
@@ -75,6 +83,13 @@ if(isset($_GET['OP']) && isset($_SESSION['usuario'])){
         //Remover Indicação
         case 2:
             $msg = array();
+
+            if($tipo != 'Professor'){
+                $msg['erro'] = "Efetue o login como Professor para remover Indicação!";
+                echo json_encode($msg);
+                break;
+            }
+
             if(isset($_POST['idInstituicao']) && !empty($_POST['idInstituicao']) && isset($_POST['idTCC']) && !empty($_POST['idTCC']) && isset($_POST['idCurso']) && !empty($_POST['idCurso']) && $tipo == 'Professor'){
                 
                 $idInstituicao = filter_var($_POST['idInstituicao'], FILTER_SANITIZE_NUMBER_INT);
@@ -102,6 +117,13 @@ if(isset($_GET['OP']) && isset($_SESSION['usuario'])){
             break;
         //Listar Aluno para ser indicado o TCC
         case 3:
+            $erro = array();
+
+            if($tipo != 'Professor'){
+                echo "<option selected>Efetue o login como Professor para listar o TCC!</option>";
+                break;
+            }
+
             if(isset($_GET['campus']) && !empty($_GET['campus']) && isset($_GET['curso']) && !empty($_GET['curso'])){
                 $campus = filter_var($_GET['campus'], FILTER_SANITIZE_NUMBER_INT);
                 $curso = filter_var($_GET['curso'], FILTER_SANITIZE_NUMBER_INT);
@@ -116,23 +138,30 @@ if(isset($_GET['OP']) && isset($_SESSION['usuario'])){
                     echo '<option selected>Nenhum Aluno encontrado</option>';
                 }
             }else{
-                $erro[] = "Erro campus em branco!";
+                echo "<option selected>Erro campus/curso em branco!</option>";
             }
             break;
         //Excluir Indicação Aluno
         case 4:
             $msg = array();
-            if(isset($_POST['idIndicacaoAluno']) && !empty($_POST['idIndicacaoAluno'])){
-                $idIndicaAluno = filter_var($_POST['idIndicacaoAluno'], FILTER_SANITIZE_NUMBER_INT);
 
-                $iDAO = new IndicacaoDAO();
-                if($iDAO->excluirIndicacaoAluno($idIndicaAluno)){
-                    $msg['sucesso'] = "Indicação excluída com sucesso!";
-                }else{
-                    $msg['erro'] = "Erro ao excluir Indicação!";
-                }
+            if($tipo != 'Professor'){
+                $msg['erro'] = "Efetue o login como Professor para excluir Indicação!";
             }else{
-                $msg['erro'] = "Erro nenhuma Indicação selecionada!";
+
+                if(isset($_POST['idIndicacaoAluno']) && !empty($_POST['idIndicacaoAluno'])){
+                    $idIndicaAluno = filter_var($_POST['idIndicacaoAluno'], FILTER_SANITIZE_NUMBER_INT);
+
+                    $iDAO = new IndicacaoDAO();
+                    if($iDAO->excluirIndicacaoAluno($idIndicaAluno)){
+                        $msg['sucesso'] = "Indicação excluída com sucesso!";
+                    }else{
+                        $msg['erro'] = "Erro ao excluir Indicação!";
+                    }
+                }else{
+                    $msg['erro'] = "Erro nenhuma Indicação selecionada!";
+                }
+
             }
 
             if(verSeEAjax()){
