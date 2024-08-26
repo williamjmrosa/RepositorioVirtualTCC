@@ -133,7 +133,7 @@ function preencherForm(option, event) {
                         divNomeAlternativo.append('<div class="col-12">'
                             + '<label for="nomeAlternativo' + valor.idNomeAlternativo + '" class="form-label me-2">Nome Alternativo</label>'
                             + '<input type="text" class="form-control d-inline w-50" id="nomeAlternativo' + valor.idNomeAlternativo + '" value="' + valor.nomeAlternativo + '">'
-                            + '<a href="../controle/categoria-controle.php?OP=4&id=' + valor.idNomeAlternativo + '" class="btn btn-danger ms-1"> Excluir </a>'
+                            + '<a href="../controle/categoria-controle.php?OP=5&id=' + valor.idNomeAlternativo + '" class="btn btn-danger ms-1"> Excluir </a>'
                             + '<a href="' + valor.idNomeAlternativo + '" class="btn btn-primary ms-1" onclick="alterarNome(event,this)"> Alterar </a>'
                             + '</div>');
                     }
@@ -214,6 +214,16 @@ $(document).ready(function () {
 
     });
 
-
+    // Buscar categoria por nome digitado no input
+    $('#searchInputCategoria').on('input', function() {
+        // Obter o texto digitado
+        var searchText = $(this).val().toLowerCase();
+        // Filtrar as opções de categoria que correspondem aos termos de busca
+        $('#principal option').each(function() {
+          var optionText = $(this).text().toLowerCase();
+          $(this).toggle(optionText.indexOf(searchText) > -1);
+        });
+      });
+        
 
 });

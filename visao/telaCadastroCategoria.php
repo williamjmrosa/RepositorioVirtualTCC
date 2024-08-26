@@ -122,6 +122,8 @@ if(isset($_SESSION['usuario'])) {
           </div>
         </div>
         <div class="col-6 d-none" id="catPrincipal">
+        <label class="form-label" for="searchInputCategoria">Buscar Categoria Pai</label>
+        <input type="text" class="form-control" id="searchInputCategoria" name="searchInputCategoria" placeholder="Nome da Categoria">
           <label class="form-label">Categoria Pai</label>
           <select class="form-select" size="4" name="principal" id="principal">
             <?php
