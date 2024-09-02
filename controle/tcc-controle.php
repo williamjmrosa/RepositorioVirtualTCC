@@ -7,6 +7,9 @@ include_once '../Modelo/curso.class.php';
 include_once '../Modelo/campus.class.php';
 include_once '../Modelo/aluno.class.php';
 include_once '../Modelo/professor.class.php';
+include_once '../Modelo/visitante.class.php';
+include_once '../Modelo/bibliotecario.class.php';
+include_once '../Modelo/adm.class.php';
 include_once '../Modelo/categoria.class.php';
 include_once '../util/validacao.class.php';
 
@@ -85,10 +88,25 @@ function alterarArquivo($file, $id, $localPDFOriginal) {
 
 if(isset($_GET['OP'])){
     $OP = filter_var($_GET['OP'], FILTER_SANITIZE_NUMBER_INT);
+
+    if(isset($_SESSION['usuario'])){
+        $user = unserialize($_SESSION['usuario']);
+        $tipo = get_class($user);
+    }else{
+        $tipo = null;
+    }
+
     switch($OP){
         //Cadastrar TCC
-        case 1:
+        case 1:            
             $erros = array();                        
+
+            if($tipo != 'Bibliotecario' && $tipo != 'Adm'){
+                $erros[] = 'Efetue o Login como Adm ou Bibliotecário para realizar esta operação no sistema!';
+                $_SESSION['erros'] = serialize($erros);
+                header('Location: ../index.php');
+                break;
+            }
 
             if(!isset($_POST['titulo'])){
                 $erros[] = 'Campo Título não existe!';
@@ -227,6 +245,13 @@ if(isset($_GET['OP'])){
 
             $erros = array();
 
+            if($tipo != 'Adm' && $tipo != 'Bibliotecario'){
+                $erros[] = "Efetue o login como Adm ou Bibliotecário para acessar o sistema!";
+                $_SESSION['erros'] = serialize($erros);
+                header('Location: ../index.php');
+                break;
+            }
+
             if(isset($_POST['idTCC']) && filter_var($_POST['idTCC'], FILTER_VALIDATE_INT) && $_POST['idTCC'] > 0){
                 $idTCC = filter_var($_POST['idTCC'], FILTER_SANITIZE_NUMBER_INT);
             }else{
@@ -364,6 +389,15 @@ if(isset($_GET['OP'])){
             break;
         //Excluir TCC
         case 3:
+            $erros = array();
+
+            if($tipo != 'Adm' && $tipo != 'Bibliotecario'){
+                $erros[] = "Efetue o login como Adm ou Bibliotecário para acessar o sistema!";
+                $_SESSION['erros'] = serialize($erros);
+                header('Location: ../index.php');
+                break;
+            }
+
             if(isset($_GET['id'])){
                 $idTCC = filter_var($_GET['id'], FILTER_SANITIZE_NUMBER_INT);
 
