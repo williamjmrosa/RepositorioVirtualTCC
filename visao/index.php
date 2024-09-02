@@ -90,7 +90,7 @@ function gerarImagem($caminho_pdf, $id)
                 <form id="formFiltrar" action="../controle/tcc-controle.php?OP=5" method="post">
                     <?php
                     if (isset($_SESSION['filtros'])) {
-                        print_r(unserialize($_SESSION['filtros']));
+                        //print_r(unserialize($_SESSION['filtros']));
                         foreach (unserialize($_SESSION['filtros']) as $key => $value) {
                             if ($key == 'campus') {
                                 echo "<span class='badge bg-danger me-1'> <input type='hidden' name='campus' value='" . $value . "'><input class='btn-close' type='button' onclick='removerCampus(this)'></span>";
