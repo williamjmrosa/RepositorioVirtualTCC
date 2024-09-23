@@ -17,6 +17,7 @@ if(isset($_SESSION['usuario'])) {
   }
 
 }else{
+  $tipo = 'Visitante';
 }
 
 ?>
@@ -110,8 +111,7 @@ if(isset($_SESSION['usuario'])) {
       </form>
     </div>
    <?php
-   
-   ?>
+   if($tipo == 'Adm' || $tipo == 'Bibliotecario'){?>
     <div class="row g-3 m-4 cadastro w-auto">
       <div class="col-12">
         <h3>Visitantes Cadastrados</h3>
@@ -143,6 +143,9 @@ if(isset($_SESSION['usuario'])) {
         </tbody>
       </table>
     </div>
+    <?php
+    }
+    ?>
   </div>
   <script src="../Framework/js/jquery-3.6.4.js"></script>
   <script src="../Framework/js/popper.min.js"></script>
