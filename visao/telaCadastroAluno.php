@@ -153,7 +153,7 @@ if(isset($_SESSION['usuario'])) {
             <option selected>Escolha...</option>
             <?php
             $campusDAO = new CampusDAO();
-            $campi = $campusDAO->listarCampus();
+            $campi = $campusDAO->listarCampus(true);
             if (is_array($campi)) {
               foreach ($campi as $campus) {
                 echo "<option onClick='campusSelecionado(this)' value='$campus->idCampus'>$campus->nome</option>";

@@ -10,7 +10,7 @@ class CampusDAO{
     }
 
     //Cadastrar um Campos no banco
-    public function cadastrarCampus(Campus $c){
+    public function cadastrarCampus($c){
         try {
             $stat = $this->conexao->prepare("insert into campus(idcampus,nome) values(null,?)");
 
@@ -43,10 +43,14 @@ class CampusDAO{
     }
 
     //Listar Campus
-    public function listarCampus(){
+    public function listarCampus($ativo = null){
         try{
-            $stat = $this->conexao->prepare("Select * From campus order by idCampus");
-            
+            if($ativo == true){
+                $stat = $this->conexao->prepare("Select * From campus where ativo is null order by idCampus");
+            }else{
+                $stat = $this->conexao->prepare("Select * From campus order by idCampus");
+            }
+
             $stat->execute();
             
             $array = $stat->fetchAll(PDO::FETCH_CLASS, 'Campus');
@@ -130,7 +134,7 @@ class CampusDAO{
     }
 
     // Alterar Campus
-    public function alterarCampus(Campus $c){
+    public function alterarCampus($c){
         try{
            $stat = $this->conexao->prepare("Update campus set nome = ? where idcampus = ?");
            $stat->bindValue(1, $c->nome);
