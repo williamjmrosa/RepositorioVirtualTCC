@@ -188,8 +188,8 @@ function gerarImagem($caminho_pdf, $id)
                                     </select>
                                 </div>
                                 <div class="col-md-6">
-                                    <label for="tcc" class="form-label">TCC</label>
-                                    <input type="text" class="form-control" id="tcc" name="idTCC">
+                                    <!-- <label for="tcc" class="form-label">TCC</label> -->
+                                    <input type="hidden" class="form-control" id="tcc" name="idTCC">
                                 </div>
 
 
