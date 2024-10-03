@@ -145,7 +145,7 @@ if (isset($_SESSION['usuario'])) {
         </div>
 
     </div>
-    <div class="fundo-primario h-100">
+    <div class="fundo-primario">
         <!-- Inicio Conteudo -->
         
             <div class="d-flex flex-column align-items-center h-100">
