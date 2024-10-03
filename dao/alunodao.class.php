@@ -30,7 +30,7 @@ class AlunoDAO{
     }
 
     //Cadastrar Aluno
-    public function cadastrarAluno(Aluno $aluno){
+    public function cadastrarAluno($aluno){
         try{
 
             $EndDAO = new EnderecoDAO();
@@ -87,7 +87,8 @@ class AlunoDAO{
             if($todos){
                 $stat = $this->conexao->prepare("select * from aluno where nome like ?");
             }else{
-                $stat = $this->conexao->prepare("select * from aluno where ativo is null and nome like ?");
+                $stat = $this->conexao->prepare("select * from aluno where ativo is null and nome like ? or matricula like ?");
+                $stat->bindValue(2, $nome."%");
             }
 
             $stat->bindValue(1, $nome."%");
@@ -152,7 +153,7 @@ class AlunoDAO{
     }
 
     // Alterar Aluno por ADM/Bibliotecario
-    public function alterarAlunoADM(Aluno $aluno){
+    public function alterarAlunoADM($aluno){
         try{
 
             $sql = 'update aluno set';

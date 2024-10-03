@@ -110,7 +110,7 @@ if(isset($_SESSION['usuario'])) {
         </div>
         <div class="col-lg-12">
           <label for="autor" class="form-label">Autor TCC</label>
-          <input type="text" class="form-control mb-2" id="buscaAluno" placeholder="Busca Autor (Nome Aluno)">
+          <input type="text" class="form-control mb-2" id="buscaAluno" placeholder="Busca Autor (Nome Aluno/matricula)">
           <select class="form-select" id="autor" name="autor" size="4">
             <?php
             $alunoDAO = new AlunoDAO();
