@@ -28,7 +28,7 @@ class ProfessorDAO{
     }
 
     //Cadastrar Professor
-    public function cadastrarProfessor(Professor $professor){
+    public function cadastrarProfessor($professor){
         try{
 
             $EndDAO = new EnderecoDAO();
@@ -82,7 +82,8 @@ class ProfessorDAO{
             if($todos){
                 $stat = $this->conexao->prepare("Select * from professor where nome like ?");
             }else{
-                $stat = $this->conexao->prepare("Select * from professor where nome like ? and ativo is null");
+                $stat = $this->conexao->prepare("Select * from professor where ativo is null and nome like ? or matricula like ?");
+                $stat->bindValue(2, $nome."%");
             }
 
             $stat->bindValue(1, $nome."%");
@@ -136,7 +137,7 @@ class ProfessorDAO{
     }
 
     //Alterar Professor por ADM/Bibliotecario
-    public function alterarProfessorADM(Professor $professor){
+    public function alterarProfessorADM($professor){
         try{
             $sql = 'update professor set';
             $params = array();
