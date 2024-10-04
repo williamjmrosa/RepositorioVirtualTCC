@@ -137,7 +137,7 @@ if(isset($_SESSION['usuario'])) {
         </div>
         <div class="col-lg-6" id="divListaOrientador">
           <label for="listaOrientador" class="form-label">Orientador</label>
-          <input type="text" class="form-control" id="buscaOrientador" placeholder="Busca Orientador (Nome Professor)">
+          <input type="text" class="form-control" id="buscaOrientador" placeholder="Busca Orientador (Nome Professor/matricula)">
           <select class="form-select mt-2" id="listaOrientador" size="4">
             <?php
             $professorDAO = new ProfessorDAO();
