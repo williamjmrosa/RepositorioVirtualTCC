@@ -92,7 +92,8 @@ function gerarImagem($caminho_pdf, $id)
             <div class="col-3 h-100 fundo-secundario border-end rounded-start-5 border border-dark border-4">
                 <!-- Lista de TCC indicados -->
                 <div class="m-2 text-center fw-bold mt-3">
-                    <div id="divTipo">
+                    <?php ?>
+                    <div id="divTipo" <?php if ($tipo == "Visitante" ) {echo 'class="d-none"';}?> >
                         <div class="form-check form-check-inline">
                             <label class="form-check-label" for="checkFavorito">Favoritos</label>
                             <input class="form-check-input" type="radio" id="checkFavorito" name="checkTipo" value="favorito">
@@ -102,6 +103,11 @@ function gerarImagem($caminho_pdf, $id)
                             <input class="form-check-input" type="radio" id="checkIndicado" name="checkTipo" value="indicado">
                         </div>
                     </div>
+                    <?php
+                    if ($tipo == "Visitante") {
+                        echo '<h5 class="m-2">Favoritos</h5>';
+                    }
+                    ?>
                     <div class="mb-3 pe-3 text-start" id="divCampus">
                         
                     </div>
