@@ -72,7 +72,7 @@ if (isset($_SESSION['usuario']) && isset($_GET['tipoCheck'])) {
                     $professores = $iDAO->listarProfessores($user->campus, $user->curso);
                     divProfessores($professores);
                 }elseif ($div == 'divTCC'){
-                    $tccs = $iDAO->listarIndicacoes($idInstituicao, $idCurso, $idProfessor);
+                    $tccs = $iDAO->listarIndicacoes($user->campus, $user->curso, $idProfessor);
                     divTCCs($tccs);
                 }elseif($div == 'divTCCIndicadoParaAluno'){
                     $tccs = $iDAO->listarTCCsIndicadosParaAluno($user->matricula);
