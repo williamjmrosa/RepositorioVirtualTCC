@@ -229,7 +229,7 @@ function gerarImagem($caminho_pdf, $id)
 
                     if ($paginaAtual > 1) {
                         echo "<li class='page-item'><a id='anterior' class='page-link' href='?pagina=" . ($paginaAtual - 1) . "'>Anterior</a></li>";
-                    } elseif ($paginaAtual == 1) {
+                    } elseif ($paginaAtual == 1 && $totalPaginas > 1) {
                         echo "<li class='page-item disabled'><a class='page-link' href='?pagina=" . ($paginaAtual - 1) . "'>Anterior</a></li>";
                     }
                     for ($i = 1; $i <= $totalPaginas; $i++) {

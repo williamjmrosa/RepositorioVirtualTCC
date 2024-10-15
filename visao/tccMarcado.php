@@ -15,7 +15,7 @@ if (isset($_SESSION['usuario'])) {
     $user = unserialize($_SESSION['usuario']);
     $tipo = get_class($user);
 } else {
-    $erros[] = "Voce precisa estar logado para acessar favoritos/indicados";
+    $erros[] = "Você precisa estar logado para acessar favoritos/indicados";
     $_SESSION['erros'] = $erros;
     header('location:../index.php');
 }
