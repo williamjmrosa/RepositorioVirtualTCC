@@ -461,7 +461,7 @@ if(isset($_GET['OP'])){
                 $categorias = null;
             }
 
-            if(isset($_POST['orientador'])){
+            if(isset($_POST['orientador']) && !empty($_POST['orientador'])){
                 $filtros['orientador'] = $orientador = filter_var($_POST['orientador'], FILTER_SANITIZE_SPECIAL_CHARS);
             }else{
                 $orientador = null;
@@ -479,13 +479,13 @@ if(isset($_GET['OP'])){
                 $campus = null;
             }
 
-            if(isset($_POST['autor'])){
+            if(isset($_POST['autor']) && !empty($_POST['autor'])){
                 $filtros['autor'] = $autor = filter_var($_POST['autor'], FILTER_SANITIZE_SPECIAL_CHARS);
             }else{
                 $autor = null;
             }
 
-            if(isset($_POST['titulo'])){
+            if(isset($_POST['titulo']) && !empty($_POST['titulo'])){
                 $filtros['titulo'] = $titulo = filter_var($_POST['titulo'],FILTER_SANITIZE_SPECIAL_CHARS);
             }else{
                 $titulo = null;
