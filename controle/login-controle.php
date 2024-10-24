@@ -45,7 +45,7 @@ function login() {
                     header('Location: ../visao/index.php');
                     break;
                 }else{
-                    $_SESSION['erro'] = "Email ou senha inválidos!";
+                    $_SESSION['erro'] = "Matricula/Email ou senha inválidos!";
                 }
             }else{
                 $_SESSION['erro'] = "Preencha todos os campos!";
@@ -67,7 +67,7 @@ function login() {
                     header('Location: ../visao/index.php');
                     break;
                 }else{
-                    $_SESSION['erro'] = "Email ou senha inválidos!";
+                    $_SESSION['erro'] = "Matricula/Email ou senha inválidos!";
                 }
             }else{
                 $_SESSION['erro'] = "Preencha todos os campos!";
