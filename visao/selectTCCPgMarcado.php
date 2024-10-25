@@ -181,7 +181,7 @@ function divCursos($cursos)
 function divTCCs($tccs, $tipo = null){?>
     <label class="form-label-inline" for="tcc">TCC</label>
     <select class="form-select" name="tcc" id="tcc" size="4">
-        <option selected>Selecione um TCC</option>
+        <option selected><?php echo count($tccs) < 1 ? "Nenhum TCC" : "Selecione um TCC"; ?></option>
         <?php
         foreach ($tccs as $tcc) {
             echo "<option value='$tcc->idTCC' onclick='verTCC(this)'>$tcc->titulo</option>";
