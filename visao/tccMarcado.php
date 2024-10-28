@@ -173,7 +173,7 @@ function gerarImagem($caminho_pdf, $id)
                                     <label for="instituicao" class="form-label">Instituuição</label>
                                     <input class="form-control" type="text" id="searchInputInstituicao" placeholder="Buscar Instituição">
                                     <select class="form-select" name="instituicao" id="instituicao" size="3">
-                                        <option selected>Selecione uma Instituuição</option>
+                                        <option value="null" selected>Selecione uma Instituuição</option>
                                         <!-- Lista de Instituições -->
                                         <?php
                                         $campusDAO = new CampusDAO();
@@ -188,7 +188,7 @@ function gerarImagem($caminho_pdf, $id)
                                     <label for="curso">Curso</label>
                                     <input type="text" class="form-control" id="searchInputCurso" placeholder="Buscar Cursos">
                                     <select class="form-select" name="curso" id="curso" size="3">
-                                        <option selected>Selecione um curso</option>
+                                        <option value="null" selected>Selecione um curso</option>
                                         <!-- Lista de Cursos -->
                                         <!-- Carregado ao carregar a tela via JS -->
                                     </select>
@@ -197,7 +197,7 @@ function gerarImagem($caminho_pdf, $id)
                                     <label for="alunos" class="form-label">Indicar para Aluno</label>
                                     <input type="text" class="form-control" id="searchInputAluno" placeholder="Buscar Alunos">
                                     <select class="form-select" name="alunos" id="alunos" size="3">
-                                        <option selected>Selecione um Aluno</option>
+                                        <option value="null" selected>Selecione um Aluno</option>
                                         <!-- Lista de Alunos -->
                                         <!-- Carregado ao carregar a tela via JS -->
                                     </select>
