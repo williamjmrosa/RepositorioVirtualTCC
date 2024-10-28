@@ -45,16 +45,16 @@ if(isset($_GET['OP']) && isset($_SESSION['usuario'])){
                 $erro[] = "Erro $tipo não pode indicar!";
             }
             
-            if(isset($_POST['instituicao']) && !empty($_POST['instituicao']) && is_null($_POST['instituicao'])){
+            if(isset($_POST['instituicao']) && !empty($_POST['instituicao'])){
                 $instituicao = filter_var($_POST['instituicao'], FILTER_SANITIZE_NUMBER_INT);
             }else{
                 $erro[] = "Erro instituicao em branco!";
             }
 
-            if(isset($_POST['curso']) && !empty($_POST['curso']) && is_null($_POST['curso'])){
+            if(isset($_POST['curso']) && !empty($_POST['curso']) && $_POST['curso'] != null){
                 $curso = filter_var($_POST['curso'], FILTER_SANITIZE_NUMBER_INT);
             }else{
-                $erro[] = "Erro cargo em branco!";
+                $erro[] = "Erro curso em branco!";
             }
 
             if(isset($_POST['aluno'])){
