@@ -22,12 +22,17 @@ class IndicacaoDAO{
                     
                     $idIndicacao = $this->idIndicacao($idTCC, $idUsuario, $instituicao, $curso);
 
-                    if($this->cadastrarIndicacaoAluno($idIndicacao, $idAlunos)){
+                    $retorno = $this->cadastrarIndicacaoAluno($idIndicacao, $idAlunos);
+                    
+                    if($retorno == "true"){
                         echo json_encode("Indicação já estavá cadastrada!!\nAluno(s) indicado(s) com sucesso!!");
+                        return true;
+                    }else if($retorno == "parcial"){
+                        echo json_encode("Indicação já estavá cadastrada!!\nAluno(s) indicado(s) com sucesso!!, mas alguns alunos já foram indicados!!");
                         return true;
                     }else{
                         $erros = array();
-                        $erros[] = "Erro ao cadastrar Indicação para Aluno(s)!!";
+                        $erros[] = "Erro Aluno(s) já Indicado(s)!!";
                         $resposta['erros'] = $erros;
                         echo json_encode($resposta);
                         return false;
@@ -75,6 +80,7 @@ class IndicacaoDAO{
     // Cadastrar Indicação para um Aluno
     public function cadastrarIndicacaoAluno($idIndicacao, $idAlunos){
         try{
+            $repetido = 0;
             foreach ($idAlunos as $aluno) {
                 
                 if(!$this->foiIndicadoAluno($idIndicacao, $aluno)){
@@ -83,10 +89,18 @@ class IndicacaoDAO{
                     $stat->bindValue(1,$idIndicacao);
                     $stat->bindValue(2,$aluno);
                     $stat->execute();
+                }else{
+                    $repetido = $repetido + 1;
                 }
             }
-
-            return true;
+            
+            if($repetido == count($idAlunos)){
+                return "false";
+            }else if($repetido > 0 && $repetido < count($idAlunos)){
+                return "parcial";
+            }else{
+                return "true";
+            }
         }catch(PDOException $ex){
             //echo $ex->getMessage();
             return false;
