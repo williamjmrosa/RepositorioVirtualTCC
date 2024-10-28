@@ -48,13 +48,13 @@ if(isset($_GET['OP']) && isset($_SESSION['usuario'])){
             if(isset($_POST['instituicao']) && !empty($_POST['instituicao'])){
                 $instituicao = filter_var($_POST['instituicao'], FILTER_SANITIZE_NUMBER_INT);
             }else{
-                $erro[] = "Erro instituicao em branco!";
+                $erro[] = "Erro instituicao não selecionada!";
             }
 
             if(isset($_POST['curso']) && !empty($_POST['curso']) && $_POST['curso'] != null){
                 $curso = filter_var($_POST['curso'], FILTER_SANITIZE_NUMBER_INT);
             }else{
-                $erro[] = "Erro curso em branco!";
+                $erro[] = "Erro curso não selecionado!";
             }
 
             if(isset($_POST['aluno'])){
