@@ -197,7 +197,7 @@ function gerarImagem($caminho_pdf, $id)
                                     <label for="alunos" class="form-label">Indicar para Aluno</label>
                                     <input type="text" class="form-control" id="searchInputAluno" placeholder="Buscar Alunos">
                                     <select class="form-select" name="alunos" id="alunos" size="3">
-                                        <option value="null" selected>Selecione um Aluno</option>
+                                        <option value="" selected>Selecione um Aluno</option>
                                         <!-- Lista de Alunos -->
                                         <!-- Carregado ao carregar a tela via JS -->
                                     </select>

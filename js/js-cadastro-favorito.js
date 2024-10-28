@@ -91,7 +91,7 @@ function SalvarIndicar(){
 function carregarCursos(btn){
     var option = $(btn);
     $("#curso").load("../visao/selecteCurso.php?ID="+option.attr("value"),function(){
-        $("#curso").prepend("<option selected selected>Selecione o curso</option>");
+        $("#curso").prepend("<option value='' selected>Selecione o curso</option>");
     });
     idInstituicao = option.attr("value");
     idCurso = null;

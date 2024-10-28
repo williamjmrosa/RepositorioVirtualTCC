@@ -8,7 +8,7 @@ function mostrarAlunos($alunos){
               echo '<option value="' . $aluno->matricula . '">' . $aluno->nome . '</option>';
          }
     }else{
-        echo '<option value="0">Nenhum Aluno encontrado</option>';
+        echo '<option value="">Nenhum Aluno encontrado</option>';
     }
 }
 

@@ -289,7 +289,7 @@ function gerarImagem($caminho_pdf, $id)
                                     <label for="instituicao" class="form-label">Instituuição</label>
                                     <input class="form-control" type="text" id="searchInputInstituicao" placeholder="Buscar Instituição">
                                     <select class="form-select" name="instituicao" id="instituicao" size="3">
-                                        <option value="null" selected>Selecione uma Instituuição</option>
+                                        <option value="" selected>Selecione uma Instituuição</option>
                                         <!-- Lista de Instituições -->
                                         <?php
                                         $campusDAO = new CampusDAO();

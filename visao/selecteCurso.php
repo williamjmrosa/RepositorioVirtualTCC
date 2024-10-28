@@ -15,7 +15,7 @@ if(isset($_GET['ID'])){
       
         }
     }else{
-        echo "<option value='0'>Nenhum Campus cadastrado</option>";
+        echo "<option value=''>Nenhum Campus cadastrado</option>";
     }
 }
 
