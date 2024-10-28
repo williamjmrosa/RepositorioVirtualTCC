@@ -213,6 +213,9 @@ if(isset($_SESSION['usuario'])) {
                 if(!Validacao::validarEmail($email)){
                     $erros[] = 'E-mail inválido!';
                 }
+                if(ProfessorDAO::verificarEmail($email) && $email != $user->email){
+                    $erros[] = 'E-mail já cadastrado!';
+                }
             }
 
             if(!isset($_POST['senha'])){
@@ -287,22 +290,6 @@ if(isset($_SESSION['usuario'])) {
                 $erros[] = 'Campo Numero em branco!';
             } else {
                 $numero = filter_var($_POST['numero'], FILTER_SANITIZE_NUMBER_INT);
-            }
-
-            if(!isset($_POST['campus'])){
-                $erros[] = 'Campo Campus não existe!';
-            }elseif($_POST['campus'] == "0"){
-                $erros[] = 'Nenhum Campus selecionado!';
-            }else{
-                $campus = filter_var($_POST['campus'], FILTER_SANITIZE_NUMBER_INT);
-            }
-
-            if(!isset($_POST['curso'])){
-                $erros[] = 'Campo Curso não existe!';
-            }elseif($_POST['curso'] == "0"){
-                $erros[] = 'Nenhum Curso selecionado!';
-            }else{
-                $curso = filter_var($_POST['curso'], FILTER_SANITIZE_NUMBER_INT);
             }
 
             if(count($erros) == 0){
