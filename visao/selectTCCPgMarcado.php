@@ -91,7 +91,7 @@ if (isset($_SESSION['usuario']) && isset($_GET['tipoCheck'])) {
                     $instituicoes = $iDAO->listarCampus($idInstituicao, $idCurso, $user->matricula);
                     divCampus($instituicoes);
                 }elseif($div == 'divTCCIndicadoParaAluno' && $matricula != null){
-                    $tccs = $iDAO->listarTCCsIndicadosParaAluno($matricula);
+                    $tccs = $iDAO->listarTCCsIndicadosParaAluno($matricula, $user->matricula);
                     divIndicadoParaAlunos($tccs, $tipo);  
                 }elseif($div == 'divListarAlunoIndicado'){
                     $alunos = $iDAO->listarAlunosIndicados($user->matricula);
@@ -156,7 +156,7 @@ function divCampus($instituicoes)
 { ?>
     <label class="form-label-inline" for="inst">Instituição</label>
     <select class="form-select" name="inst" id="inst" onchange="atualizarDivInstituicao(this)">
-        <option value="null" selected>Selecione uma instituição</option>
+        <option value="null" selected><?php echo count($instituicoes) < 1 ? "Nenhuma instituição" : "Selecione uma instituição";?></option>
         <?php
         foreach ($instituicoes as $instituicao) {
             echo "<option value='$instituicao->idCampus'>$instituicao->nome</option>";
@@ -169,7 +169,7 @@ function divCursos($cursos)
 { ?>
     <label class="form-label-inline" for="cur">Curso</label>
     <select class="form-select" name="cur" id="cur" onchange="atualizarDivCurso(this)">
-        <option value="null" selected>Selecione um curso</option>
+        <option value="null" selected><?php echo count($cursos) < 1 ? "Nenhum Curso" : "Selecione um Curso";?></option>
         <?php
         foreach ($cursos as $curso) {
             echo "<option value='$curso->idCurso'>$curso->nome</option>";
@@ -201,7 +201,7 @@ function divIndicadoParaAlunos($tccs, $tipo = null){
         <label class="form-label-inline" for="tccIndicadoAluno">TCC(s) Indicados para alunos</label>
 <?php } ?>
         <select class="form-select" name="tccIndicadoMim" id="tccIndicadoMim" size="3" onchange="gerarIdIndicaAluno(this)">
-            <option selected>Selecione um TCC</option>
+            <option selected><?php echo count($tccs) < 1 ? "Nenhum TCC" : "Selecione um TCC"; ?></option>
             <?php
             foreach ($tccs as $tcc) {
                 $titulo = $tcc['titulo'];
@@ -223,7 +223,7 @@ function divListarAlunoIndicados($alunos){
     ?>
     <label for="tccIndicadoAluno">TCC(s) Alunos que recebeu indicação</label>
     <select class="form-select" name="tccIndicadoAluno" id="tccIndicadoAluno" onchange="atualizarDivTCCIndicadoParaAluno(this)">
-        <option selected>Selecione um Aluno</option>
+        <option selected><?php echo count($alunos) < 1 ? "Nenhum Aluno" : "Selecione um Aluno";?></option>
         <?php
         foreach ($alunos as $aluno) {
             echo "<option value='$aluno->matricula'>$aluno->nome</option>";

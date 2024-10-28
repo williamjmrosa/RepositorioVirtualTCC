@@ -192,15 +192,23 @@ class IndicacaoDAO{
 
     }
 
-    public function listarTCCsIndicadosParaAluno($matricula){
+    public function listarTCCsIndicadosParaAluno($matricula, $matriculaProfessor = null){
         try{
             //$sql = "SELECT t.idTCC, t.titulo, i.idIndicacao FROM tcc as t INNER JOIN indicacao as i ON i.idTCC = t.idTCC WHERE i.idIndicacao in (SELECT idIndicacao FROM indica_para_aluno WHERE matricula = ?)";
 
             $sql = "SELECT t.idTCC, t.titulo, ia.idIndicaAluno FROM tcc as t INNER JOIN indicacao as i ON i.idTCC = t.idTCC INNER JOIN indica_para_aluno as ia ON i.idIndicacao = ia.idIndicacao WHERE ia.matricula = ?";
 
+            if($matriculaProfessor != null){
+                $sql = $sql . " AND i.matricula = ?";
+            }
+
             $stat = $this->conexao->prepare($sql);
 
             $stat->bindValue(1,$matricula);
+
+            if($matriculaProfessor != null){
+                $stat->bindValue(2,$matriculaProfessor);
+            }
             
             $stat->execute();
 
