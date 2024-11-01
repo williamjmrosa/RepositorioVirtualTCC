@@ -50,7 +50,7 @@ if(isset($_GET['OP'])){
             }else{
                 $senha = filter_var($_POST['senha'],FILTER_SANITIZE_SPECIAL_CHARS);
                 if(!Validacao::validarSenha($senha)){
-                    $erros[] = 'Senha inválida!';
+                    $erros[] = "Senha inválida! (Min 6 caracteres Max 20, deve conter, uma letra maiúscula, uma letra minuscula, um número e um caractere especial)";
                 }
             }
 
@@ -120,7 +120,7 @@ if(isset($_GET['OP'])){
             }else{
                 $senha = filter_var($_POST['senha'],FILTER_SANITIZE_SPECIAL_CHARS);
                 if(!Validacao::validarSenha($senha) && $senha != ""){
-                    $erros[] = 'Senha inválida!';
+                    $erros[] = 'Senha inválida! (Min 6 caracteres Max 20, deve conter, uma letra maiúscula, uma letra minuscula, um número e um caractere especial)';
                 }
             }
 
