@@ -23,7 +23,7 @@ if(isset($_GET['OP'])){
                     $erros[] = 'Nome inválido!';
                 }
                 if(!Validacao::validarTamanho($nome,60)){
-                    $erros[] = 'Nome muito grande! (max. 60 caracteres)';
+                    $erros[] = 'Nome muito extenso! (max. 60 caracteres)';
                 }
             }
 
@@ -111,7 +111,7 @@ if(isset($_GET['OP'])){
                     $erros[] = 'Nome inválido!';
                 }
                 if(!Validacao::validarTamanho($nome,60)){
-                    $erros[] = 'Nome muito grande! (max. 60 caracteres)';
+                    $erros[] = 'Nome muito extenso! (max. 60 caracteres)';
                 }
             }
 

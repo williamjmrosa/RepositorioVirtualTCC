@@ -51,6 +51,9 @@ if(isset($_SESSION['usuario'])) {
                 if(!Validacao::validarNome($nome)){
                     $erros[] = 'Nome inválido!';
                 }
+                if(!Validacao::validarTamanho($nome,60)){
+                    $erros[] = 'Nome muito extenso! (max. 60 caracteres)';
+                }
             }
 
             if(!isset($_POST['email'])){
@@ -201,6 +204,9 @@ if(isset($_SESSION['usuario'])) {
                 $nome = filter_var($_POST['nome'],FILTER_SANITIZE_SPECIAL_CHARS);
                 if(!Validacao::validarNome($nome)){
                     $erros[] = 'Nome inválido!';
+                }
+                if(!Validacao::validarTamanho($nome,60)){
+                    $erros[] = 'Nome muito extenso! (max. 60 caracteres)';
                 }
             }
 
@@ -361,6 +367,9 @@ if(isset($_SESSION['usuario'])) {
                 if(!Validacao::validarNome($nome)){
                     $erros[] = 'Nome inválido!';
                 }
+                if(!Validacao::validarTamanho($nome,60)){
+                    $erros[] = 'Nome muito extenso! (max. 60 caracteres)';
+                }
             }
 
             if(!isset($_POST['senha'])){
@@ -425,6 +434,9 @@ if(isset($_SESSION['usuario'])) {
                 $nome = filter_var($_POST['nome'],FILTER_SANITIZE_SPECIAL_CHARS);
                 if(!Validacao::validarNome($nome)){
                     $erros[] = 'Nome inválido!';
+                }
+                if(!Validacao::validarTamanho($nome,60)){
+                    $erros[] = 'Nome muito extenso! (max. 60 caracteres)';
                 }
             }
 
@@ -491,6 +503,9 @@ if(isset($_SESSION['usuario'])) {
                 $nome = filter_var($_POST['nome'],FILTER_SANITIZE_SPECIAL_CHARS);
                 if(!Validacao::validarNome($nome)){
                     $erros[] = 'Nome inválido!';
+                }
+                if(!Validacao::validarTamanho($nome,60)){
+                    $erros[] = 'Nome muito extenso! (max. 60 caracteres)';
                 }
             }
 

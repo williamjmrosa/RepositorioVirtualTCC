@@ -256,6 +256,9 @@ if(isset($_GET['OP']) && isset($_SESSION['usuario'])) {
                     if(!Validacao::validarNome($nome)){
                         $erros[] = 'Nome inválido!';
                     }
+                    if(!Validacao::validarTamanho($nome,60)){
+                        $erros[] = 'Nome muito extenso! (max. 60 caracteres)';
+                    }
                 }
 
                 if(!isset($_POST['email'])){
