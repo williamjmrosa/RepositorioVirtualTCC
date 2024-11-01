@@ -42,9 +42,13 @@ Class Validacao{
     }
 
     //Função que valida senha
-    public static function validarSenha($v){
-        $exp ='/^.{6,25}$/';
-        return preg_match($exp, $v);
+    public static function validarSenha($senha) {
+        $pattern = '/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{6,20}$/';
+        if (preg_match($pattern, $senha)) {
+            return true;
+        } else {
+            return false;
+        }
     }
 
     //Função que valida email
