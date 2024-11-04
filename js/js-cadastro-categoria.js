@@ -63,7 +63,7 @@ function alterarNome(event,btn){
             var alerta = "<div class='alert alert-success alert-dismissible fade show' role='alert'>"+response.msg+"<button type='button' class='btn-close' data-bs-dismiss='alert' aria-label='Close'></button></div>";
         }else{
             //Gera alerta de erro de atualização do nome
-            var texto = "<p>Erros: </p>";
+            var texto = "Erro: ";
             response.forEach(function(erro){
                 texto += "<p>" + erro + "</p>";
             });

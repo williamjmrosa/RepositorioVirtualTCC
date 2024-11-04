@@ -37,6 +37,8 @@ if (isset($_GET['OP']) && isset($_SESSION['usuario'])) {
                     $nome = filter_var($_POST['nomeCategoria'], FILTER_SANITIZE_SPECIAL_CHARS);
                     if(!Validacao::validarTamanho($nome,60)){
                         $erros[] = 'Nome categoria muito grande (max. 60 caracteres)';
+                    }elseif(!Validacao::validarCategoria($nome)){
+                        $erros[] = 'Nome categoria inválido';
                     }
                 }
 
@@ -47,6 +49,9 @@ if (isset($_GET['OP']) && isset($_SESSION['usuario'])) {
                             if(!Validacao::validarCategoria($v)){
                                 $erros[] = 'Nome alternativo inválido';
                                 break;
+                            }else if (!Validacao::validarTamanho($v,60)){
+                                $erros[] = 'Nome alternativo muito grande (max. 60 caracteres)'
+                                ;break;
                             }else{
                                 $nomeAlternativo[] = filter_var($v, FILTER_SANITIZE_SPECIAL_CHARS);
                             }
@@ -119,12 +124,14 @@ if (isset($_GET['OP']) && isset($_SESSION['usuario'])) {
 
                 if(!isset($_POST['nomeCategoria'])){
                     $erros[] = 'Campo nome não existe';
-                }elseif(empty($_POST['nomeCategoria'])){
+                }elseif(empty($_POST['nomeCategoria'])) {
                     $erros[] = 'Campo nome em branco';
                 }else{
                     $nome = filter_var($_POST['nomeCategoria'], FILTER_SANITIZE_SPECIAL_CHARS);
                     if(!Validacao::validarTamanho($nome,60)){
                         $erros[] = 'Nome categoria muito grande (max. 60 caracteres)';
+                    }elseif(!Validacao::validarCategoria($nome)){
+                        $erros[] = 'Nome categoria inválido';
                     }
                 }
 
@@ -133,8 +140,11 @@ if (isset($_GET['OP']) && isset($_SESSION['usuario'])) {
                     foreach($_POST['nomeAlternativo'] as $v) {
                         if(!empty($v)){
                             if(!Validacao::validarCategoria($v)){
-                                $erros[] = 'Nome alternativo inválido';        
+                                $erros[] = 'Nome alternativo inválido';
                                 break;
+                            }else if (!Validacao::validarTamanho($v,60)){
+                                $erros[] = 'Nome alternativo muito grande (max. 60 caracteres)'
+                                ;break;
                             }else{
                                 $nomeAlternativo[] = filter_var($v, FILTER_SANITIZE_SPECIAL_CHARS);
                             }
@@ -201,13 +211,16 @@ if (isset($_GET['OP']) && isset($_SESSION['usuario'])) {
                 }
 
                 if(!isset($_POST['nomeAlternativo'])){
-                    $erros[] = 'Campo nomeAlternativo não existe';
+                    $erros[] = 'Campo nome Alternativo não existe';
                 }elseif(empty($_POST['nomeAlternativo'])){
-                    $erros[] = 'Campo nomeAlternativo em branco';
+                    $erros[] = 'Campo nome Alternativo em branco';
                 }else{
                     $nomeAlternativo = filter_var($_POST['nomeAlternativo'], FILTER_SANITIZE_SPECIAL_CHARS);
                     if(!Validacao::validarTamanho($nomeAlternativo,60)){
                         $erros[] = 'Nome alternativo muito grande (max. 60 caracteres)';
+                    }
+                    elseif(!Validacao::validarCategoria($nomeAlternativo)){
+                        $erros[] = 'Nome alternativo inválido';
                     }
                     
                 }
@@ -302,4 +315,8 @@ if (isset($_GET['OP']) && isset($_SESSION['usuario'])) {
         default:
             break;
     }
+}else{
+    $erros[] = "Deve estar logado";
+    $_SESSION['erros'] = serialize($erros);
+    header('Location: ../visao/telaLogin.php');
 }

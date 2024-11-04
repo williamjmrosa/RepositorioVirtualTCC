@@ -56,7 +56,7 @@ function preencherForm(option, event) {
 			$('#nome').val(campus.nome);
 			$("#cursosCadastrados").empty();
 			campus.cursos.forEach(curso => {
-				$('#cursosCadastrados').append('<div class="row g-3"><div class="col-auto"><label class="form-label">Curso: </label></div><div class="col-auto"><input class="form-control" disabled type="text" value="'+curso.nome+'"/> </div><div class="col-auto"> <a href="../controle/campus-controle.php?OP=4&idCurso='+curso.idCurso+'&idCampus='+campus.idCampus+'" class="btn btn-danger ms-1"> Remover </a></div></div>');
+				$('#cursosCadastrados').append('<div class="row g-3"><div class="col-auto"><label class="form-label">Curso: </label></div><div class="col-8"><input class="form-control" disabled type="text" value="'+curso.nome+'"/> </div><div class="col-auto"> <a href="../controle/campus-controle.php?OP=4&idCurso='+curso.idCurso+'&idCampus='+campus.idCampus+'" class="btn btn-danger ms-1"> Remover </a></div></div>');
 
 				$("select[name=lista]").find("option[value="+curso.idCurso+"]").remove();
 
