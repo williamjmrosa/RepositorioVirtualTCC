@@ -108,7 +108,7 @@ if(isset($_SESSION['usuario'])) {
           <i class="bi bi-eye-fill" id="btn-senha" onclick="mostrarSenha(this)"></i>
         </div>
         <div class="col-lg-6">
-          <label for="rg" class="form-label">RG</label>
+          <label for="rg" class="form-label">RG (Opcional)</label>
           <input type="text" class="form-control" id="rg" name="rg" placeholder="RG">
         </div>
         <div class="col-lg-6">
@@ -175,7 +175,7 @@ if(isset($_SESSION['usuario'])) {
     </div>
     <div class="row g-3 m-4 cadastro w-auto">
       <div class="col-12">
-        <h3>Categorias Cadastradas</h3>
+        <h3>Alunos Cadastrados</h3>
       </div>
       <div class="col-12 row g-3">
         <div class="col-2">
