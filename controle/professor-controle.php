@@ -21,7 +21,7 @@ if(isset($_GET['OP']) && isset($_SESSION['usuario'])) {
         case 1:
             $erros = array();
 
-            if($tipo != 'Adm' && $tipo != 'Bibliotecário'){
+            if($tipo != 'Adm' && $tipo != 'Bibliotecario'){
                 $erros[] = 'Efetue o Login como Adm ou Bibliotecário para realizar esta operação no sistema!';
                 $_SESSION['erros'] = serialize($erros);
                 header('Location: ../index.php');
@@ -80,13 +80,10 @@ if(isset($_GET['OP']) && isset($_SESSION['usuario'])) {
 
             if(!isset($_POST['rg'])) {
                 $erros[] = 'Campo RG não existe!';
-            }elseif($_POST['rg'] == "") {
-                $erros[] = 'Campo RG em branco!';
+            }else if(!Validacao::validarRG($_POST['rg']) && $_POST['rg'] != ""){
+                $erros[] = 'RG inválido!';
             }else{
                 $rg = filter_var($_POST['rg'], FILTER_SANITIZE_SPECIAL_CHARS);
-                if(!Validacao::validarRG($rg)){
-                    $erros[] = 'RG inválido!';
-                }
             }
 
             if(!isset($_POST['telefone'])) {
@@ -106,6 +103,9 @@ if(isset($_GET['OP']) && isset($_SESSION['usuario'])) {
                 $erros[] = 'Campo CEP em branco!';
             }else{
                 $cep = filter_var($_POST['cep'], FILTER_SANITIZE_NUMBER_INT);
+                if(!Validacao::validarTamanho($cep,15)){
+                    $erros[] = 'CEP inválido! (max. 15 caracteres)';
+                }
             }
 
             if(!isset($_POST['bairro'])) {
@@ -114,6 +114,9 @@ if(isset($_GET['OP']) && isset($_SESSION['usuario'])) {
                 $erros[] = 'Campo Bairro em branco!';
             }else{
                 $bairro = filter_var($_POST['bairro'], FILTER_SANITIZE_SPECIAL_CHARS);
+                if(!Validacao::validarTamanho($bairro,60)){
+                    $erros[] = 'Bairro muito extenso! (max. 60 caracteres)';
+                }
             }
 
             if(!isset($_POST['cidade'])) {
@@ -122,6 +125,9 @@ if(isset($_GET['OP']) && isset($_SESSION['usuario'])) {
                 $erros[] = 'Campo Cidade em branco!';
             }else{
                 $cidade = filter_var($_POST['cidade'], FILTER_SANITIZE_SPECIAL_CHARS);
+                if(!Validacao::validarTamanho($cidade,60)){
+                    $erros[] = 'Cidade muito extenso! (max. 60 caracteres)';
+                }
             }
 
             if(!isset($_POST['uf'])) {
@@ -130,6 +136,9 @@ if(isset($_GET['OP']) && isset($_SESSION['usuario'])) {
                 $erros[] = 'Campo UF em branco!';
             }else{
                 $uf = filter_var($_POST['uf'], FILTER_SANITIZE_SPECIAL_CHARS);
+                if(!Validacao::validarTamanho($uf,2)){
+                    $erros[] = 'UF muito extenso! (max. 2 caracteres)';
+                }
             }
 
             if(!isset($_POST['rua'])) {
@@ -138,6 +147,9 @@ if(isset($_GET['OP']) && isset($_SESSION['usuario'])) {
                 $erros[] = 'Campo Rua em branco!';
             }else{
                 $rua = filter_var($_POST['rua'], FILTER_SANITIZE_SPECIAL_CHARS);
+                if(!Validacao::validarTamanho($rua,50)){
+                    $erros[] = 'Campo Rua muito extenso! (max. 50 caracteres)';
+                }
             }
 
             if(!isset($_POST['numero'])) {
@@ -146,12 +158,18 @@ if(isset($_GET['OP']) && isset($_SESSION['usuario'])) {
                 $erros[] = 'Campo número em branco!';
             }else{
                 $numero = filter_var($_POST['numero'], FILTER_SANITIZE_NUMBER_INT);
+                if(!Validacao::validarTamanho($numero,8)){
+                    $erros[] = ' número inválido! (max. 8 caracteres)';
+                }
             }
 
             if(!isset($_POST['complemento'])) {
                 $erros[] = 'Campo Complemento não existe!';
             }else{
                 $complemento = filter_var($_POST['complemento'], FILTER_SANITIZE_SPECIAL_CHARS);
+                if(!Validacao::validarTamanho($complemento,60)){
+                    $erros[] = 'Complemento muito extenso! (max. 60 caracteres)';
+                }
             }
 
             if(count($erros) == 0){
@@ -252,9 +270,7 @@ if(isset($_GET['OP']) && isset($_SESSION['usuario'])) {
 
             if(!isset($_POST['rg'])) {
                 $erros[] = 'Campo RG não existe!';
-            }elseif($_POST['rg'] == "") {
-                $erros[] = 'Campo RG em branco!';
-            }elseif(!Validacao::validarRG($_POST['rg'])){
+            }else if(!Validacao::validarRG($_POST['rg']) && $_POST['rg'] != ""){
                 $erros[] = 'RG inválido!';
             }else{
                 $rg = filter_var($_POST['rg'], FILTER_SANITIZE_SPECIAL_CHARS);
@@ -286,6 +302,9 @@ if(isset($_GET['OP']) && isset($_SESSION['usuario'])) {
                 $erros[] = 'Campo Bairro em branco!';
             }else{
                 $bairro = filter_var($_POST['bairro'], FILTER_SANITIZE_SPECIAL_CHARS);
+                if(!Validacao::validarTamanho($bairro,60)){
+                    $erros[] = 'Bairro muito extenso! (max. 60 caracteres)';
+                }
             }
 
             if(!isset($_POST['cidade'])) {
@@ -294,6 +313,9 @@ if(isset($_GET['OP']) && isset($_SESSION['usuario'])) {
                 $erros[] = 'Campo Cidade em branco!';
             }else{
                 $cidade = filter_var($_POST['cidade'], FILTER_SANITIZE_SPECIAL_CHARS);
+                if(!Validacao::validarTamanho($cidade,60)){
+                    $erros[] = 'Cidade muito extenso! (max. 60 caracteres)';
+                }
             }
 
             if(!isset($_POST['uf'])){
@@ -302,6 +324,9 @@ if(isset($_GET['OP']) && isset($_SESSION['usuario'])) {
                 $erros[] = 'Campo UF em branco!';
             }else{
                 $uf = filter_var($_POST['uf'], FILTER_SANITIZE_SPECIAL_CHARS);
+                if(!Validacao::validarTamanho($uf,2)){
+                    $erros[] = 'UF muito extenso! (max. 2 caracteres)';
+                }
             }
 
             if(!isset($_POST['rua'])) {
@@ -310,6 +335,9 @@ if(isset($_GET['OP']) && isset($_SESSION['usuario'])) {
                 $erros[] = 'Campo Rua em branco!';
             }else{
                 $rua = filter_var($_POST['rua'], FILTER_SANITIZE_SPECIAL_CHARS);
+                if(!Validacao::validarTamanho($rua,50)){
+                    $erros[] = 'Campo Rua muito extenso! (max. 50 caracteres)';
+                }
             }
 
             if(!isset($_POST['cep'])) {
@@ -318,12 +346,18 @@ if(isset($_GET['OP']) && isset($_SESSION['usuario'])) {
                 $erros[] = 'Campo CEP em branco!';
             }else{
                 $cep = filter_var($_POST['cep'], FILTER_SANITIZE_SPECIAL_CHARS);
+                if(!Validacao::validarTamanho($cep,15)){
+                    $erros[] = 'CEP inválido! (max. 15 caracteres)';
+                }
             }
 
             if(!isset($_POST['complemento'])){
                 $erros[] = 'Campo Complemento não existe!';
             }else{
                 $complemento = filter_var($_POST['complemento'], FILTER_SANITIZE_SPECIAL_CHARS);
+                if(!Validacao::validarTamanho($complemento,60)){
+                    $erros[] = 'Complemento muito extenso! (max. 60 caracteres)';
+                }
             }
 
             if(!isset($_POST['numero'])){
@@ -332,6 +366,9 @@ if(isset($_GET['OP']) && isset($_SESSION['usuario'])) {
                 $erros[] = 'Campo Número em branco!';
             }else{
                 $numero = filter_var($_POST['numero'], FILTER_SANITIZE_NUMBER_INT);
+                if(!Validacao::validarTamanho($numero,8)){
+                    $erros[] = 'Número inválido! (max. 8 caracteres)';
+                }
             }
 
             if(count($erros) == 0){
