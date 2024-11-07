@@ -162,7 +162,7 @@ class AlunoDAO{
                 $sql .= ($sql == "update aluno set") ? " nome = :nome" : ", nome = :nome";
                 $params[':nome'] = $aluno->nome;
             }
-            if($aluno->rg != null){
+            if($aluno->rg != null || $aluno->rg == ""){
                 $sql.= ($sql == "update aluno set") ? " rg = :rg" : ", rg = :rg";
                 $params[':rg'] = $aluno->rg;
             }
