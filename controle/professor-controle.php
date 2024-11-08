@@ -252,7 +252,7 @@ if(isset($_GET['OP']) && isset($_SESSION['usuario'])) {
                     $erros[] = 'E-mail muito extenso! (max. 60 caracteres)';
                 }
                 $pDAO = new ProfessorDao();
-                if($pDAO->buscarProfessorPorMatricula($matricula)->email != $email){
+                if($pDAO->buscarProfessorPorMatricula($matricula,false)->email != $email){
                     if(ProfessorDAO::verificarEmail($email)){
                         $erros[] = 'E-mail já existe!';
                     }
