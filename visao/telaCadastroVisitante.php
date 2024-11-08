@@ -12,8 +12,9 @@ if(isset($_SESSION['usuario'])) {
 
   if($tipo != 'Adm' && $tipo != 'Bibliotecario'){
     $erros[] = "Efetue o login como Adm ou Bibliotecário para acessar tela de Cadastro Visitante!";
-    $_SESSION['erros'] = $erros;
+    $_SESSION['erros'] = serialize($erros);
     header('location:../visao/perfil.php');
+    exit();
   }
 
 }else{
