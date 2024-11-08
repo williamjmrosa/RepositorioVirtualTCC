@@ -145,7 +145,7 @@ class ProfessorDAO{
                 $sql .= ($sql == "update professor set") ? " nome = :nome" : ", nome = :nome";
                 $params[':nome'] = $professor->nome;
             }
-            if($professor->rg != null){
+            if($professor->rg != null || $professor->rg == ""){
                 $sql .= ($sql == "update professor set") ? " rg = :rg" : ", rg = :rg";
                 $params[':rg'] = $professor->rg;
             }
@@ -185,6 +185,52 @@ class ProfessorDAO{
 
         }catch(PDOException $ex){
             echo $ex->getMessage();
+            return false;
+        }
+    }
+
+    //Alterar Professor por Perfil
+    public function alterarProfessorPerfil($professor){
+        try{
+            $sql = 'update professor set';
+            $params = array();
+            if($professor->nome != null){
+                $sql .= ($sql == "update professor set") ? " nome = :nome" : ", nome = :nome";
+                $params[':nome'] = $professor->nome;
+            }
+            if($professor->telefone != null){
+                $sql .= ($sql == "update professor set") ? " telefone = :telefone" : ", telefone = :telefone";
+                $params[':telefone'] = $professor->telefone;
+            }
+            if($professor->email != null){
+                $sql .= ($sql == "update professor set") ? " email = :email" : ", email = :email";
+                $params[':email'] = $professor->email;
+            }
+            if($professor->senha != null){
+                $sql .= ($sql == "update professor set") ? " senha = :senha" : ", senha = :senha";
+                $params[':senha'] = $professor->senha;
+            }
+
+            $sql .= " where matricula = :matricula";
+            $params[':matricula'] = $professor->matricula;
+            $stat = $this->conexao->prepare($sql);
+
+            foreach($params as $k => $v){
+                $stat->bindValue($k, $v);
+            }
+
+            $stat->execute();
+
+            $endDAO = new EnderecoDAO();
+            if($endDAO->alterarEndereco($professor->end)){
+                return true;
+            }else{
+                return false;
+            }
+
+        }catch(PDOException $ex){
+            echo $ex->getMessage();
+            return false;
         }
     }
     

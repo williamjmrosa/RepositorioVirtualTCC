@@ -209,6 +209,53 @@ class AlunoDAO{
 
         }catch(PDOException $ex){
             echo "Aluno: ".$ex->getMessage();
+            return false;
+        }
+
+    }
+
+    // Alterar Aluno por Perfil
+    public function alterarAlunoPerfil($aluno){
+        try{
+
+            $sql = 'update aluno set';
+            $params = array();
+            if($aluno->nome != null){
+                $sql .= ($sql == "update aluno set") ? " nome = :nome" : ", nome = :nome";
+                $params[':nome'] = $aluno->nome;
+            }
+            if($aluno->telefone != null){
+                $sql.= ($sql == "update aluno set") ? " telefone = :telefone" : ", telefone = :telefone";
+                $params[':telefone'] = $aluno->telefone;
+            }
+            if($aluno->email != null){
+                $sql.= ($sql == "update aluno set") ? " email = :email" : ", email = :email";
+                $params[':email'] = $aluno->email;
+            }
+            if($aluno->senha != null){
+                $sql.= ($sql == "update aluno set") ? " senha = :senha" : ", senha = :senha";
+                $params[':senha'] = $aluno->senha;
+            }
+            $sql.=" where matricula = :matricula";
+            $stat = $this->conexao->prepare($sql);
+            
+            $params[':matricula'] = $aluno->matricula;
+            
+            foreach($params as $key => $value){
+                $stat->bindValue($key, $value);
+            }
+            
+            $stat->execute();
+            $EndDAO = new EnderecoDAO();
+            if($EndDAO->alterarEndereco($aluno->end)){
+                return true;
+            }else{
+                return false;
+            }
+
+        }catch(PDOException $ex){
+            echo "Aluno: ".$ex->getMessage();
+            return false;
         }
 
     }
