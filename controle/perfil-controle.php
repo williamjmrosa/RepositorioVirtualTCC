@@ -166,9 +166,14 @@ if(isset($_SESSION['usuario'])) {
                 $aluno->end->complemento = $complemento;
 
                 $alunoDAO = new AlunoDAO();
-                $alunoDAO->alterarAlunoADM($aluno);
                 
-                $_SESSION['msg'] = 'Dados do Aluno: ' . $aluno->nome . ' alterados com sucesso!';
+                if($alunoDAO->alterarAlunoPerfil($aluno)){
+                    $_SESSION['msg'] = 'Dados do Aluno: ' . $aluno->nome . ' alterados com sucesso!';
+                }else{
+                    $erros[] = 'Erro ao alterar dados do Aluno: ' . $aluno->nome . '!';
+                    $_SESSION['erros'] = serialize($erros);
+                }
+                
             }else{
                 $_SESSION['erros'] = serialize($erros);
             }
@@ -320,7 +325,7 @@ if(isset($_SESSION['usuario'])) {
 
                 $professorDAO = new ProfessorDAO();
 
-                if($professorDAO->alterarProfessorADM($professor)){
+                if($professorDAO->alterarProfessorPerfil($professor)){
                     $_SESSION['msg'] = 'Dados do Professor(a): ' . $professor->nome . ' alterado com sucesso!';
                 }else{
                     $erros[] = 'Erro ao alterar professor!';
