@@ -35,7 +35,7 @@ if(isset($_GET['OP']) && isset($_SESSION['usuario'])){
                     $nome = filter_var($_POST['nome'],FILTER_SANITIZE_SPECIAL_CHARS);
                 }      
 
-                if(!Validacao::validarNome($nome)){
+                if(!Validacao::validarNomeCurso($nome)){
                     $erro[] = "Nome para Curso invalido!";
                 }
 
@@ -100,7 +100,7 @@ if(isset($_GET['OP']) && isset($_SESSION['usuario'])){
 
                 if(!isset($_POST['nome'])){
                     $erro[] = "Campo Nome para Curso não existe!";
-                }elseif(!Validacao::validarNome($_POST['nome'])){
+                }elseif(!Validacao::validarNomeCurso($_POST['nome'])){
                     $erro[] = "Nome para Curso invalido!";
                 }else{
                     $nome = filter_var($_POST['nome'],FILTER_SANITIZE_SPECIAL_CHARS);
