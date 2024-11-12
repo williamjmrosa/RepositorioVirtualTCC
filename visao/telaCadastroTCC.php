@@ -194,7 +194,7 @@ if(isset($_SESSION['usuario'])) {
     </div>
     <div class="row g-3 m-4 cadastro w-auto">
       <div class="col-12">
-        <h3>Visitantes Cadastrados</h3>
+        <h3>TCC Cadastrados</h3>
       </div>
       <div class="col-12 row g-3">
         <div class="col-2">
