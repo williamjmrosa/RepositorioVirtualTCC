@@ -19,6 +19,13 @@ Class Validacao{
         $exp = '/^[A-záéíóúÁÉÍÓÚãõâÂüÃÕÇçôÔêÊ]{2,20}([ ]?[A-záéíóúÁÉÍÓÚâÂãõüÃÕÇçôÔÊê]{1,20}){1,8}$/';
         return preg_match($exp, $v);
     }
+
+    //Função que valida o nome do curso
+    public static function validarNomeCurso($v){
+        $exp = '/^[A-záéíóúÁÉÍÓÚãõâÂüÃÕÇçôÔêÊ\s\-\/]{2,20}([ ]?[A-záéíóúÁÉÍÓÚâÂãõüÃÕÇçôÔÊê\s\-\/]{1,20}){1,8}$/';
+        return preg_match($exp, $v);
+    }
+
     //Função que valida categoria
     public static function validarCategoria($v){
         $exp = '/^[A-záéíóúÁÉÍÓÚãõüÃÕÇçôÔêÊ]{2,20}([ ]?[A-záéíóúÁÉÍÓÚãõüÃâÂÕÇçôÔêÊê]{1,20}){0,8}$/';
