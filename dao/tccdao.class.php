@@ -103,6 +103,10 @@ class TCCDAO{
 
                 $stat->execute($parametros);
             }
+
+            $this->cadastrarCategorias($tcc,true);
+            $this->cadastrarOrientadores($tcc,true);
+
             return true;
 
         }catch(PDOException $ex){
@@ -131,44 +135,168 @@ class TCCDAO{
     }
 
     //Cadastrar Orientador do TCC
-    public function cadastrarOrientadores(TCC $tcc){
+    public function cadastrarOrientadores(TCC $tcc,$alterar = false){
         try{
+            $listar = $this->listarOrientadorTCC($tcc->idTCC);
             foreach($tcc->orientador as $v){
-                $stat = $this->conexao->prepare("Insert into orientador(idTCC,matricula) values (?,?)");
-            
-                $stat->bindValue(1,$tcc->idTCC);
-                $stat->bindValue(2,$v);
+                if($alterar && !in_array($v,$listar)){
+                    $stat = $this->conexao->prepare("Insert into orientador(idTCC,matricula) values (?,?)");
                 
-                $stat->execute();
+                    $stat->bindValue(1,$tcc->idTCC);
+                    $stat->bindValue(2,$v);
+                    
+                    $stat->execute();    
+                }else if(!$alterar){
+                    
+                    $stat = $this->conexao->prepare("Insert into orientador(idTCC,matricula) values (?,?)");
+                
+                    $stat->bindValue(1,$tcc->idTCC);
+                    $stat->bindValue(2,$v);
+                    
+                    $stat->execute();
+                }
 
+
+
+            }
+
+            if($alterar && !empty($listar)){
+                $novos = array_values(array_diff($listar,$tcc->orientador));
+                $this->deletarOrientadorTCC($tcc->idTCC,$novos);
             }
 
             return true;
 
         }catch(PDOException $ex){
-            $this->gerenciarErros($ex->getMessage());
-            //$_SESSION['erro'] =  $ex->getMessage();
+            //$this->gerenciarErros($ex->getMessage());
+            echo $ex->getMessage();
         }
     }
 
     //Cadastrar Categorias do TCC
-    public function cadastrarCategorias(TCC $tcc){
+    public function cadastrarCategorias(TCC $tcc,$alterar = false){
         try{
+            $listar = $this->listarCategoriasTCC($tcc->idTCC);
             foreach($tcc->categorias as $v){
-                $stat = $this->conexao->prepare("Insert into categorias(idCategoria,idTCC) values (?,?)");
+                if($alterar && !in_array($v,$listar)){
+                    $stat = $this->conexao->prepare("Insert into categorias(idCategoria,idTCC) values (?,?)");
             
-                $stat->bindValue(1,$v);
-                $stat->bindValue(2,$tcc->idTCC);
-                
-                $stat->execute();
+                    $stat->bindValue(1,$v);
+                    $stat->bindValue(2,$tcc->idTCC);
+                    
+                    $stat->execute();
+                }else if(!$alterar){
+                    $stat = $this->conexao->prepare("Insert into categorias(idCategoria,idTCC) values (?,?)");
+            
+                    $stat->bindValue(1,$v);
+                    $stat->bindValue(2,$tcc->idTCC);
+                    
+                    $stat->execute();
+                }
 
+            }
+
+            if($alterar && !empty($listar)){
+                $novo = array_values(array_diff($listar,$tcc->categorias));
+                
+                $this->deletarCategoriasTCC($tcc->idTCC,$novo);
             }
 
             return true;
 
         }catch(PDOException $ex){
             $this->gerenciarErros($ex->getMessage());
+            echo $ex->getMessage();
             //$_SESSION['erro'] =  $ex->getMessage();
+        }
+    }
+
+    // Listar Orientador do TCC
+    public function listarOrientadorTCC($idTcc){
+        try{
+
+            $stat = $this->conexao->prepare("Select matricula from orientador where idTCC = ?");
+            $stat->bindValue(1,$idTcc);
+            $stat->execute();
+
+            $array = array();
+            $orientador = $stat->fetchAll(PDO::FETCH_ASSOC);
+            foreach($orientador as $v){
+                $array[] = $v['matricula'];
+            }
+
+            return $array;
+
+        }catch(PDOException $ex){
+            echo $ex->getMessage();
+            return false;
+        }
+    }
+
+    // Listar categorias do TCC
+    public function listarCategoriasTCC($idTcc){
+        try{
+
+            $stat = $this->conexao->prepare("Select idCategoria from categorias where idTCC = ?");
+            $stat->bindValue(1,$idTcc);
+            $stat->execute();
+
+            $categorias = $stat->fetchAll(PDO::FETCH_ASSOC);
+            $array = array();
+            foreach($categorias as $v){
+                $array[] = $v['idCategoria'];
+            }
+
+            return $array;
+
+        }catch(PDOException $ex){
+            echo $ex->getMessage();
+            return false;
+        }
+    }
+
+    // Deletar Categorias do TCC
+    public function deletarCategoriasTCC($idTcc,$categorias){
+        try{
+            if(!empty($categorias)){
+
+                foreach($categorias as $v){
+                    $stat = $this->conexao->prepare("Delete from categorias where idTCC = ? and idCategoria = ?");
+                    $stat->bindValue(1,$idTcc);
+                    $stat->bindValue(2,$v);
+
+                    $stat->execute();
+
+                }
+            }
+
+            return true;
+
+        }catch(PDOException $ex){
+            echo $ex->getMessage();
+            return false;
+        }
+    }  
+
+    // Deletar Orientador do TCC
+    public function deletarOrientadorTCC($idTcc,$orientador){
+        try{
+            if(!empty($orientador)){
+                foreach($orientador as $v){
+                    $stat = $this->conexao->prepare("Delete from orientador where idTCC = ? and matricula = ?");
+                    $stat->bindValue(1,$idTcc);
+                    $stat->bindValue(2,$v);
+
+                    $stat->execute();
+
+                }
+            }
+
+            return true;
+
+        }catch(PDOException $ex){
+            echo $ex->getMessage();
+            return false;
         }
     }
 
