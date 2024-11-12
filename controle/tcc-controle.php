@@ -114,12 +114,12 @@ if(isset($_GET['OP'])){
                 $erros[] = 'Campo Título em branco!';
             }elseif(strlen($_POST['titulo']) < 10){
                 $erros[] = 'Titulo deve ter no minimo 10 caracteres!';
-            }else if(strlen($_POST['titulo']) > 60){
-                $erros[] = 'Título deve ter no maximo 60 caracteres!';
+            }else if(strlen($_POST['titulo']) > 100){
+                $erros[] = 'Título deve ter no maximo 100 caracteres!';
             }else{
                 $titulo = filter_var($_POST['titulo'],FILTER_SANITIZE_SPECIAL_CHARS);
-                if(!Validacao::validarTamanho($titulo,60)){
-                    $erros[] = 'Título deve ter no maximo 60 caracteres!';
+                if(!Validacao::validarTamanho($titulo,100)){
+                    $erros[] = 'Título deve ter no maximo 100 caracteres!';
                 }
             }
 
@@ -270,12 +270,12 @@ if(isset($_GET['OP'])){
                 $erros[] = 'Campo Título em branco!';
             }elseif(strlen($_POST['titulo']) < 10){
                 $erros[] = 'Titulo deve ter no minimo 10 caracteres!';
-            }else if(strlen($_POST['titulo']) > 60){
-                $erros[] = 'Título deve ter no maximo 60 caracteres!';
+            }else if(strlen($_POST['titulo']) > 100){
+                $erros[] = 'Título deve ter no maximo 100 caracteres!';
             }else{
                 $titulo = filter_var($_POST['titulo'],FILTER_SANITIZE_SPECIAL_CHARS);
-                if(!Validacao::validarTamanho($titulo,60)){
-                    $erros[] = 'Título deve ter no maximo 60 caracteres!';
+                if(!Validacao::validarTamanho($titulo,100)){
+                    $erros[] = 'Título deve ter no maximo 100 caracteres!';
                 }
             }
 
