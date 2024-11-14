@@ -197,9 +197,9 @@ if (isset($_GET['OP']) && isset($_SESSION['usuario'])) {
                     $campus = $cDAO->removerCursoDoCampus($idCurso,$idCampus);
 
                     if($campus){
-                        $_SESSION['msg'] = "Curso removido com sucesso!";
+                        $_SESSION['msg'] = "Curso removido com sucesso do Campus!";
                     }else{
-                        $erros[] = "Erro ao remover curso!";
+                        $erros[] = "Erro ao remover curso do Campus!";
                         $_SESSION['erros'] = serialize($erros);
                     }
 
