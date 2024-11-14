@@ -106,7 +106,7 @@ if(isset($_SESSION['usuario'])) {
                         <option value="null" selected>Selecione um curso</option>
                         <?php
                         $cDAO = new CursoDAO();
-                        $cursos = $cDAO->listarCursos();
+                        $cursos = $cDAO->listarCursos("sim");
                         if (is_array($cursos) && count($cursos) > 0) {
                             foreach ($cursos as $c) {
                         ?>
