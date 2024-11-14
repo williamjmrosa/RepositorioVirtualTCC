@@ -8,18 +8,27 @@ function lista(option){
 	var select = $(option);
 	var texto = select.text();
 	var valor = select.val();
-	var opcao = '<option onclick="cursos(this)" selected="selected" value="'+valor+'">'+texto+'</otion>';
-	$('#cursos').append(opcao);
-	select.remove();
+	if(impedirDuplicarCursos(valor)){
+		var opcao = '<option onclick="cursos(this)" selected="selected" value="'+valor+'">'+texto+'</otion>';
+
+		$('#cursos').append(opcao);
+	}
+	//select.remove();
+}
+
+// Função para impedir a duplicação de cursos na lista de Cursos selecionados
+function impedirDuplicarCursos(valor){
+	
+	if($('#cursos option[value="'+valor+'"]').length){
+		return false;
+	}else{
+		return true;
+	}
 }
 
 // Função para remover um curso da lista de Cursos selecionados
 function cursos(option){
 	var select = $(option);
-	var texto = select.text();
-	var valor = select.val();
-	var opcao = '<option value="'+valor+'" onclick="lista(this)">'+texto+'</otion>';
-	$('#lista').append(opcao);
 	select.remove();
 	
 }
@@ -94,6 +103,17 @@ $(document).ready(function(){
 	// Selecionar todos os Cursos
 	$("#cursos").click(function(){
 		selecionarTodosOsCursos();
+	});
+
+	// Função para listar os campus a partir da busca
+	$("#busca").on("input", function(){
+
+		var nome = $(this).val();
+
+		$textoDigitado = $.param({BUSCA:nome});
+
+		$("#lista").load("../visao/selecteCurso.php?"+$textoDigitado);
+
 	});
 
 	// Função para listar os campus a partir do nome do campus
