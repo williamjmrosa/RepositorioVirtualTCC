@@ -101,8 +101,9 @@ if(isset($_SESSION['usuario'])) {
                 </div>
                 <div class="col-12">
                     <label class="form-label">Lista de Cursos</label>
+                    <input type="text" class="form-control mb-2" id="busca" name="busca" placeholder="Buscar Curso">
                     <select id="lista" name="lista" class="form-select" size="6" aria-label="Lista de Cursos">
-
+                        <option value="null" selected>Selecione um curso</option>
                         <?php
                         $cDAO = new CursoDAO();
                         $cursos = $cDAO->listarCursos();
