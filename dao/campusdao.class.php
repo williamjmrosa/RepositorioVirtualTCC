@@ -30,15 +30,42 @@ class CampusDAO{
     //ADD Curso a um Campus
     public function cadastrarCursoNoCampus($idCampus,$idCurso){
         try {
-            $stat = $this->conexao->prepare("insert into campus_curso(idCampus,idCurso) values(?,?)");
+
+            if(!$this->verificarCursoNoCampus($idCampus,$idCurso)){
+
+                $stat = $this->conexao->prepare("insert into campus_curso(idCampus,idCurso) values(?,?)");
+
+                $stat->bindValue(1,$idCampus);
+                $stat->bindValue(2,$idCurso);
+
+                $stat->execute();
+
+                return true;
+            }
+
+        } catch (PDOException $ex) {
+            return $ex->getMessage();
+        }
+    }
+
+    //Verificar se curso ja esta cadastrado no Campus
+    public function verificarCursoNoCampus($idCampus,$idCurso){
+        try {
+            $stat = $this->conexao->prepare("select * from campus_curso where idCampus = ? and idCurso = ?");
 
             $stat->bindValue(1,$idCampus);
             $stat->bindValue(2,$idCurso);
 
             $stat->execute();
 
+            if($stat->rowCount() > 0){
+                return true;
+            }else{
+                return false;
+            }
+
         } catch (PDOException $ex) {
-            return $ex->getMessage();
+            echo $ex->getMessage();
         }
     }
 
