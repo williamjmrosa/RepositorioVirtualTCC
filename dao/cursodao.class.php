@@ -117,6 +117,21 @@ class CursoDAO{
         }
     }
 
+    // Buscar Cursos por por nome em todos os cursos
+    public function buscarCursosPorNome($nome){
+        try{
+            $stat = $this->conexao->prepare("Select * From curso where nome like ? and ativo is null");
+            $stat->bindValue(1,"%". $nome."%");
+            $stat->execute();
+            
+            $array = $stat->fetchAll(PDO::FETCH_CLASS, 'Curso');
+        
+            return $array;
+        }catch(PDOException $ex){
+            echo "Erro ao buscar Cursos por Nome! \n".$ex->getMessage();
+        }
+    }
+
     // Buscar Cursos por ID
     public function buscarCursosPorId($id){
         try{
