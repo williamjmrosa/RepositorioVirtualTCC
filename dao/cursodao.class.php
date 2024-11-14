@@ -26,9 +26,15 @@ class CursoDAO{
     }//fecha cadastrarCurso
 
     //Listar Cursos
-    public function listarCursos(){
+    public function listarCursos($ativo = "todos"){
         try{
-            $stat = $this->conexao->prepare("Select * From curso");
+            if($ativo == "sim"){
+                $stat = $this->conexao->prepare("Select * From curso where ativo is null");
+            }else if($ativo == "nao"){
+                $stat = $this->conexao->prepare("Select * From curso where ativo is not null");
+            }else{
+                $stat = $this->conexao->prepare("Select * From curso");
+            }
 
             $stat->execute();
 
