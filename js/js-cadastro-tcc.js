@@ -5,7 +5,19 @@ $("#alterar").load("../alterarCadastros/alterarTCC.php?OP=1");
 
 // Função para decodificar entidades HTML usando a biblioteca he.js
 function decodeHtmlEntities(json) {
-  return he.decode(json);
+  try {
+    var tcc = JSON.stringify(json);
+
+    tcc = he.decode(tcc);
+
+    tcc = JSON.parse(tcc);
+
+    return tcc;
+    
+  } catch (error) {
+    //console.error('Erro ao decodificar entidades HTML:', error);
+    return json;
+  }
 }
 
 // Variavel de seleção de categoria principal
@@ -79,8 +91,8 @@ function preencherForm(option,event){
       $(".cadastro form").prepend(insertHtml);
     }else{
 
-      var tcc = decodeHtmlEntities(JSON.stringify(response));
-      var tcc = JSON.parse(tcc);
+      var tcc = decodeHtmlEntities(response);
+      //var tcc = JSON.parse(tccs); 
       // Receber os dados do TCC no formulário
       $("#titulo").val(tcc.titulo);
       $("#descricao").val(tcc.descricao);
