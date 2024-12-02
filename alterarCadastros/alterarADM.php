@@ -1,6 +1,6 @@
 <?php
 include_once '../dao/admdao.class.php';
-include_once '../Modelo/Adm.class.php';
+include_once '../Modelo/adm.class.php';
 
 function montarListaAdm($adm){
     if(is_array($adm) && count($adm) > 0){

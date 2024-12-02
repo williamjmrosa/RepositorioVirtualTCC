@@ -1,5 +1,5 @@
 <?php
-include_once '../modelo/curso.class.php';
+include_once '../Modelo/curso.class.php';
 include_once '../dao/cursodao.class.php';
 
 function montarListaCurso($cursos){
