@@ -355,7 +355,7 @@ class TCCDAO{
 
             $totalRegistros = $con->fetch(PDO::FETCH_ASSOC)['total'];
 
-            $registrosPorPagina = 2;
+            $registrosPorPagina = 10;
 
             $totalPaginas = ceil($totalRegistros / $registrosPorPagina);
 
@@ -369,7 +369,7 @@ class TCCDAO{
 
             $con->closeCursor();
 
-            $stat = $this->conexao->prepare("Select * from tcc LIMIT :offset,:registrosPorPagina");
+            $stat = $this->conexao->prepare("Select * from tcc ORDER BY idTCC DESC LIMIT :offset,:registrosPorPagina");
 
             $stat->bindValue(':offset',$offset,PDO::PARAM_INT);
 
@@ -533,7 +533,7 @@ class TCCDAO{
 
             $stat = $this->conexao->prepare("Select t.idTCC, t.titulo ,a.nome from tcc as t inner join aluno as a on t.matricula = a.matricula where $tipo like ?");
 
-            $stat->bindValue(1,$busca.'%');
+            $stat->bindValue(1,"%".$busca.'%');
 
             $stat->execute();
 
@@ -600,12 +600,14 @@ class TCCDAO{
                 $sql .= " GROUP BY t.idTCC";
             }
 
+            $sql .= " ORDER BY t.idTCC DESC";
+
             $stat = $this->conexao->prepare($sql);
             $stat->execute($params);
 
             $totalRegistros = $stat->rowCount();
             //$stat->debugDumpParams();
-            $registrosPorPagina = 2;
+            $registrosPorPagina = 10;
 
             $totalPaginas = ceil($totalRegistros / $registrosPorPagina);
 
