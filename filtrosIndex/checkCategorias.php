@@ -4,15 +4,24 @@ include_once '../Modelo/categoria.class.php';
 
 function checkCategoriasPrincipal($array){
     echo '<summary>Categoria Principal</summary>';
+    if(count($array) > 0){
+        
     foreach($array as $categoria){
         echo "<label class='container-filtro m-2'> $categoria->nome <input class='categoria' name='listarCategoriasPrincipal[]' type='checkbox' value='$categoria->idCategoria' onClick='categoriaPrincipalSelecionados(this)'><span class='filtro'></span></label>";
+    }
+    }else{
+        echo "<div class='alert alert-warning m-2' role='alert'>Nenhuma Categoria encontrada</div>";
     }
 }
 
 function checkCategoriasSecundaria($array){
     echo '<summary>Categoria Secundaria</summary>';
-    foreach($array as $categoria){
-        echo "<label class='container-filtro m-2'> $categoria->nome <input class='categoria' name='listarCategoriasSecundaria[]' type='checkbox' value='$categoria->idCategoria' onClick='categoriaPrincipalSelecionados(this)'><span class='filtro'></span></label>";
+    if(count($array) > 0){
+        foreach($array as $categoria){
+            echo "<label class='container-filtro m-2'> $categoria->nome <input class='categoria' name='listarCategoriasSecundaria[]' type='checkbox' value='$categoria->idCategoria' onClick='categoriaPrincipalSelecionados(this)'><span class='filtro'></span></label>";
+        }
+    }else{
+        echo "<div class='alert alert-warning m-2' role='alert'>Nenhuma Categoria encontrada</div>";
     }
 }
 
