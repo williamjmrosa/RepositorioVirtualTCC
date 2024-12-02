@@ -111,7 +111,7 @@ class CampusDAO{
         try{
             $stat = $this->conexao->prepare("Select * From campus where nome like ?");
             
-            $stat->bindValue(1, $nome."%");
+            $stat->bindValue(1, "%".$nome."%");
             
             $stat->execute();
             

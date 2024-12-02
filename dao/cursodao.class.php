@@ -112,7 +112,7 @@ class CursoDAO{
         try{
             $stat = $this->conexao->prepare("Select c.idCurso, c.nome, c.ensino From curso c inner join campus_curso cc on c.idCurso = cc.idCurso where cc.idCampus = ? and c.nome like ?");
             $stat->bindValue(1, $idCampus);
-            $stat->bindValue(2, $nome."%");
+            $stat->bindValue(2, "%".$nome."%");
             $stat->execute();
             
             $array = $stat->fetchAll(PDO::FETCH_CLASS, 'Curso');

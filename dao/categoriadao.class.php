@@ -143,7 +143,7 @@ class CategoriaDAO{
     // Buscar Categorias principal por nome
     public function buscarCategoriaPrincipalPorNome($nome){
         try{
-            $stat = $this->conexao->prepare("Select c.idCategoria, c.nome, c.eSub, c.categoriaPrincipal from categoria as c join nomeAlternativo as na on c.idCategoria = na.idCategoria where eSub = 0 and nome like ? or nomeAlternativo like ? UNION Select idCategoria, nome, eSub, categoriaPrincipal from categoria where eSub = 0 and nome like ?");
+            $stat = $this->conexao->prepare("Select c.idCategoria, c.nome, c.eSub, c.categoriaPrincipal from categoria as c join nomealternativo as na on c.idCategoria = na.idCategoria where eSub = 0 and nome like ? or nomeAlternativo like ? UNION Select idCategoria, nome, eSub, categoriaPrincipal from categoria where eSub = 0 and nome like ?");
 
             $stat->bindValue(1,$nome."%");
             $stat->bindValue(2,$nome."%");
@@ -197,11 +197,11 @@ class CategoriaDAO{
     // Buscar Categorias secundarias por nome
     public function buscarSubCategoriasPorNome($nome){
         try{
-            $stat = $this->conexao->prepare("Select * from categoria as c inner join nomeAlternativo as na on c.idCategoria = na.idCategoria where eSub = 1 and nome like ? or nomeAlternativo like ?");
+            $stat = $this->conexao->prepare("Select * from categoria as c inner join nomealternativo as na on c.idCategoria = na.idCategoria where eSub = 1 and nome like ? or nomeAlternativo like ?");
 
-            $stat->bindValue(1,$nome."%");
+            $stat->bindValue(1,"%".$nome."%");
 
-            $stat->bindValue(2,$nome."%");
+            $stat->bindValue(2,"%".$nome."%");
 
             $stat->execute();
 
@@ -217,13 +217,13 @@ class CategoriaDAO{
     // Buscar Categorias secundarias por nome relacionado a categoria principal
     public function buscarSubCategoriasPorNomeRelacionadoPrincipal($nome,$id){
         try{
-            $stat = $this->conexao->prepare("Select c.idCategoria, c.nome, c.eSub, c.categoriaPrincipal from categoria as c inner join nomeAlternativo as na on c.idCategoria = na.idCategoria where c.categoriaPrincipal IN ($id) and eSub = 1 and nome like ? or nomeAlternativo like ? UNION Select idCategoria, nome, eSub, categoriaPrincipal from categoria where eSub = 1 and categoriaPrincipal IN ($id) and nome like ?");
+            $stat = $this->conexao->prepare("Select c.idCategoria, c.nome, c.eSub, c.categoriaPrincipal from categoria as c inner join nomealternativo as na on c.idCategoria = na.idCategoria where c.categoriaPrincipal IN ($id) and eSub = 1 and nome like ? or nomeAlternativo like ? UNION Select idCategoria, nome, eSub, categoriaPrincipal from categoria where eSub = 1 and categoriaPrincipal IN ($id) and nome like ?");
 
             //$stat->bindValue(1,$id);
-            $stat->bindValue(1,$nome."%");
-            $stat->bindValue(2,$nome."%");
+            $stat->bindValue(1,"%".$nome."%");
+            $stat->bindValue(2,"%".$nome."%");
             //$stat->bindValue(4,$id);
-            $stat->bindValue(3,$nome."%");
+            $stat->bindValue(3,"%".$nome."%");
             $stat->execute();
 
             $array = $stat->fetchAll(PDO::FETCH_CLASS, 'Categoria');
@@ -239,7 +239,7 @@ class CategoriaDAO{
     // Buscar Categorias por nome
     public function buscarCategoriasPorNome($nome){
         try{
-            $stat = $this->conexao->prepare("Select c.idCategoria, c.nome, c.eSub, c.categoriaPrincipal from categoria as c left join nomeAlternativo as na on c.idCategoria = na.idCategoria where nome like ? or na.nomeAlternativo like ? group by c.idCategoria");
+            $stat = $this->conexao->prepare("Select c.idCategoria, c.nome, c.eSub, c.categoriaPrincipal from categoria as c left join nomealternativo as na on c.idCategoria = na.idCategoria where nome like ? or na.nomeAlternativo like ? group by c.idCategoria");
 
             $stat->bindValue(1,"%".$nome."%");
             $stat->bindValue(2,"%".$nome."%");
@@ -279,7 +279,7 @@ class CategoriaDAO{
     // Burcar nomeAlternativo por idCategoria
     public function buscarNomeAlternativoPorId($id){
         try{
-            $stat = $this->conexao->prepare("Select * from nomeAlternativo where idCategoria = ?");
+            $stat = $this->conexao->prepare("Select * from nomealternativo where idCategoria = ?");
             $stat->bindValue(1,$id);
             $stat->execute();
 
@@ -295,7 +295,7 @@ class CategoriaDAO{
 
     public function cadastrarNomeAlternativo($nomeAlternativo,$idCategoria){
         try{
-            $stat = $this->conexao->prepare("Insert into nomeAlternativo(idCategoria,nomeAlternativo) values (?,?)");
+            $stat = $this->conexao->prepare("Insert into nomealternativo(idCategoria,nomeAlternativo) values (?,?)");
             $stat->bindValue(1,$idCategoria);
             $stat->bindValue(2,$nomeAlternativo);
             $stat->execute();
@@ -332,7 +332,7 @@ class CategoriaDAO{
 
     public function alterarNomeAlternativo($nomeAlternativo,$idNomeAlternativo){
         try{
-            $stat = $this->conexao->prepare("Update nomeAlternativo set nomeAlternativo =? where idNomeAlternativo =?");
+            $stat = $this->conexao->prepare("Update nomealternativo set nomeAlternativo =? where idNomeAlternativo =?");
             $stat->bindValue(1,$nomeAlternativo);
             $stat->bindValue(2,$idNomeAlternativo);
             $stat->execute();
