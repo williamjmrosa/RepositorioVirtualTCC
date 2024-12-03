@@ -81,7 +81,7 @@ class CursoDAO{
     public function buscarCursoPorNome($nome){
         try{
             $stat = $this->conexao->prepare("Select * From curso where nome like ?");
-            $stat->bindValue(1, $nome."%");
+            $stat->bindValue(1, "%".$nome."%");
             $stat->execute();
             
             $array = $stat->fetchAll(PDO::FETCH_CLASS, 'Curso');
