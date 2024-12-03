@@ -28,7 +28,7 @@ Class Validacao{
 
     //Função que valida categoria
     public static function validarCategoria($v){
-        $exp = '/^[A-záéíóúÁÉÍÓÚãõâÂüÃÕÇçôÔêÊ\s\-\/]{1,20}([ ]?[A-záéíóúÁÉÍÓÚâÂãõüÃÕÇçôÔÊê\s\-\/]{1,20}){1,8}$/';
+        $exp = '/^[A-záéíóúÁÉÍÓÚãõâÂüÃÕÇçôÔêÊ\s\-\/\d]{1,20}([ ]?[A-záéíóúÁÉÍÓÚâÂãõüÃÕÇçôÔÊê\s\-\/\d]{1,20}){1,8}$/';
         return preg_match($exp, $v);
     }
 
