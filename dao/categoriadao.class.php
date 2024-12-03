@@ -20,14 +20,15 @@ class CategoriaDAO{
 
             $categoria->idCategoria = $this->conexao->lastInsertId();
 
-            if(!empty($categoria->nomeAlternativo)){
+            if(count($categoria->nomeAlternativo) > 0){
                 foreach($categoria->nomeAlternativo as $v){
                     $this->cadastrarNomeAlternativo($v,$categoria->idCategoria);
                 }
             }
 
         } catch (PDOException $ex){
-            $_SESSION['erros'] =  $ex->getMessage();
+            echo $ex->getMessage();
+            //$_SESSION['erros'] =  $ex->getMessage();
         }
     }
     // Exlcuir Nome Alternativo
@@ -46,14 +47,33 @@ class CategoriaDAO{
             return false;
         }
     }
+
+    // Exlcuir Nome Alternativo por idCategoria
+    public function excluirNomeAlternativoPorIdCategoria($id){
+        try{
+            $stat = $this->conexao->prepare("Delete from nomealternativo where idCategoria = ?");
+            
+            $stat->bindValue(1,$id);
+            
+            $stat->execute();
+            
+            return true;
+            
+        }catch(PDOException $ex){
+            //echo $ex->getMessage();
+            return false;
+        }
+    }
     
     // Excluir Categoria
     public function excluirCategoria($id){
         try{
             
             if($this->excluirCategorias($id)){
+                if($this->excluirNomeAlternativoPorIdCategoria($id)){
+                    
+                    if($this->alterarCategoriaPrincipalParaNull($id)){
 
-                if($this->alterarCategoriaPrincipalParaNull($id)){
                     $stat = $this->conexao->prepare("Delete from categoria where idCategoria = ?");
                 
                     $stat->bindValue(1,$id);
@@ -61,6 +81,11 @@ class CategoriaDAO{
                     $stat->execute();
 
                     return true;
+
+                    }else{
+                        return false;
+                    }
+
                 }else{
                     return false;
                 }
