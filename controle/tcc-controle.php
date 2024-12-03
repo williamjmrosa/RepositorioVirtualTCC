@@ -116,8 +116,8 @@ if(isset($_GET['OP'])){
                 $erros[] = 'Titulo deve ter no minimo 10 caracteres!';
             }else{
                 $titulo = filter_var($_POST['titulo'],FILTER_SANITIZE_SPECIAL_CHARS);
-                if(!Validacao::validarTamanho($titulo,200)){
-                    $erros[] = 'Título deve ter no maximo 200 caracteres!';
+                if(!Validacao::validarTamanho($titulo,400)){
+                    $erros[] = 'Título deve ter no maximo 400 caracteres!';
                 }
             }
 
@@ -270,8 +270,8 @@ if(isset($_GET['OP'])){
                 $erros[] = 'Titulo deve ter no minimo 10 caracteres!';
             }else{
                 $titulo = filter_var($_POST['titulo'],FILTER_SANITIZE_SPECIAL_CHARS);
-                if(!Validacao::validarTamanho($titulo,200)){
-                    $erros[] = 'Título deve ter no maximo 200 caracteres!';
+                if(!Validacao::validarTamanho($titulo,400)){
+                    $erros[] = 'Título deve ter no maximo 400 caracteres!';
                 }
             }
 
