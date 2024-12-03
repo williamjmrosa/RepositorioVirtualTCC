@@ -54,7 +54,7 @@ idTCC bigint NOT NULL
 
 CREATE TABLE tcc (
 idTCC bigint PRIMARY KEY NOT NULL AUTO_INCREMENT,
-titulo varchar(100) NOT NULL,
+titulo varchar(200) NOT NULL,
 descricao varchar(600) NOT NULL,
 localPDF varchar(150) NOT NULL,
 idCurso bigint NOT NULL,
