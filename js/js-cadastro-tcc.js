@@ -153,6 +153,18 @@ function preencherForm(option,event){
 
 }
 
+function carragarCategoriaSecundaria(option){
+   // Carrega as categorias secundarias
+    console.log("clicou");
+    var opcaoSelecionada = $(option).val();
+
+    var textoDigitado = $.param({ID:opcaoSelecionada,BUSCA:''});
+      if(!event.isTrigger){
+       $('#categoriaSecundaria').load('../visao/selectCategoriaSecundaria.php?'+textoDigitado);
+      }
+
+}
+
 $(document).ready(function(){
     
     // Buscar tcc por tipo
@@ -260,11 +272,11 @@ $(document).ready(function(){
       if(!$('#categoriasSalvas input[value="'+opcaoSelecionada+'"]').length && opcaoSelecionada > 0){
 
         $('#categoriasSalvas').append('<div class="d-inline-block m-2"><input class="form-check-input" type="checkbox" name="categorias[]" value="'+opcaoSelecionada+'" checked onclick="removerCategoria(this)"> <label class="form-check-label">'+texto+'</label></div>');
-      
+        /*
         var textoDigitado = $.param({ID:opcaoSelecionada,BUSCA:''});
         if(!event.isTrigger){
          $('#categoriaSecundaria').load('../visao/selectCategoriaSecundaria.php?'+textoDigitado);
-        }
+        }*/
       }
 
     });
