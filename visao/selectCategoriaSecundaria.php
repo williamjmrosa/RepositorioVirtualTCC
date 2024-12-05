@@ -5,7 +5,7 @@ include_once '../Modelo/categoria.class.php';
 function mostrarCategorias($categorias){
     if(count($categorias) > 0){
           foreach ($categorias as $categoria) {
-               echo '<option value="' . $categoria->idCategoria . '">' . $categoria->nome . '</option>';
+               echo '<option ondblclick="carragarCategoriaSecundaria(this)" value="' . $categoria->idCategoria . '">' . $categoria->nome . '</option>';
           }
      }else{
          echo '<option value="0">Nenhuma categoria encontrada</option>';

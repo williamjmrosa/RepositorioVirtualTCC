@@ -161,7 +161,7 @@ if(isset($_SESSION['usuario'])) {
             $categoriaDAO = new CategoriaDAO();
             $categorias = $categoriaDAO->listarCategoriaPrincipal();
             foreach ($categorias as $categoria) {
-              echo '<option value="' . $categoria->idCategoria . '">' . $categoria->nome . '</option>';
+              echo '<option ondblclick="carragarCategoriaSecundaria(this)" value="' . $categoria->idCategoria . '">' . $categoria->nome . '</option>';
             }
             ?>
           </select>
@@ -174,7 +174,7 @@ if(isset($_SESSION['usuario'])) {
             $categoriaDAO = new CategoriaDAO();
             $categorias = $categoriaDAO->listarSubCategorias();
             foreach ($categorias as $categoria) {
-              echo '<option value="' . $categoria->idCategoria . '">' . $categoria->nome . '</option>';
+              echo '<option ondblclick="carragarCategoriaSecundaria(this)" value="' . $categoria->idCategoria . '">' . $categoria->nome . '</option>';
             }
             ?>
           </select>
