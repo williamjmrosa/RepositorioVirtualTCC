@@ -56,25 +56,10 @@ function alterarArquivo($file, $id, $localPDFOriginal) {
     if($file != null){
 
         $raiz = '../TCC/' . $id;
-        $destino = $raiz . '/' . $file['name'];
-
-        if (diretorioExiste($raiz) == false) {
-            mkdir($raiz, 0777, true);
-        }
-
         
-        $tccDAO = new TCCDAO();
-        if (move_uploaded_file($file['tmp_name'], $destino) && $tccDAO->updateLocalPDF($id, $destino)) {
-            // Deleta o arquivo antigo, se existir
-            $arquivoAntigo = $localPDFOriginal;
-            if (file_exists($arquivoAntigo)) {
-                unlink($arquivoAntigo);
-            }
-            // Deleta a capa antiga, se existir
-            $capaAntiga = $raiz . '/capa.jpg';
-            if (file_exists($capaAntiga)) {
-                unlink($capaAntiga);
-            }
+        excluirDiretorio($raiz);
+        
+        if (salvarArquivo($file, $id)) {
             return true;
         } else {
             return false;
