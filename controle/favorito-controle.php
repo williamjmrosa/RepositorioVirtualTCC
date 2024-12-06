@@ -24,8 +24,8 @@ if(isset($_GET['OP']) && isset($_SESSION['usuario'])){
     switch($OP){
         //Cadastrar Favorito Aluno
         case 1:
-            if($tipo != 'Aluno' && $tipo != 'Professor'){
-                echo json_encode("Efetue o login como Aluno ou Professor para favoritar!");
+            if($tipo != 'Aluno' && $tipo != 'Professor' && $tipo != 'Visitante'){
+                echo json_encode("Efetue o login como Aluno, Professor ou Visitante para favoritar!");
                 break;    
             }
 

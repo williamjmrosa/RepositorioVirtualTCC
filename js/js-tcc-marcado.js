@@ -31,6 +31,7 @@ function verTCC(option, idTCC = null) {
                 $("#favoritos").attr("onclick", "removerFavorito(this," + tcc.idTCC + ")");
                 $("#btn-indicar").attr("onclick", "clicarIndicar(this," + tcc.idTCC + ")");
                 $("#titulo-tcc").html(tcc.titulo);
+                $("[name='idTCC']").val(tcc.idTCC);
                 $("#btns-tcc").removeClass("d-none");
                 $("#btns-tcc").addClass("row container");
                 
