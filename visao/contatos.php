@@ -55,7 +55,7 @@
                 </div>
                 <div class="col-6">
                     <p class="fw-bold">Trabalho de Conclusão de Curso (TCC)</p>
-                    <p><strong>Titulo do Trabalho:</strong> Repositório Virtual de TCC</p>
+                    <p><strong>Titulo do Trabalho:</strong> Repositório virtual de Trabalhos de Conclusão de Curso</p>
                     <p><strong>Titulo do Projeto:</strong> TCC AQUI </p>
                     <p><strong>Ano:</strong> 2022</p>
                     <p><strong>Autor:</strong> William José de Moura da Rosa</p>
