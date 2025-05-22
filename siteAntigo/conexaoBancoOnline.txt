@@ -1,0 +1,1 @@
+//self::$instancia = new ConexaoBanco("mysql:dbname=u808707785_repovirtual;host=localhost","u808707785_repositorio","V8u~|6e/");
