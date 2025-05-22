@@ -57,9 +57,9 @@
                     <p class="fw-bold">Trabalho de Conclusão de Curso (TCC)</p>
                     <p><strong>Titulo do Trabalho:</strong> Repositório virtual de Trabalhos de Conclusão de Curso</p>
                     <p><strong>Titulo do Projeto:</strong> TCC AQUI </p>
-                    <p><strong>Ano:</strong> 2022</p>
+                    <p><strong>Ano:</strong> 2024</p>
                     <p><strong>Autor:</strong> William José de Moura da Rosa</p>
-                    <p><strong>Orientador:</strong> Dieison Silveira</p>
+                    <p><strong>Orientador:</strong>Dr. Dieison Soares Silveira</p>
                     
                 </div>
                 <div class="col-6 border-start border-dark border-3">
